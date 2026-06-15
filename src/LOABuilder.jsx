@@ -208,7 +208,16 @@ export default function LOABuilder() {
 
       {/* HEADER BAR (HIDDEN ON PRINT) */}
       <header className="no-print bg-slate-950 border-b border-slate-800 px-6 py-4 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-end gap-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/30">
+              <FileText className="w-6 h-6 text-amber-500" />
+            </div>
+            <div>
+              <h1 className="font-bold text-lg tracking-wider text-amber-400">ACCESS LION</h1>
+              <p className="text-xs text-slate-400">Interactive LOA Builder</p>
+            </div>
+          </div>
 
           <div className="flex flex-wrap items-center gap-3">
             {/* Form Type Selector */}

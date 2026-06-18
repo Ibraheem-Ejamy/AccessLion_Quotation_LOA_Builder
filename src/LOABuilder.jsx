@@ -160,6 +160,53 @@ export default function LOABuilder() {
     window.print();
   };
 
+  const exportToWord = () => {
+    const element = document.getElementById('print-container');
+    if (!element) return;
+    
+    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+      "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+      "xmlns='http://www.w3.org/TR/REC-html40'>" +
+      "<head><meta charset='utf-8'><title>LOA Document</title>" +
+      "<style>" +
+      "table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 11pt; } " +
+      "th, td { border: 1px solid black; padding: 4px; text-align: center; } " +
+      "th { background-color: #D4C38E; } " +
+      "body { font-family: Arial, sans-serif; font-size: 11pt; } " +
+      ".text-center { text-align: center; } " +
+      ".text-right { text-align: right; } " +
+      ".font-bold { font-weight: bold; } " +
+      ".text-sm { font-size: 10pt; } " +
+      ".text-xs { font-size: 9pt; } " +
+      ".text-lg { font-size: 14pt; } " +
+      ".text-base { font-size: 12pt; } " +
+      ".italic { font-style: italic; } " +
+      ".mb-4 { margin-bottom: 1rem; } " +
+      ".mt-4 { margin-top: 1rem; } " +
+      ".mt-6 { margin-top: 1.5rem; } " +
+      ".flex { display: flex; } " +
+      ".justify-between { justify-content: space-between; } " +
+      ".border-t { border-top: 1px dashed black; } " +
+      "</style></head><body>";
+      
+    const footer = "</body></html>";
+    const html = header + element.innerHTML + footer;
+    
+    const blob = new Blob(['\ufeff', html], {
+      type: 'application/msword'
+    });
+    
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `LOA_${formType}.doc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast("Downloaded as Word document!");
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans print:bg-white print:text-black">
       {/* PRINT-ONLY CSS STYLES FOR EXACT A4 FIT */}
@@ -229,6 +276,13 @@ export default function LOABuilder() {
             </div>
 
             {/* Quick Actions */}
+            <button 
+              onClick={exportToWord}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg transition-colors shadow-lg"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Word</span>
+            </button>
             <button 
               onClick={handlePrint}
               className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-lg transition-colors shadow-lg"
@@ -500,7 +554,7 @@ export default function LOABuilder() {
           <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-0 relative font-[Arial,sans-serif]">
             
             {/* DOCUMENT WRAPPER FOR PADDING */}
-            <div className="flex flex-col flex-1 p-8 md:p-12 print:p-0">
+            <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-0">
               
               {/* BRAND HEADER */}
               <div className="text-center space-y-2 mb-4">

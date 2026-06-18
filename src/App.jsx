@@ -15,7 +15,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <img src={alLogo} alt="Access Lion Logo" className="h-8 object-contain" />
             <div className="text-amber-500 font-bold text-lg md:text-xl tracking-widest uppercase">
-              Access Lion Quotation & LOA Builder
+              {activeTab === 'quotation' ? 'Access Lion Quotation Builder' : 'Access Lion LOA Builder'}
             </div>
           </div>
           <div className="flex bg-slate-900 border border-slate-800 rounded-xl p-1 shadow-inner">

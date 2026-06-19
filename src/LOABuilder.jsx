@@ -278,7 +278,7 @@ export default function LOABuilder() {
             {/* Quick Actions */}
             <button 
               onClick={exportToWord}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg transition-colors shadow-lg"
+              className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-lg transition-colors shadow-lg"
             >
               <Download className="w-4 h-4" />
               <span>Download Word</span>

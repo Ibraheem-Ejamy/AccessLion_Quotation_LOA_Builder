@@ -583,12 +583,12 @@ export default function LOABuilder() {
                     {formType === 'names' ? (
                       <tr className="bg-[#D4C38E] table-header-bg text-black">
                         <th className="border border-black p-1 font-bold text-xs w-32">
-                          <div className="text-right pb-1">مكان صدور الاقامة</div>
-                          <div className="text-left">Place of visa issue area</div>
+                          <div className="text-center pb-1">مكان صدور الاقامة</div>
+                          <div className="text-center">Place of visa issue area</div>
                         </th>
                         <th className="border border-black p-1 font-bold text-xs w-32">
-                          <div className="text-right pb-1">المهنة</div>
-                          <div className="text-left">Occupation</div>
+                          <div className="text-center pb-1">المهنة</div>
+                          <div className="text-center">Occupation</div>
                         </th>
                         <th className="border border-black p-1 font-bold text-xs">
                           <div className="text-center pb-1">اسم الشركة</div>
@@ -644,8 +644,8 @@ export default function LOABuilder() {
                     {formType === 'names' ? (
                       nameItems.map((item, index) => (
                         <tr key={item.id}>
-                          <td className="border border-black p-1 text-xs text-right" dir="rtl">{item.visaIssueArea}</td>
-                          <td className="border border-black p-1 text-xs text-right" dir="rtl">{item.occupation}</td>
+                          <td className="border border-black p-1 text-xs text-center" dir="rtl">{item.visaIssueArea}</td>
+                          <td className="border border-black p-1 text-xs text-center" dir="rtl">{item.occupation}</td>
                           <td className="border border-black p-1 text-xs text-center" dir="rtl">
                             {item.companyName.split('-').map((part, i) => (
                               <React.Fragment key={i}>

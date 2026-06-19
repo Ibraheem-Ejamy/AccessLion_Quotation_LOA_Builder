@@ -684,21 +684,29 @@ export default function LOABuilder() {
               </div>
 
               {/* FOOTER */}
-              <div className="mt-4 space-y-1 mb-8 text-center">
-                <div className="text-sm font-bold italic">
+              <div className="mt-4 space-y-1 mb-8 text-center" style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '2rem' }}>
+                <div className="text-sm font-bold italic" style={{ fontWeight: 'bold', fontStyle: 'italic', fontSize: '14px' }}>
                   <u>تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.</u>
                 </div>
-                <div className="text-xs italic">
+                <div className="text-xs italic" style={{ fontStyle: 'italic', fontSize: '12px' }}>
                   The company undertakes of accuracy of the information that mentioned in the disclosure above.
                 </div>
               </div>
 
-              <div className="mt-6">
-                <div className="border-t border-dashed border-black mx-4"></div>
-                <div className="flex justify-between font-bold text-sm pt-2 px-4">
-                  <span>Authorized signatory with company seal:</span>
-                  <span>المخول بالتوقيع مع ختم الشركة:</span>
-                </div>
+              <div className="mt-6 px-4" style={{ marginTop: '1.5rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
+                <hr style={{ borderTop: '1px dashed black', marginBottom: '0.5rem', borderBottom: 'none', borderLeft: 'none', borderRight: 'none' }} />
+                <table border="0" style={{ width: '100%', borderCollapse: 'collapse', border: 'none' }}>
+                  <tbody>
+                    <tr style={{ border: 'none' }}>
+                      <td style={{ border: 'none', textAlign: 'left', fontWeight: 'bold', fontSize: '14px', padding: 0 }}>
+                        Authorized signatory with company seal:
+                      </td>
+                      <td style={{ border: 'none', textAlign: 'right', fontWeight: 'bold', fontSize: '14px', padding: 0 }} dir="rtl">
+                        المخول بالتوقيع مع ختم الشركة:
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
             </div>

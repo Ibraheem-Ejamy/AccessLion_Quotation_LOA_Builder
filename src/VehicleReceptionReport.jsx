@@ -282,7 +282,8 @@ export default function VehicleReceptionReport() {
                       'Air Shutoff Valve',
                       'Spark Arrestor',
                       'Battery Switch',
-                      'Fire Extinguisher'
+                      'Fire Extinguisher',
+                      'Flag Pole 3 MTR'
                     ].map((item, index) => (
                       <div key={'acc-'+(index+1)} className={`flex border-b border-[#e5e5e5] h-[16px] ${index % 2 === 0 ? 'border-r border-[#e5e5e5]' : ''}`}>
                         <div className="w-5 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[8px]">{index + 1}</div>

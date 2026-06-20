@@ -125,7 +125,7 @@ export default function VehicleReceptionReport() {
       <main className="max-w-7xl mx-auto px-4 py-8 flex flex-col items-center justify-start print-full-width">
         
         {/* THE DOCUMENT CONTAINER */}
-        <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1100px] relative font-[Arial,sans-serif] text-[11px]">
+        <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-0 relative font-[Arial,sans-serif] text-[11px]">
           
           <div className="flex flex-col flex-1 p-6 print:p-0">
             
@@ -225,8 +225,6 @@ export default function VehicleReceptionReport() {
                       { id: 2, label: 'Insurance Policy' },
                       { id: 3, label: 'Driving Authorization' },
                       { id: 4, label: 'Periodic Inspection' },
-                      { id: 5, label: '....................................' },
-                      { id: 6, label: '....................................' },
                     ].map((item) => (
                       <div key={'doc-'+item.id} className="flex border-b border-[#e5e5e5] last:border-0 h-6">
                         <div className="w-6 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[10px]">{item.id}</div>
@@ -256,8 +254,6 @@ export default function VehicleReceptionReport() {
                       'Spare Tire',
                       'Car Jack',
                       'Lug Wrench',
-                      '........................',
-                      '........................',
                       'Air Compressor',
                       'Tire Repair Plug Kit',
                       'Grippy Gloves',

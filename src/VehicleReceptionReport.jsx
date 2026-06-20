@@ -242,8 +242,22 @@ export default function VehicleReceptionReport() {
                   <div className="bg-[#222222] text-[#fff] text-center font-bold py-1 text-[10px] border-t border-[#e5e5e5]">
                     Vehicle Accessories ✓
                   </div>
-                  <div className="flex flex-col flex-1">
+                  <div className="grid grid-cols-2 flex-1">
                     {[
+                      'Wipers & Arms',
+                      'Side Mirrors',
+                      'Rearview Mirror',
+                      'Interior Lighting',
+                      'Floor Mats',
+                      'Insurance Documents',
+                      'Radio / Audio System',
+                      'Antenna',
+                      'Battery',
+                      'Spare Tire',
+                      'Car Jack',
+                      'Lug Wrench',
+                      '........................',
+                      '........................',
                       'Air Compressor',
                       'Tire Repair Plug Kit',
                       'Grippy Gloves',
@@ -263,11 +277,11 @@ export default function VehicleReceptionReport() {
                       'Battery Switch',
                       'Fire Extinguisher'
                     ].map((item, index) => (
-                      <div key={'acc-'+(index+1)} className="flex border-b border-[#e5e5e5] last:border-0 h-[22px]">
-                        <div className="w-6 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[10px]">{index + 1}</div>
-                        <div className="flex-1 flex items-center px-2 text-[10px]">{item}</div>
-                        <div className="w-6 flex items-center justify-center border-l border-[#e5e5e5]">
-                          <input type="checkbox" className="w-3 h-3 accent-[#c5a059] cursor-pointer" />
+                      <div key={'acc-'+(index+1)} className={`flex border-b border-[#e5e5e5] h-[20px] ${index % 2 === 0 ? 'border-r border-[#e5e5e5]' : ''}`}>
+                        <div className="w-5 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[9px]">{index + 1}</div>
+                        <div className="flex-1 flex items-center px-1 text-[8.5px] leading-tight">{item}</div>
+                        <div className="w-5 flex items-center justify-center border-l border-[#e5e5e5]">
+                          <input type="checkbox" className="w-2.5 h-2.5 accent-[#c5a059] cursor-pointer" />
                         </div>
                       </div>
                     ))}

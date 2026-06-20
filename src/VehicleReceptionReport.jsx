@@ -66,7 +66,18 @@ export default function VehicleReceptionReport() {
           }
           @page {
             size: A4 portrait;
-            margin: 0.5cm;
+            margin: 0;
+          }
+          .print-a4-strict {
+            width: 210mm !important;
+            height: 296mm !important;
+            max-height: 296mm !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+            padding: 10mm !important;
+            page-break-after: avoid !important;
+            page-break-inside: avoid !important;
+            margin: 0 !important;
           }
           input, textarea {
             border: none !important;
@@ -125,9 +136,9 @@ export default function VehicleReceptionReport() {
       <main className="max-w-7xl mx-auto px-4 py-8 flex flex-col items-center justify-start print-full-width">
         
         {/* THE DOCUMENT CONTAINER */}
-        <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-0 relative font-[Arial,sans-serif] text-[11px]">
+        <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-0 relative font-[Arial,sans-serif] text-[11px] print-a4-strict">
           
-          <div className="flex flex-col flex-1 p-6 print:p-0">
+          <div className="flex flex-col flex-1 p-6 print:p-0 h-full">
             
             {/* BRAND HEADER */}
             <div className="bg-[#111111] border-b-[3px] border-[#c5a059] flex items-center justify-between p-2 rounded-t-md print:rounded-none">
@@ -338,10 +349,10 @@ export default function VehicleReceptionReport() {
               <table className="w-full border-collapse border border-[#e5e5e5]">
                 <thead>
                   <tr className="bg-[#c5a059] text-black">
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Date of Receipt</th>
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Recipient Signature</th>
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Fleet Supervisor</th>
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Supervisor Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Date of Receipt</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Mechanic Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Operations Manager Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Supervisor Signature</th>
                   </tr>
                 </thead>
                 <tbody>

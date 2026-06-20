@@ -145,7 +145,7 @@ export default function VehicleReceptionReport() {
               <img src={newLogo} alt="Access Lion Logo" className="h-12 w-12 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
               <div className="text-center text-[#c5a059]">
                 <h1 className="text-xl font-bold tracking-[0.2em] mb-1">ACCESS LION</h1>
-                <p className="text-[10px] tracking-widest">Transportation & Fleet Management — اكسس لايون</p>
+                <p className="text-[10px] tracking-widest">Transportation & Fleet Management — اكسس ليون</p>
               </div>
               <img src={newLogo} alt="Access Lion Logo" className="h-12 w-12 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
@@ -371,7 +371,7 @@ export default function VehicleReceptionReport() {
 
             {/* FOOTER */}
             <div className="mt-auto text-center border-t border-[#e5e5e5] pt-3 text-[9px] text-[#666]">
-              ◆ ACCESS LION — اكسس لايون ◆ Vehicle Reception Form ◆ All Rights Reserved ◆
+              ◆ ACCESS LION — اكسس ليون ◆ Vehicle Reception Form ◆ All Rights Reserved ◆
             </div>
 
           </div>

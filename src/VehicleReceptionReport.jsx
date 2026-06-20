@@ -40,7 +40,7 @@ export default function VehicleReceptionReport() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans print:bg-white print:text-black">
+    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans print:bg-white print:text-black print:min-h-0">
       {/* PRINT-ONLY CSS STYLES FOR EXACT A4 FIT */}
       <style dangerouslySetInnerHTML={{__html: `
         @media print {
@@ -140,8 +140,8 @@ export default function VehicleReceptionReport() {
             </div>
 
             {/* FORM TITLE */}
-            <div className="text-center mt-6 mb-4">
-              <h2 className="text-xl font-bold tracking-widest mb-3">VEHICLE RECEPTION REPORT</h2>
+            <div className="text-center mt-4 mb-3">
+              <h2 className="text-xl font-bold tracking-widest mb-2">VEHICLE RECEPTION REPORT</h2>
               <div className="inline-block bg-[#c5a059] text-black font-bold px-6 py-1 rounded-full text-xs shadow-sm">
                 {currentType.label}
               </div>
@@ -290,7 +290,7 @@ export default function VehicleReceptionReport() {
                     Vehicle Diagram — Multi-View
                   </div>
                   <div className="flex-1 flex items-center justify-center p-2">
-                    <div className="w-full h-full min-h-[300px] border border-slate-200 rounded flex items-center justify-center bg-white overflow-hidden relative">
+                    <div className="w-full h-full min-h-[240px] border border-slate-200 rounded flex items-center justify-center bg-white overflow-hidden relative">
                       {/* Diagram Image */}
                       <img 
                         src={currentType.diagram} 
@@ -311,7 +311,7 @@ export default function VehicleReceptionReport() {
                   <div className="p-3 border-t border-[#e5e5e5]">
                     <div className="font-bold text-[10px] mb-1">Additional Notes / Remarks:</div>
                     <textarea 
-                      className="w-full h-[80px] p-2 border border-[#e5e5e5] rounded text-[10px] leading-relaxed hide-border-print focus:outline-none focus:border-[#c5a059]"
+                      className="w-full h-[60px] p-2 border border-[#e5e5e5] rounded text-[10px] leading-relaxed hide-border-print focus:outline-none focus:border-[#c5a059]"
                       placeholder="Enter remarks here..."
                     ></textarea>
                   </div>
@@ -321,7 +321,7 @@ export default function VehicleReceptionReport() {
             </div>
 
             {/* VEHICLE RECEIPT DECLARATION */}
-            <div className="mb-6">
+            <div className="mb-3">
               <div className="bg-[#111111] text-[#c5a059] text-center font-bold py-1 text-xs uppercase tracking-wider">
                 ◇ VEHICLE RECEIPT DECLARATION
               </div>
@@ -334,7 +334,7 @@ export default function VehicleReceptionReport() {
             </div>
 
             {/* SIGNATURES TABLE */}
-            <div className="mb-8">
+            <div className="mb-4">
               <table className="w-full border-collapse border border-[#e5e5e5]">
                 <thead>
                   <tr className="bg-[#c5a059] text-black">
@@ -346,10 +346,10 @@ export default function VehicleReceptionReport() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-[#e5e5e5] p-1 h-12 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
-                    <td className="border border-[#e5e5e5] p-1 h-12"></td>
-                    <td className="border border-[#e5e5e5] p-1 h-12 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
-                    <td className="border border-[#e5e5e5] p-1 h-12"></td>
+                    <td className="border border-[#e5e5e5] p-1 h-10 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
+                    <td className="border border-[#e5e5e5] p-1 h-10"></td>
+                    <td className="border border-[#e5e5e5] p-1 h-10 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
+                    <td className="border border-[#e5e5e5] p-1 h-10"></td>
                   </tr>
                 </tbody>
               </table>

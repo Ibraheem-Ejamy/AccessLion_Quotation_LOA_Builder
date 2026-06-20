@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, FileSignature } from 'lucide-react';
+import { LayoutDashboard, FileSignature, ClipboardCheck } from 'lucide-react';
 import QuotationBuilder from './QuotationBuilder';
 import LOABuilder from './LOABuilder';
+import VehicleReceptionReport from './VehicleReceptionReport';
 import alLogo from './assets/AL_Logo.png';
 
 export default function App() {
@@ -15,7 +16,9 @@ export default function App() {
           <div className="flex items-center gap-3">
             <img src={alLogo} alt="Access Lion Logo" className="h-8 object-contain" />
             <div className="text-amber-500 font-bold text-lg md:text-xl tracking-widest uppercase">
-              {activeTab === 'quotation' ? 'Access Lion Quotation Builder' : 'Access Lion LOA Builder'}
+              {activeTab === 'quotation' ? 'Access Lion Quotation Builder' : 
+               activeTab === 'loa' ? 'Access Lion LOA Builder' : 
+               'Access Lion Vehicle Reception'}
             </div>
           </div>
           <div className="flex bg-slate-900 border border-slate-800 rounded-xl p-1 shadow-inner">
@@ -39,13 +42,25 @@ export default function App() {
               <FileSignature className="w-4 h-4" />
               LOA Form Builder
             </button>
+            <button
+              onClick={() => setActiveTab('vehicle-report')}
+              className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm transition-all ${activeTab === 'vehicle-report'
+                  ? 'bg-amber-500 text-slate-950 shadow-md'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                }`}
+            >
+              <ClipboardCheck className="w-4 h-4" />
+              Vehicle Reception
+            </button>
           </div>
         </div>
       </div>
 
       {/* RENDER ACTIVE BUILDER */}
       <div className="flex-1 w-full">
-        {activeTab === 'quotation' ? <QuotationBuilder /> : <LOABuilder />}
+        {activeTab === 'quotation' ? <QuotationBuilder /> : 
+         activeTab === 'loa' ? <LOABuilder /> : 
+         <VehicleReceptionReport />}
       </div>
     </div>
   );

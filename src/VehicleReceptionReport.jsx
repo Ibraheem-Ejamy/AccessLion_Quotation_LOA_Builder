@@ -130,19 +130,19 @@ export default function VehicleReceptionReport() {
           <div className="flex flex-col flex-1 p-6 print:p-0">
             
             {/* BRAND HEADER */}
-            <div className="bg-[#111111] border-b-[3px] border-[#c5a059] flex items-center justify-between p-3 rounded-t-md print:rounded-none">
-              <img src={newLogo} alt="Access Lion Logo" className="h-16 w-16 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+            <div className="bg-[#111111] border-b-[3px] border-[#c5a059] flex items-center justify-between p-2 rounded-t-md print:rounded-none">
+              <img src={newLogo} alt="Access Lion Logo" className="h-12 w-12 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
               <div className="text-center text-[#c5a059]">
-                <h1 className="text-2xl font-bold tracking-[0.2em] mb-1">ACCESS LION</h1>
-                <p className="text-xs tracking-widest">Transportation & Fleet Management — اكسس لايون</p>
+                <h1 className="text-xl font-bold tracking-[0.2em] mb-1">ACCESS LION</h1>
+                <p className="text-[10px] tracking-widest">Transportation & Fleet Management — اكسس لايون</p>
               </div>
-              <img src={newLogo} alt="Access Lion Logo" className="h-16 w-16 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
+              <img src={newLogo} alt="Access Lion Logo" className="h-12 w-12 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
 
             {/* FORM TITLE */}
-            <div className="text-center mt-4 mb-3">
-              <h2 className="text-xl font-bold tracking-widest mb-2">VEHICLE RECEPTION REPORT</h2>
-              <div className="inline-block bg-[#c5a059] text-black font-bold px-6 py-1 rounded-full text-xs shadow-sm">
+            <div className="text-center mt-2 mb-2">
+              <h2 className="text-lg font-bold tracking-widest mb-1">VEHICLE RECEPTION REPORT</h2>
+              <div className="inline-block bg-[#c5a059] text-black font-bold px-4 py-0.5 rounded-full text-[10px] shadow-sm">
                 {currentType.label}
               </div>
             </div>
@@ -155,28 +155,28 @@ export default function VehicleReceptionReport() {
               <table className="w-full border-collapse border border-[#e5e5e5]">
                 <tbody>
                   <tr>
-                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Plate No.</td>
-                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
-                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Chassis No.</td>
-                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Plate No.</td>
+                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Chassis No.</td>
+                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                   </tr>
                   <tr>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Make / Brand</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Model</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Make / Brand</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Model</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                   </tr>
                   <tr>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Color</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Year</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Color</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Year</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                   </tr>
                   <tr>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Owner</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Odometer (Out)</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Owner</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Odometer (Out)</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                   </tr>
                 </tbody>
               </table>
@@ -190,16 +190,16 @@ export default function VehicleReceptionReport() {
               <table className="w-full border-collapse border border-[#e5e5e5]">
                 <tbody>
                   <tr>
-                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Full Name</td>
-                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
-                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">ID / Iqama No.</td>
-                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Full Name</td>
+                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">ID / Iqama No.</td>
+                    <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                   </tr>
                   <tr>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">License Type</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-2 font-bold text-[#111] align-middle">Expiry Date</td>
-                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-1 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">License Type</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Expiry Date</td>
+                    <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                   </tr>
                 </tbody>
               </table>
@@ -226,11 +226,11 @@ export default function VehicleReceptionReport() {
                       { id: 3, label: 'Driving Authorization' },
                       { id: 4, label: 'Periodic Inspection' },
                     ].map((item) => (
-                      <div key={'doc-'+item.id} className="flex border-b border-[#e5e5e5] last:border-0 h-6">
+                      <div key={'doc-'+item.id} className="flex border-b border-[#e5e5e5] last:border-0 h-5">
                         <div className="w-6 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[10px]">{item.id}</div>
-                        <div className="flex-1 flex items-center px-2 text-[10px]">{item.label}</div>
+                        <div className="flex-1 flex items-center px-2 text-[9px]">{item.label}</div>
                         <div className="w-6 flex items-center justify-center border-l border-[#e5e5e5]">
-                          <input type="checkbox" className="w-3 h-3 accent-[#c5a059] cursor-pointer" />
+                          <input type="checkbox" className="w-2.5 h-2.5 accent-[#c5a059] cursor-pointer" />
                         </div>
                       </div>
                     ))}
@@ -273,11 +273,11 @@ export default function VehicleReceptionReport() {
                       'Battery Switch',
                       'Fire Extinguisher'
                     ].map((item, index) => (
-                      <div key={'acc-'+(index+1)} className={`flex border-b border-[#e5e5e5] h-[20px] ${index % 2 === 0 ? 'border-r border-[#e5e5e5]' : ''}`}>
-                        <div className="w-5 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[9px]">{index + 1}</div>
-                        <div className="flex-1 flex items-center px-1 text-[8.5px] leading-tight">{item}</div>
+                      <div key={'acc-'+(index+1)} className={`flex border-b border-[#e5e5e5] h-[16px] ${index % 2 === 0 ? 'border-r border-[#e5e5e5]' : ''}`}>
+                        <div className="w-5 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[8px]">{index + 1}</div>
+                        <div className="flex-1 flex items-center px-1 text-[8px] leading-none">{item}</div>
                         <div className="w-5 flex items-center justify-center border-l border-[#e5e5e5]">
-                          <input type="checkbox" className="w-2.5 h-2.5 accent-[#c5a059] cursor-pointer" />
+                          <input type="checkbox" className="w-2 h-2 accent-[#c5a059] cursor-pointer" />
                         </div>
                       </div>
                     ))}
@@ -290,7 +290,7 @@ export default function VehicleReceptionReport() {
                     Vehicle Diagram — Multi-View
                   </div>
                   <div className="flex-1 flex items-center justify-center p-2">
-                    <div className="w-full h-full min-h-[240px] border border-slate-200 rounded flex items-center justify-center bg-white overflow-hidden relative">
+                    <div className="w-full h-full min-h-[160px] border border-slate-200 rounded flex items-center justify-center bg-white overflow-hidden relative">
                       {/* Diagram Image */}
                       <img 
                         src={currentType.diagram} 
@@ -311,7 +311,7 @@ export default function VehicleReceptionReport() {
                   <div className="p-3 border-t border-[#e5e5e5]">
                     <div className="font-bold text-[10px] mb-1">Additional Notes / Remarks:</div>
                     <textarea 
-                      className="w-full h-[60px] p-2 border border-[#e5e5e5] rounded text-[10px] leading-relaxed hide-border-print focus:outline-none focus:border-[#c5a059]"
+                      className="w-full h-[40px] p-2 border border-[#e5e5e5] rounded text-[10px] leading-relaxed hide-border-print focus:outline-none focus:border-[#c5a059]"
                       placeholder="Enter remarks here..."
                     ></textarea>
                   </div>
@@ -334,22 +334,22 @@ export default function VehicleReceptionReport() {
             </div>
 
             {/* SIGNATURES TABLE */}
-            <div className="mb-4">
+            <div className="mb-2">
               <table className="w-full border-collapse border border-[#e5e5e5]">
                 <thead>
                   <tr className="bg-[#c5a059] text-black">
-                    <th className="border border-[#e5e5e5] p-2 text-left text-[10px]">Date of Receipt</th>
-                    <th className="border border-[#e5e5e5] p-2 text-left text-[10px]">Recipient Signature</th>
-                    <th className="border border-[#e5e5e5] p-2 text-left text-[10px]">Fleet Supervisor</th>
-                    <th className="border border-[#e5e5e5] p-2 text-left text-[10px]">Supervisor Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Date of Receipt</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Recipient Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Fleet Supervisor</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px]">Supervisor Signature</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-[#e5e5e5] p-1 h-10 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
-                    <td className="border border-[#e5e5e5] p-1 h-10"></td>
-                    <td className="border border-[#e5e5e5] p-1 h-10 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
-                    <td className="border border-[#e5e5e5] p-1 h-10"></td>
+                    <td className="border border-[#e5e5e5] p-1 h-8 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
+                    <td className="border border-[#e5e5e5] p-1 h-8"></td>
+                    <td className="border border-[#e5e5e5] p-1 h-8 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
+                    <td className="border border-[#e5e5e5] p-1 h-8"></td>
                   </tr>
                 </tbody>
               </table>

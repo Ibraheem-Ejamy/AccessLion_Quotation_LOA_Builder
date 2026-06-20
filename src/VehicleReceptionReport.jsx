@@ -349,17 +349,19 @@ export default function VehicleReceptionReport() {
               <table className="w-full border-collapse border border-[#e5e5e5]">
                 <thead>
                   <tr className="bg-[#c5a059] text-black">
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Date of Receipt</th>
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Mechanic Signature</th>
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Operations Manager Signature</th>
-                    <th className="border border-[#e5e5e5] p-1 text-left text-[9px] w-1/4">Supervisor Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[8px] w-[20%]">Date of Receipt</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[8px] w-[20%]">Driver Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[8px] w-[20%]">Mechanic Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[8px] w-[20%]">Operations Manager Signature</th>
+                    <th className="border border-[#e5e5e5] p-1 text-left text-[8px] w-[20%]">Supervisor Signature</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td className="border border-[#e5e5e5] p-1 h-8 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
                     <td className="border border-[#e5e5e5] p-1 h-8"></td>
-                    <td className="border border-[#e5e5e5] p-1 h-8 align-top"><input type="text" className="w-full h-full px-1 border border-transparent hide-border-print focus:outline-none" /></td>
+                    <td className="border border-[#e5e5e5] p-1 h-8"></td>
+                    <td className="border border-[#e5e5e5] p-1 h-8"></td>
                     <td className="border border-[#e5e5e5] p-1 h-8"></td>
                   </tr>
                 </tbody>

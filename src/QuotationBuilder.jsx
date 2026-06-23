@@ -49,7 +49,7 @@ export default function QuotationBuilder() {
     nameAr: "اكسس ليون للمقاولات والنقليات العامة",
     tel: "+971542811111",
     poBox: "58914",
-    email: "info@access.com",
+    email: "info@accesslion.ae",
     web: "www.accesslion.ae",
     address: "Al-Dhafra Region, Madinat Zayed, Abu Dhabi U.A.E"
   };
@@ -880,8 +880,8 @@ export default function QuotationBuilder() {
 
                 {/* QUOTATION SUB-HEADER BANNER */}
                 <div className={`rounded-xl p-4 flex flex-col sm:flex-row print:flex-row items-center justify-between gap-4 border ${designStyle === 'luxury-dark' ? 'bg-slate-900 text-white border-slate-800 premium-header-bg' :
-                    designStyle === 'royal-gold' ? 'bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-slate-950 font-bold border-amber-500' :
-                      'bg-slate-50 text-slate-900 border-amber-600/30'
+                  designStyle === 'royal-gold' ? 'bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-slate-950 font-bold border-amber-500' :
+                    'bg-slate-50 text-slate-900 border-amber-600/30'
                   }`}>
                   <div>
                     <h4 className={`text-xs font-extrabold uppercase tracking-widest ${designStyle === 'royal-gold' ? 'text-slate-950' : 'text-amber-500'}`}>Official Proposal</h4>

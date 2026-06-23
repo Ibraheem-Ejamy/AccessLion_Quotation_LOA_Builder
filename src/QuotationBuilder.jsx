@@ -1107,8 +1107,8 @@ export default function QuotationBuilder() {
 
                   <div className="space-y-8">
                     <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Accepted & Confirmed By</p>
-                    <div className="inline-block border-t border-slate-300 w-44 pt-2">
-                      <p className="text-xs font-bold text-slate-900">For Client/LPO Authority</p>
+                    <div className="inline-block border-t border-slate-300 min-w-[11rem] max-w-[16rem] pt-2">
+                      <p className="text-xs font-bold text-slate-900">For {clientInfo.company || 'Client/LPO Authority'}</p>
                       <p className="text-[9px] text-slate-400">Authorized Signature & Stamp</p>
                     </div>
                   </div>

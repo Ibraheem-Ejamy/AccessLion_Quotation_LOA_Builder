@@ -18,6 +18,30 @@ import {
   DollarSign
 } from 'lucide-react';
 
+const getTodayDateString = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const getExpiryDateString = () => {
+  const today = new Date();
+  today.setMonth(today.getMonth() + 1);
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const formatDisplayDate = (dateString) => {
+  if (!dateString) return '';
+  const [year, month, day] = dateString.split('-');
+  if (!year || !month || !day) return dateString;
+  return `${day}/${month}/${year}`;
+};
+
 export default function QuotationBuilder() {
   // --- PRESETS & INITIAL STATE ---
   const initialCompanyInfo = {
@@ -40,8 +64,8 @@ export default function QuotationBuilder() {
 
   const initialQuoteInfo = {
     quoteNo: "QUO 009/26",
-    date: "2026-06-09",
-    expiryDate: "2026-07-09",
+    date: getTodayDateString(),
+    expiryDate: getExpiryDateString(),
     contactPerson: "Mr./Mrs",
     contactNo: "+971 54 281 1111"
   };
@@ -870,7 +894,7 @@ export default function QuotationBuilder() {
                     </div>
                     <div>
                       <span className={`block text-[9px] uppercase tracking-wider ${designStyle === 'luxury-dark' ? 'text-slate-400' : 'text-slate-900/70'}`}>Date Issued</span>
-                      <strong className="text-sm font-bold">{quoteInfo.date}</strong>
+                      <strong className="text-sm font-bold">{formatDisplayDate(quoteInfo.date)}</strong>
                     </div>
                   </div>
                 </div>
@@ -904,7 +928,7 @@ export default function QuotationBuilder() {
                       <p className="text-[11px] text-slate-600 flex items-center gap-1">
                         <span>Direct Contact:</span> <strong className="text-slate-900 font-bold">{quoteInfo.contactNo}</strong>
                       </p>
-                      <p className="text-[11px] text-slate-500">Validity: Offer valid until {quoteInfo.expiryDate}</p>
+                      <p className="text-[11px] text-slate-500">Validity: Offer valid until {formatDisplayDate(quoteInfo.expiryDate)}</p>
                     </div>
                   </div>
                 </div>

@@ -39,7 +39,7 @@ export default function QuotationBuilder() {
   };
 
   const initialQuoteInfo = {
-    quoteNo: "QUO 009/06/26",
+    quoteNo: "QUO 009/26",
     date: "2026-06-09",
     expiryDate: "2026-07-09",
     contactPerson: "Mr. Rashed",
@@ -82,6 +82,14 @@ export default function QuotationBuilder() {
   const [statusMessage, setStatusMessage] = useState(null);
   const [designStyle, setDesignStyle] = useState("luxury-dark"); // luxury-dark, royal-gold, elegant-clean
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const originalTitle = document.title;
+    document.title = quoteInfo.quoteNo ? `Quotation_${quoteInfo.quoteNo.replace(/\//g, '_')}` : 'Quotation';
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [quoteInfo.quoteNo]);
 
   // --- HELPERS ---
   const showToast = (text, type = "success") => {

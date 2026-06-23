@@ -47,7 +47,7 @@ export default function QuotationBuilder() {
   const initialCompanyInfo = {
     nameEn: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING",
     nameAr: "اكسس ليون للمقاولات والنقليات العامة",
-    tel: "0542811111",
+    tel: "+971542811111",
     poBox: "58914",
     email: "info@access.com",
     web: "www.accesslion.ae",

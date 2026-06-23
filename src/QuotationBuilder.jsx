@@ -285,6 +285,10 @@ export default function QuotationBuilder() {
             el.style.boxShadow = 'none';
             el.style.borderRadius = '0';
             el.style.border = 'none';
+            el.style.margin = '0';
+            el.style.width = '794px';
+            el.style.maxWidth = '794px';
+            el.style.minHeight = '1123px';
             el.classList.remove('shadow-2xl', 'rounded-2xl', 'border', 'border-slate-200');
           }
         }
@@ -296,8 +300,8 @@ export default function QuotationBuilder() {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      // Restore the 1.2cm (12mm) margin from the original @page print CSS
-      const margin = 12;
+      // Set margin to 0 because the HTML container already has built-in padding
+      const margin = 0;
       const maxPdfWidth = pdfWidth - (margin * 2);
       const maxPdfHeight = pdfHeight - (margin * 2);
       

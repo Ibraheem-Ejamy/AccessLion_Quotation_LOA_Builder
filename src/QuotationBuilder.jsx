@@ -277,7 +277,17 @@ export default function QuotationBuilder() {
       const canvas = await html2canvas(input, {
         scale: 2, // Higher resolution
         useCORS: true,
-        logging: false
+        logging: false,
+        windowWidth: 1024, // Force desktop layout
+        onclone: (clonedDoc) => {
+          const el = clonedDoc.getElementById('pdf-content');
+          if (el) {
+            el.style.boxShadow = 'none';
+            el.style.borderRadius = '0';
+            el.style.border = 'none';
+            el.classList.remove('shadow-2xl', 'rounded-2xl', 'border', 'border-slate-200');
+          }
+        }
       });
       
       const imgData = canvas.toDataURL('image/png');
@@ -286,21 +296,26 @@ export default function QuotationBuilder() {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
+      // Restore the 1.2cm (12mm) margin from the original @page print CSS
+      const margin = 12;
+      const maxPdfWidth = pdfWidth - (margin * 2);
+      const maxPdfHeight = pdfHeight - (margin * 2);
+      
       const imgProps = pdf.getImageProperties(imgData);
       const canvasRatio = imgProps.height / imgProps.width;
       
-      let finalWidth = pdfWidth;
-      let finalHeight = pdfWidth * canvasRatio;
+      let finalWidth = maxPdfWidth;
+      let finalHeight = maxPdfWidth * canvasRatio;
       
       // Scale down to fit exactly 1 page if it's too tall
-      if (finalHeight > pdfHeight) {
-         finalHeight = pdfHeight;
-         finalWidth = pdfHeight / canvasRatio;
+      if (finalHeight > maxPdfHeight) {
+         finalHeight = maxPdfHeight;
+         finalWidth = maxPdfHeight / canvasRatio;
       }
       
-      // Center horizontally
-      const x = (pdfWidth - finalWidth) / 2;
-      const y = 0; // Top align
+      // Center horizontally within margins
+      const x = margin + (maxPdfWidth - finalWidth) / 2;
+      const y = margin; // Top align with margin
       
       pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
       

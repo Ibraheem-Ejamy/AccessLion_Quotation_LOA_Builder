@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import defaultLogo from './assets/logo1.png';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import {
   FileText,
   Plus,
@@ -263,8 +265,52 @@ export default function QuotationBuilder() {
     reader.readAsText(file);
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = async () => {
+    const input = document.getElementById('pdf-content');
+    if (!input) {
+      window.print();
+      return;
+    }
+    
+    showToast("Generating PDF, please wait...", "success");
+    try {
+      const canvas = await html2canvas(input, {
+        scale: 2, // Higher resolution
+        useCORS: true,
+        logging: false
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      const imgProps = pdf.getImageProperties(imgData);
+      const canvasRatio = imgProps.height / imgProps.width;
+      
+      let finalWidth = pdfWidth;
+      let finalHeight = pdfWidth * canvasRatio;
+      
+      // Scale down to fit exactly 1 page if it's too tall
+      if (finalHeight > pdfHeight) {
+         finalHeight = pdfHeight;
+         finalWidth = pdfHeight / canvasRatio;
+      }
+      
+      // Center horizontally
+      const x = (pdfWidth - finalWidth) / 2;
+      const y = 0; // Top align
+      
+      pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+      
+      const filename = quoteInfo.quoteNo ? `Quotation_${quoteInfo.quoteNo.replace(/\//g, '_')}.pdf` : 'Quotation.pdf';
+      pdf.save(filename);
+    } catch (err) {
+      console.error("PDF generation failed:", err);
+      showToast("Failed to generate PDF. Falling back to print.", "error");
+      window.print();
+    }
   };
 
   // Convert numbers to words for luxury aesthetic
@@ -839,7 +885,7 @@ export default function QuotationBuilder() {
           </div>
 
           {/* THE DOCUMENT CONTAINER (Standard A4 Proportions in pixels roughly 794px wide for clean scaling) */}
-          <div className="w-full max-w-[800px] bg-white text-slate-900 shadow-2xl rounded-2xl overflow-hidden border border-slate-200 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
+          <div id="pdf-content" className="w-full max-w-[800px] bg-white text-slate-900 shadow-2xl rounded-2xl overflow-hidden border border-slate-200 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
 
             {/* Elegant luxury top border strip */}
             <div className="h-3 w-full bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900" />

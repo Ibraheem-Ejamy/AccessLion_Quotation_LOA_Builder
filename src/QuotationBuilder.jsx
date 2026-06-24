@@ -105,9 +105,13 @@ export default function QuotationBuilder() {
   const [currency, setCurrency] = useState("AED");
   const [activeTab, setActiveTab] = useState("general");
   const [customLogo, setCustomLogo] = useState(defaultLogo);
+  const [signatureImage, setSignatureImage] = useState(null);
+  const [stampImage, setStampImage] = useState(null);
   const [statusMessage, setStatusMessage] = useState(null);
   const [designStyle, setDesignStyle] = useState("luxury-dark"); // luxury-dark, royal-gold, elegant-clean
   const fileInputRef = useRef(null);
+  const signatureInputRef = useRef(null);
+  const stampInputRef = useRef(null);
 
   useEffect(() => {
     const originalTitle = document.title;
@@ -142,6 +146,48 @@ export default function QuotationBuilder() {
   const resetLogo = () => {
     setCustomLogo(defaultLogo);
     showToast("Reset to premium default logo crest.");
+  };
+
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSignatureImage(reader.result);
+        showToast("Signature attached successfully!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerSignatureUpload = () => {
+    signatureInputRef.current.click();
+  };
+
+  const removeSignature = () => {
+    setSignatureImage(null);
+    showToast("Signature removed.");
+  };
+
+  const handleStampUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setStampImage(reader.result);
+        showToast("Stamp attached successfully!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerStampUpload = () => {
+    stampInputRef.current.click();
+  };
+
+  const removeStamp = () => {
+    setStampImage(null);
+    showToast("Stamp removed.");
   };
 
   // Calculations
@@ -577,7 +623,39 @@ export default function QuotationBuilder() {
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="pt-4 border-t border-slate-800">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 pb-2 border-b border-slate-800">Signature & Stamp</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Signature Upload */}
+                  <div className="space-y-2">
+                    <button onClick={triggerSignatureUpload} className="w-full text-xs bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-400 font-semibold px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                      <Upload size={14} /> Signature (PNG/JPG)
+                    </button>
+                    {signatureImage && (
+                      <div className="relative w-full h-16 bg-white/5 border border-slate-700 rounded flex items-center justify-center p-1">
+                        <img src={signatureImage} className="max-h-full max-w-full object-contain" alt="Signature preview" />
+                        <button onClick={removeSignature} className="absolute top-1 right-1 text-red-400 hover:text-red-300"><Trash2 size={12} /></button>
+                      </div>
+                    )}
+                    <input type="file" ref={signatureInputRef} onChange={handleSignatureUpload} accept="image/png, image/jpeg" className="hidden" />
+                  </div>
+                  {/* Stamp Upload */}
+                  <div className="space-y-2">
+                    <button onClick={triggerStampUpload} className="w-full text-xs bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-400 font-semibold px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                      <Upload size={14} /> Stamp (PNG/JPG)
+                    </button>
+                    {stampImage && (
+                      <div className="relative w-full h-16 bg-white/5 border border-slate-700 rounded flex items-center justify-center p-1">
+                        <img src={stampImage} className="max-h-full max-w-full object-contain" alt="Stamp preview" />
+                        <button onClick={removeStamp} className="absolute top-1 right-1 text-red-400 hover:text-red-300"><Trash2 size={12} /></button>
+                      </div>
+                    )}
+                    <input type="file" ref={stampInputRef} onChange={handleStampUpload} accept="image/png, image/jpeg" className="hidden" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-slate-800">
                 <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Quotation Header Metadata</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
@@ -1103,7 +1181,13 @@ export default function QuotationBuilder() {
                 <div className="grid grid-cols-2 gap-8 text-center pt-4 border-t border-slate-100">
                   <div className="space-y-8">
                     <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Prepared & Approved By</p>
-                    <div className="inline-block border-t border-slate-300 w-44 pt-2">
+                    <div className="inline-block border-t border-slate-300 w-44 pt-2 relative">
+                      {(signatureImage || stampImage) && (
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center w-full pointer-events-none z-10" style={{ height: '0px' }}>
+                          {stampImage && <img src={stampImage} alt="Stamp" className="absolute w-24 h-24 object-contain opacity-80 mix-blend-multiply" style={{ bottom: '-15px', right: '-20px' }} />}
+                          {signatureImage && <img src={signatureImage} alt="Signature" className="absolute w-32 h-16 object-contain mix-blend-multiply" style={{ bottom: '0px', left: '10px' }} />}
+                        </div>
+                      )}
                       <p className="text-xs font-bold text-slate-900">Access Lion Management</p>
                       <p className="text-[9px] text-slate-400">Authorized Signatory & Stamp</p>
                     </div>

@@ -1183,9 +1183,9 @@ export default function QuotationBuilder() {
                     <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Prepared & Approved By</p>
                     <div className="inline-block border-t border-slate-300 w-44 pt-2 relative">
                       {(signatureImage || stampImage) && (
-                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center w-full pointer-events-none z-10" style={{ height: '0px' }}>
-                          {stampImage && <img src={stampImage} alt="Stamp" className="absolute w-24 h-24 object-contain opacity-80 mix-blend-multiply" style={{ bottom: '-15px', right: '-20px' }} />}
-                          {signatureImage && <img src={signatureImage} alt="Signature" className="absolute w-32 h-16 object-contain mix-blend-multiply" style={{ bottom: '0px', left: '10px' }} />}
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 flex items-center justify-center w-full pointer-events-none z-10" style={{ height: '0px' }}>
+                          {stampImage && <img src={stampImage} alt="Stamp" className="absolute w-24 h-24 object-contain opacity-80 mix-blend-multiply" style={{ bottom: '-45px', right: '-20px' }} />}
+                          {signatureImage && <img src={signatureImage} alt="Signature" className="absolute w-40 h-20 object-contain mix-blend-multiply" style={{ bottom: '-5px', left: '-10px' }} />}
                         </div>
                       )}
                       <p className="text-xs font-bold text-slate-900">Access Lion Management</p>

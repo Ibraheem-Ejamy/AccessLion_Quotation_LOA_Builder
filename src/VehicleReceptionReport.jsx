@@ -42,7 +42,8 @@ export default function VehicleReceptionReport() {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans print:bg-white print:text-black print:min-h-0">
       {/* PRINT-ONLY CSS STYLES FOR EXACT A4 FIT */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @media print {
           body {
             background-color: white !important;
@@ -100,18 +101,17 @@ export default function VehicleReceptionReport() {
       {/* HEADER BAR (HIDDEN ON PRINT) */}
       <header className="no-print bg-slate-950 border-b border-slate-800 px-6 py-4 sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          
+
           {/* Vehicle Type Selector */}
           <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-1">
             {Object.values(vehicleTypes).map(type => (
-              <button 
+              <button
                 key={type.id}
                 onClick={() => setVehicleType(type.id)}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-md transition-all ${
-                  vehicleType === type.id 
-                    ? 'bg-[#c5a059] text-black shadow-md' 
+                className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-md transition-all ${vehicleType === type.id
+                    ? 'bg-[#c5a059] text-black shadow-md'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-                }`}
+                  }`}
               >
                 {type.icon}
                 {type.label}
@@ -121,7 +121,7 @@ export default function VehicleReceptionReport() {
 
           {/* Quick Actions */}
           <div className="flex items-center gap-3">
-            <button 
+            <button
               onClick={handlePrint}
               className="flex items-center gap-2 bg-[#c5a059] hover:bg-[#b08d4a] text-black font-bold px-5 py-2.5 rounded-lg transition-colors shadow-lg"
             >
@@ -134,12 +134,12 @@ export default function VehicleReceptionReport() {
 
       {/* WORKSPACE CONTAINER */}
       <main className="max-w-7xl mx-auto px-4 py-8 flex flex-col items-center justify-start print-full-width">
-        
+
         {/* THE DOCUMENT CONTAINER */}
         <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-0 relative font-[Arial,sans-serif] text-[11px] print-a4-strict">
-          
+
           <div className="flex flex-col flex-1 p-6 print:p-0 h-full">
-            
+
             {/* BRAND HEADER */}
             <div className="bg-[#111111] border-b-[3px] border-[#c5a059] flex items-center justify-between p-2 rounded-t-md print:rounded-none">
               <img src={newLogo} alt="Access Lion Logo" className="h-12 w-12 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
@@ -222,10 +222,10 @@ export default function VehicleReceptionReport() {
                 INSPECTION CHECKLIST
               </div>
               <div className="flex border border-[#e5e5e5] border-t-0 items-stretch">
-                
+
                 {/* Left Side: Checklists */}
                 <div className="w-[45%] flex flex-col border-r border-[#e5e5e5]">
-                  
+
                   {/* Vehicle Documents */}
                   <div className="bg-[#222222] text-[#fff] text-center font-bold py-1 text-[10px]">
                     Vehicle Documents ✓
@@ -237,7 +237,7 @@ export default function VehicleReceptionReport() {
                       { id: 3, label: 'Driving Authorization' },
                       { id: 4, label: 'Periodic Inspection' },
                     ].map((item) => (
-                      <div key={'doc-'+item.id} className="flex border-b border-[#e5e5e5] last:border-0 h-5">
+                      <div key={'doc-' + item.id} className="flex border-b border-[#e5e5e5] last:border-0 h-5">
                         <div className="w-6 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[10px]">{item.id}</div>
                         <div className="flex-1 flex items-center px-2 text-[9px]">{item.label}</div>
                         <div className="w-6 flex items-center justify-center border-l border-[#e5e5e5]">
@@ -285,7 +285,7 @@ export default function VehicleReceptionReport() {
                       'Fire Extinguisher',
                       'Flag Pole 3 MTR'
                     ].map((item, index) => (
-                      <div key={'acc-'+(index+1)} className={`flex border-b border-[#e5e5e5] h-[16px] ${index % 2 === 0 ? 'border-r border-[#e5e5e5]' : ''}`}>
+                      <div key={'acc-' + (index + 1)} className={`flex border-b border-[#e5e5e5] h-[16px] ${index % 2 === 0 ? 'border-r border-[#e5e5e5]' : ''}`}>
                         <div className="w-5 bg-[#c5a059] text-black font-bold flex items-center justify-center text-[8px]">{index + 1}</div>
                         <div className="flex-1 flex items-center px-1 text-[8px] leading-none">{item}</div>
                         <div className="w-5 flex items-center justify-center border-l border-[#e5e5e5]">
@@ -304,9 +304,9 @@ export default function VehicleReceptionReport() {
                   <div className="flex-1 flex items-center justify-center p-2">
                     <div className="w-full h-full min-h-[160px] border border-slate-200 rounded flex items-center justify-center bg-white overflow-hidden relative">
                       {/* Diagram Image */}
-                      <img 
-                        src={currentType.diagram} 
-                        alt="Vehicle Diagram" 
+                      <img
+                        src={currentType.diagram}
+                        alt="Vehicle Diagram"
                         className="w-full h-full object-contain absolute inset-0"
                         onError={(e) => {
                           e.target.style.display = 'none';
@@ -322,7 +322,7 @@ export default function VehicleReceptionReport() {
                   </div>
                   <div className="p-3 border-t border-[#e5e5e5]">
                     <div className="font-bold text-[10px] mb-1">Additional Notes / Remarks:</div>
-                    <textarea 
+                    <textarea
                       className="w-full h-[40px] p-2 border border-[#e5e5e5] rounded text-[10px] leading-relaxed hide-border-print focus:outline-none focus:border-[#c5a059]"
                       placeholder="Enter remarks here..."
                     ></textarea>
@@ -340,7 +340,7 @@ export default function VehicleReceptionReport() {
               <div className="border border-[#e5e5e5] border-t-0 p-3 text-[10px] leading-relaxed">
                 <p className="font-bold mb-1">I, the undersigned, hereby declare that:</p>
                 <p className="text-[#333]">
-                  I have received the above-mentioned vehicle from the company for official work purposes only. I commit to maintaining the vehicle and all its accessories in good condition throughout daily use, and to ensuring regular maintenance is performed. In case of any problems, I will immediately notify management. I accept full responsibility for any damage caused by misuse or negligence. I will not hand over the vehicle to any other person or allow unauthorized use. I will return the vehicle immediately upon the company's request, and I will comply with all traffic laws and work regulations applicable in the Kingdom of Saudi Arabia.
+                  I have received the above-mentioned vehicle from the company for official work purposes only. I commit to maintaining the vehicle and all its accessories in good condition throughout daily use, and to ensuring regular maintenance is performed. In case of any problems, I will immediately notify management. I accept full responsibility for any damage caused by misuse or negligence. I will not hand over the vehicle to any other person or allow unauthorized use. I will return the vehicle immediately upon the company's request, and I will comply with all traffic laws and work regulations applicable in the United Arab Emirates.
                 </p>
               </div>
             </div>

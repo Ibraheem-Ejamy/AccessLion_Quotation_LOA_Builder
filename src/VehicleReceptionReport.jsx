@@ -109,8 +109,8 @@ export default function VehicleReceptionReport() {
                 key={type.id}
                 onClick={() => setVehicleType(type.id)}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-md transition-all ${vehicleType === type.id
-                    ? 'bg-[#c5a059] text-black shadow-md'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                  ? 'bg-[#c5a059] text-black shadow-md'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                   }`}
               >
                 {type.icon}
@@ -203,11 +203,11 @@ export default function VehicleReceptionReport() {
                   <tr>
                     <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Full Name</td>
                     <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
-                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">ID / Iqama No.</td>
+                    <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Company Name</td>
                     <td className="w-1/4 border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                   </tr>
                   <tr>
-                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">License Type</td>
+                    <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Company License</td>
                     <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>
                     <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Expiry Date</td>
                     <td className="border border-[#e5e5e5] p-1"><input type="text" className="w-full h-full p-0.5 border border-slate-200 rounded hide-border-print focus:outline-none focus:border-[#c5a059]" /></td>

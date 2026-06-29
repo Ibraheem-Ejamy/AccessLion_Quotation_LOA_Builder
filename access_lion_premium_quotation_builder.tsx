@@ -1,21 +1,53 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
-  FileText, 
   Plus, 
   Trash2, 
   Printer, 
   Download, 
   Upload, 
-  RefreshCw, 
   Settings, 
   Users, 
   Briefcase, 
   ShieldAlert, 
   FileCheck,
   CheckCircle2,
-  Info,
-  DollarSign
+  Info
 } from 'lucide-react';
+
+// SVG representation of Gold Lion logo from company design files
+const DefaultLionLogo = () => (
+  <svg viewBox="0 0 400 400" className="w-20 h-20 filter drop-shadow-md">
+    <defs>
+      <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#DFBA73" />
+        <stop offset="50%" stopColor="#C5A028" />
+        <stop offset="100%" stopColor="#9A7B3E" />
+      </linearGradient>
+    </defs>
+    <circle cx="200" cy="200" r="190" fill="none" stroke="url(#goldGrad)" strokeWidth="4" />
+    <circle cx="200" cy="200" r="175" fill="none" stroke="url(#goldGrad)" strokeWidth="1" strokeDasharray="5,5" />
+    
+    {/* Golden Tribal Lion Outline Shield Concept */}
+    <path 
+      d="M200 65 C140 65 110 110 110 170 C110 240 160 300 200 335 C240 300 290 240 290 170 C290 110 260 65 200 65 Z" 
+      fill="none" 
+      stroke="url(#goldGrad)" 
+      strokeWidth="3" 
+    />
+    {/* Mane Elements */}
+    <path d="M200 90 L180 120 L200 130 L220 120 Z" fill="url(#goldGrad)" />
+    <path d="M170 115 L145 150 L175 155 L185 140 Z" fill="url(#goldGrad)" />
+    <path d="M230 115 L255 150 L225 155 L215 140 Z" fill="url(#goldGrad)" />
+    <path d="M140 160 L120 200 L155 195 L165 180 Z" fill="url(#goldGrad)" />
+    <path d="M260 160 L280 200 L245 195 L235 180 Z" fill="url(#goldGrad)" />
+    {/* Lion Face Features */}
+    <path d="M175 195 C175 195 190 185 200 185 C210 185 225 195 225 195" fill="none" stroke="url(#goldGrad)" strokeWidth="3" strokeLinecap="round" />
+    <path d="M170 215 C170 215 185 235 200 235 C215 235 230 215 230 215" fill="none" stroke="url(#goldGrad)" strokeWidth="3" strokeLinecap="round" />
+    <polygon points="200,205 190,195 210,195" fill="url(#goldGrad)" />
+    <path d="M200 205 L200 220" stroke="url(#goldGrad)" strokeWidth="3" />
+    <path d="M190 245 C190 255 210 255 210 245" fill="none" stroke="url(#goldGrad)" strokeWidth="2" />
+  </svg>
+);
 
 export default function App() {
   // --- PRESETS & INITIAL STATE ---
@@ -223,7 +255,7 @@ export default function App() {
         if (parsed.currency) setCurrency(parsed.currency);
         if (parsed.designStyle) setDesignStyle(parsed.designStyle);
         showToast("Quotation data loaded successfully!");
-      } catch (err) {
+      } catch {
         showToast("Invalid JSON structure.", "error");
       }
     };
@@ -250,41 +282,6 @@ export default function App() {
     str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
     return str ? str + ' ' + currency + ' Only' : 'Zero ' + currency;
   };
-
-  // SVG representation of Gold Lion logo from company design files
-  const DefaultLionLogo = () => (
-    <svg viewBox="0 0 400 400" className="w-20 h-20 filter drop-shadow-md">
-      <defs>
-        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#DFBA73" />
-          <stop offset="50%" stopColor="#C5A028" />
-          <stop offset="100%" stopColor="#9A7B3E" />
-        </linearGradient>
-      </defs>
-      <circle cx="200" cy="200" r="190" fill="none" stroke="url(#goldGrad)" strokeWidth="4" />
-      <circle cx="200" cy="200" r="175" fill="none" stroke="url(#goldGrad)" strokeWidth="1" strokeDasharray="5,5" />
-      
-      {/* Golden Tribal Lion Outline Shield Concept */}
-      <path 
-        d="M200 65 C140 65 110 110 110 170 C110 240 160 300 200 335 C240 300 290 240 290 170 C290 110 260 65 200 65 Z" 
-        fill="none" 
-        stroke="url(#goldGrad)" 
-        strokeWidth="3" 
-      />
-      {/* Mane Elements */}
-      <path d="M200 90 L180 120 L200 130 L220 120 Z" fill="url(#goldGrad)" />
-      <path d="M170 115 L145 150 L175 155 L185 140 Z" fill="url(#goldGrad)" />
-      <path d="M230 115 L255 150 L225 155 L215 140 Z" fill="url(#goldGrad)" />
-      <path d="M140 160 L120 200 L155 195 L165 180 Z" fill="url(#goldGrad)" />
-      <path d="M260 160 L280 200 L245 195 L235 180 Z" fill="url(#goldGrad)" />
-      {/* Lion Face Features */}
-      <path d="M175 195 C175 195 190 185 200 185 C210 185 225 195 225 195" fill="none" stroke="url(#goldGrad)" strokeWidth="3" strokeLinecap="round" />
-      <path d="M170 215 C170 215 185 235 200 235 C215 235 230 215 230 215" fill="none" stroke="url(#goldGrad)" strokeWidth="3" strokeLinecap="round" />
-      <polygon points="200,205 190,195 210,195" fill="url(#goldGrad)" />
-      <path d="M200 205 L200 220" stroke="url(#goldGrad)" strokeWidth="3" />
-      <path d="M190 245 C190 255 210 255 210 245" fill="none" stroke="url(#goldGrad)" strokeWidth="2" />
-    </svg>
-  );
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans print:bg-white print:text-black">

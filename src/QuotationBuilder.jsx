@@ -350,7 +350,7 @@ export default function QuotationBuilder() {
       window.print();
       return;
     }
-    
+
     showToast("Generating PDF, please wait...", "success");
     try {
       const canvas = await html2canvas(input, {
@@ -372,36 +372,36 @@ export default function QuotationBuilder() {
           }
         }
       });
-      
+
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
-      
+
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
+
       // Set margin to 0 because the HTML container already has built-in padding
       const margin = 0;
       const maxPdfWidth = pdfWidth - (margin * 2);
       const maxPdfHeight = pdfHeight - (margin * 2);
-      
+
       const imgProps = pdf.getImageProperties(imgData);
       const canvasRatio = imgProps.height / imgProps.width;
-      
+
       let finalWidth = maxPdfWidth;
       let finalHeight = maxPdfWidth * canvasRatio;
-      
+
       // Scale down to fit exactly 1 page if it's too tall
       if (finalHeight > maxPdfHeight) {
-         finalHeight = maxPdfHeight;
-         finalWidth = maxPdfHeight / canvasRatio;
+        finalHeight = maxPdfHeight;
+        finalWidth = maxPdfHeight / canvasRatio;
       }
-      
+
       // Center horizontally within margins
       const x = margin + (maxPdfWidth - finalWidth) / 2;
       const y = margin; // Top align with margin
-      
+
       pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
-      
+
       const filename = quoteInfo.quoteNo ? `Quotation_${quoteInfo.quoteNo.replace(/\//g, '_')}.pdf` : 'Quotation.pdf';
       pdf.save(filename);
     } catch (err) {

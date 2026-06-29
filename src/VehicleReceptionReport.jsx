@@ -232,8 +232,8 @@ export default function VehicleReceptionReport() {
         </section>
 
         {/* RIGHT COLUMN: THE DOCUMENT CONTAINER */}
-        <section className="lg:col-span-7 flex justify-center lg:justify-end print:col-span-12 print:justify-center overflow-x-auto pb-12">
-          <div className="w-full max-w-[800px] min-w-[794px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1123px] print:min-h-0 relative font-[Arial,sans-serif] text-[11px] print-a4-strict">
+        <section className="lg:col-span-7 flex flex-col items-center justify-start print-full-width">
+          <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1123px] print:min-h-0 relative font-[Arial,sans-serif] text-[11px] print-a4-strict">
             <div className="flex flex-col flex-1 p-6 print:p-0 h-full">
 
               {/* BRAND HEADER */}

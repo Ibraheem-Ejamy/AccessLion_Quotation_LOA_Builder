@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
+  FileText,
   Plus, 
   Trash2, 
   Printer, 
@@ -109,18 +110,18 @@ export default function App() {
   const [vatRate, setVatRate] = useState(5);
   const [currency, setCurrency] = useState("AED");
   const [activeTab, setActiveTab] = useState("general");
-  const [customLogo, setCustomLogo] = useState(null);
-  const [statusMessage, setStatusMessage] = useState(null);
+  const [customLogo, setCustomLogo] = useState<any>(null);
+  const [statusMessage, setStatusMessage] = useState<any>(null);
   const [designStyle, setDesignStyle] = useState("luxury-dark"); // luxury-dark, royal-gold, elegant-clean
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<any>(null);
 
   // --- HELPERS ---
-  const showToast = (text, type = "success") => {
+  const showToast = (text: any, type: any = "success") => {
     setStatusMessage({ text, type });
     setTimeout(() => setStatusMessage(null), 4000);
   };
 
-  const handleLogoUpload = (e) => {
+  const handleLogoUpload = (e: any) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -168,7 +169,7 @@ export default function App() {
     ]);
   };
 
-  const updateItem = (id, field, value) => {
+  const updateItem = (id: any, field: any, value: any) => {
     setItems(items.map(item => {
       if (item.id === id) {
         const val = (field === 'qty' || field === 'price') ? parseFloat(value) || 0 : value;
@@ -178,7 +179,7 @@ export default function App() {
     }));
   };
 
-  const removeItem = (id) => {
+  const removeItem = (id: any) => {
     if (items.length === 1) {
       showToast("Quotation must have at least one item.", "error");
       return;
@@ -191,13 +192,13 @@ export default function App() {
     setRentalTerms([...rentalTerms, "New liability or rental condition statement."]);
   };
 
-  const updateRentalTerm = (index, value) => {
+  const updateRentalTerm = (index: any, value: any) => {
     const next = [...rentalTerms];
     next[index] = value;
     setRentalTerms(next);
   };
 
-  const removeRentalTerm = (index) => {
+  const removeRentalTerm = (index: any) => {
     setRentalTerms(rentalTerms.filter((_, i) => i !== index));
   };
 
@@ -205,13 +206,13 @@ export default function App() {
     setGeneralTerms([...generalTerms, "New general instruction or payment milestone."]);
   };
 
-  const updateGeneralTerm = (index, value) => {
+  const updateGeneralTerm = (index: any, value: any) => {
     const next = [...generalTerms];
     next[index] = value;
     setGeneralTerms(next);
   };
 
-  const removeGeneralTerm = (index) => {
+  const removeGeneralTerm = (index: any) => {
     setGeneralTerms(generalTerms.filter((_, i) => i !== index));
   };
 
@@ -238,13 +239,13 @@ export default function App() {
     showToast("Quotation draft exported successfully!");
   };
 
-  const importConfiguration = (e) => {
+  const importConfiguration = (e: any) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const parsed = JSON.parse(event.target.result);
+        const parsed = JSON.parse(event.target?.result as string);
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
         if (parsed.clientInfo) setClientInfo(parsed.clientInfo);
         if (parsed.quoteInfo) setQuoteInfo(parsed.quoteInfo);
@@ -267,7 +268,7 @@ export default function App() {
   };
 
   // Convert numbers to words for luxury aesthetic
-  const numberToWords = (num) => {
+  const numberToWords = (num: any) => {
     const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
     const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
     
@@ -275,11 +276,11 @@ export default function App() {
     let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
     if (!n) return ''; 
     let str = '';
-    str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-    str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-    str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-    str += (Number(n[4]) != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
-    str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
+    str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[parseInt(n[1][0])] + ' ' + a[parseInt(n[1][1])]) + 'Crore ' : '';
+    str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[parseInt(n[2][0])] + ' ' + a[parseInt(n[2][1])]) + 'Lakh ' : '';
+    str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[parseInt(n[3][0])] + ' ' + a[parseInt(n[3][1])]) + 'Thousand ' : '';
+    str += (Number(n[4]) != 0) ? (a[Number(n[4])] || b[parseInt(n[4][0])] + ' ' + a[parseInt(n[4][1])]) + 'Hundred ' : '';
+    str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[parseInt(n[5][0])] + ' ' + a[parseInt(n[5][1])]) + ' ' : '';
     return str ? str + ' ' + currency + ' Only' : 'Zero ' + currency;
   };
 
@@ -647,7 +648,7 @@ export default function App() {
                 <textarea 
                   value={clientInfo.address}
                   onChange={(e) => setClientInfo({ ...clientInfo, address: e.target.value })}
-                  rows="2"
+                  rows={2}
                   className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
                   placeholder="e.g. Abu Dhabi, U.A.E."
                 />

@@ -48,6 +48,8 @@ export default function LOABuilder() {
   const [vehicleItems, setVehicleItems] = useState([initialVehicleItem]);
   const [activeTab, setActiveTab] = useState("items");
   const [customLogo, setCustomLogo] = useState(defaultLogo);
+  const [customStamp, setCustomStamp] = useState(null);
+  const [customSignature, setCustomSignature] = useState(null);
   const [statusMessage, setStatusMessage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -64,6 +66,30 @@ export default function LOABuilder() {
       reader.onloadend = () => {
         setCustomLogo(reader.result);
         showToast("Logo updated successfully!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleStampUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCustomStamp(reader.result);
+        showToast("Stamp uploaded successfully!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSignatureUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCustomSignature(reader.result);
+        showToast("Signature uploaded successfully!");
       };
       reader.readAsDataURL(file);
     }
@@ -125,7 +151,9 @@ export default function LOABuilder() {
       formType,
       companyInfo,
       nameItems,
-      vehicleItems
+      vehicleItems,
+      customStamp,
+      customSignature
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -148,6 +176,8 @@ export default function LOABuilder() {
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
         if (parsed.nameItems) setNameItems(parsed.nameItems);
         if (parsed.vehicleItems) setVehicleItems(parsed.vehicleItems);
+        if (parsed.customStamp) setCustomStamp(parsed.customStamp);
+        if (parsed.customSignature) setCustomSignature(parsed.customSignature);
         showToast("LOA data loaded successfully!");
       } catch (err) {
         showToast("Invalid JSON structure.", "error");
@@ -374,6 +404,47 @@ export default function LOABuilder() {
                     onChange={(e) => setCompanyInfo({ ...companyInfo, nameAr: e.target.value })}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-right text-slate-200 focus:outline-none focus:border-amber-500"
                   />
+                </div>
+                
+                {/* Stamp & Signature Uploads */}
+                <div className="pt-4 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold text-slate-400">Company Stamp (.png)</label>
+                    <div className="flex items-center gap-3">
+                      <label className="flex-1 flex justify-center items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 border-dashed rounded-lg py-4 cursor-pointer transition-colors group">
+                        <Upload className="w-5 h-5 text-slate-500 group-hover:text-amber-400 transition-colors" />
+                        <span className="text-xs font-medium text-slate-400 group-hover:text-slate-200">Upload Stamp</span>
+                        <input type="file" accept="image/png, image/jpeg" onChange={handleStampUpload} className="hidden" />
+                      </label>
+                      {customStamp && (
+                        <div className="w-16 h-16 bg-white rounded flex items-center justify-center p-1 border border-slate-700 relative group">
+                           <img src={customStamp} alt="Stamp" className="max-w-full max-h-full object-contain" />
+                           <button onClick={() => setCustomStamp(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                             <Trash2 className="w-3 h-3" />
+                           </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold text-slate-400">Authorized Signature (.png)</label>
+                    <div className="flex items-center gap-3">
+                      <label className="flex-1 flex justify-center items-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 border-dashed rounded-lg py-4 cursor-pointer transition-colors group">
+                        <Upload className="w-5 h-5 text-slate-500 group-hover:text-amber-400 transition-colors" />
+                        <span className="text-xs font-medium text-slate-400 group-hover:text-slate-200">Upload Signature</span>
+                        <input type="file" accept="image/png, image/jpeg" onChange={handleSignatureUpload} className="hidden" />
+                      </label>
+                      {customSignature && (
+                        <div className="w-16 h-16 bg-white rounded flex items-center justify-center p-1 border border-slate-700 relative group">
+                           <img src={customSignature} alt="Signature" className="max-w-full max-h-full object-contain" />
+                           <button onClick={() => setCustomSignature(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                             <Trash2 className="w-3 h-3" />
+                           </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -698,10 +769,14 @@ export default function LOABuilder() {
                 <table border="0" style={{ width: '100%', borderCollapse: 'collapse', border: 'none' }}>
                   <tbody>
                     <tr style={{ border: 'none' }}>
-                      <td style={{ border: 'none', textAlign: 'left', fontWeight: 'bold', fontSize: '14px', padding: 0 }}>
+                      <td style={{ border: 'none', textAlign: 'left', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'top', width: '50%' }}>
                         Authorized signatory with company seal:
+                        <div style={{ marginTop: '10px', minHeight: '80px', display: 'flex', gap: '20px', alignItems: 'center' }}>
+                          {customSignature && <img src={customSignature} style={{ maxHeight: '80px', maxWidth: '150px', objectFit: 'contain' }} alt="Signature" />}
+                          {customStamp && <img src={customStamp} style={{ maxHeight: '100px', maxWidth: '120px', objectFit: 'contain' }} alt="Company Seal" />}
+                        </div>
                       </td>
-                      <td style={{ border: 'none', textAlign: 'right', fontWeight: 'bold', fontSize: '14px', padding: 0 }} dir="rtl">
+                      <td style={{ border: 'none', textAlign: 'right', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'top', width: '50%' }} dir="rtl">
                         المخول بالتوقيع مع ختم الشركة:
                       </td>
                     </tr>

@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
 import defaultLogo from './assets/logo1.png';
-import { 
-  FileText, 
-  Plus, 
-  Trash2, 
-  Printer, 
-  Download, 
-  Upload, 
-  Settings, 
-  Briefcase, 
+import {
+  FileText,
+  Plus,
+  Trash2,
+  Printer,
+  Download,
+  Upload,
+  Settings,
+  Briefcase,
   CheckCircle2,
   Info,
   Car,
@@ -26,14 +26,14 @@ export default function LOABuilder() {
     id: "1",
     name: "John Doe",
     nationality: "Pakistani",
-    companyName: "اكسس ليون للمقاولات والنقليات العامة - ذ.م.م",
+    companyName: "اكسس ليون للمقاولات والنقليات العامة - ذ.م.م -ش.و.و",
     occupation: "سائق باص",
     visaIssueArea: "ابوظبي"
   };
 
   const initialVehicleItem = {
     id: "1",
-    companyName: "اكسس ليون للمقاولات والنقليات العامة - ذ.م.م",
+    companyName: "اكسس ليون للمقاولات والنقليات العامة - ذ.م.م -ش.و.و",
     plateNo: "57980",
     plateType: "عمومي",
     placeOfIssue: "ابوظبي",
@@ -193,7 +193,7 @@ export default function LOABuilder() {
   const exportToWord = () => {
     const element = document.getElementById('print-container');
     if (!element) return;
-    
+
     const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
       "xmlns:w='urn:schemas-microsoft-com:office:word' " +
       "xmlns='http://www.w3.org/TR/REC-html40'>" +
@@ -218,14 +218,14 @@ export default function LOABuilder() {
       ".justify-between { justify-content: space-between; } " +
       ".border-t { border-top: 1px dashed black; } " +
       "</style></head><body>";
-      
+
     const footer = "</body></html>";
     const html = header + element.innerHTML + footer;
-    
+
     const blob = new Blob(['\ufeff', html], {
       type: 'application/msword'
     });
-    
+
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -240,7 +240,8 @@ export default function LOABuilder() {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans print:bg-white print:text-black">
       {/* PRINT-ONLY CSS STYLES FOR EXACT A4 FIT */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @media print {
           body {
             background-color: white !important;
@@ -289,14 +290,14 @@ export default function LOABuilder() {
           <div className="flex flex-wrap items-center gap-3">
             {/* Form Type Selector */}
             <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-1 mr-4">
-              <button 
+              <button
                 onClick={() => setFormType('names')}
                 className={`flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md transition-all ${formType === 'names' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'text-slate-400 hover:text-slate-200'}`}
               >
                 <Users className="w-3.5 h-3.5" />
                 Drivers Form
               </button>
-              <button 
+              <button
                 onClick={() => setFormType('vehicles')}
                 className={`flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-md transition-all ${formType === 'vehicles' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'text-slate-400 hover:text-slate-200'}`}
               >
@@ -306,14 +307,14 @@ export default function LOABuilder() {
             </div>
 
             {/* Quick Actions */}
-            <button 
+            <button
               onClick={exportToWord}
               className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-lg transition-colors shadow-lg"
             >
               <Download className="w-4 h-4" />
               <span>Download Word</span>
             </button>
-            <button 
+            <button
               onClick={handlePrint}
               className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-lg transition-colors shadow-lg"
             >
@@ -321,7 +322,7 @@ export default function LOABuilder() {
               <span>Print / Save PDF</span>
             </button>
 
-            <button 
+            <button
               onClick={exportConfiguration}
               title="Save config to edit later"
               className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-lg transition-colors"
@@ -333,11 +334,11 @@ export default function LOABuilder() {
             <label className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-lg transition-colors cursor-pointer">
               <Upload className="w-4 h-4" />
               <span className="hidden sm:inline">Import Draft</span>
-              <input 
-                type="file" 
-                accept=".json" 
-                onChange={importConfiguration} 
-                className="hidden" 
+              <input
+                type="file"
+                accept=".json"
+                onChange={importConfiguration}
+                className="hidden"
               />
             </label>
           </div>
@@ -356,26 +357,24 @@ export default function LOABuilder() {
 
       {/* WORKSPACE CONTAINER */}
       <main className="max-w-7xl mx-auto px-4 py-6 md:py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 print:p-0">
-        
+
         {/* LEFT COLUMN: INTERACTIVE SETTINGS EDITOR (HIDDEN ON PRINT) */}
         <section className="no-print lg:col-span-5 space-y-6 flex flex-col">
-          
+
           {/* EDITOR NAVIGATION */}
           <div className="bg-slate-950 border border-slate-800 rounded-xl p-1.5 flex gap-1 shadow-inner">
             <button
               onClick={() => setActiveTab("items")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-all ${
-                activeTab === 'items' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100'
-              }`}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'items' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100'
+                }`}
             >
               <Briefcase className="w-4 h-4" />
               Rows
             </button>
             <button
               onClick={() => setActiveTab("general")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-all ${
-                activeTab === 'general' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100'
-              }`}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'general' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100'
+                }`}
             >
               <Settings className="w-4 h-4" />
               Company Settings
@@ -389,8 +388,8 @@ export default function LOABuilder() {
                 <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Sender Company Settings</h3>
                 <div className="space-y-1">
                   <label className="text-xs font-semibold text-slate-400">English Corporate Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={companyInfo.nameEn}
                     onChange={(e) => setCompanyInfo({ ...companyInfo, nameEn: e.target.value })}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
@@ -398,14 +397,14 @@ export default function LOABuilder() {
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs font-semibold text-slate-400">Arabic Corporate Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={companyInfo.nameAr}
                     onChange={(e) => setCompanyInfo({ ...companyInfo, nameAr: e.target.value })}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-right text-slate-200 focus:outline-none focus:border-amber-500"
                   />
                 </div>
-                
+
                 {/* Stamp & Signature Uploads */}
                 <div className="pt-4 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -418,15 +417,15 @@ export default function LOABuilder() {
                       </label>
                       {customStamp && (
                         <div className="w-16 h-16 bg-white rounded flex items-center justify-center p-1 border border-slate-700 relative group">
-                           <img src={customStamp} alt="Stamp" className="max-w-full max-h-full object-contain" />
-                           <button onClick={() => setCustomStamp(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                             <Trash2 className="w-3 h-3" />
-                           </button>
+                          <img src={customStamp} alt="Stamp" className="max-w-full max-h-full object-contain" />
+                          <button onClick={() => setCustomStamp(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Trash2 className="w-3 h-3" />
+                          </button>
                         </div>
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <label className="text-xs font-semibold text-slate-400">Authorized Signature (.png)</label>
                     <div className="flex items-center gap-3">
@@ -437,10 +436,10 @@ export default function LOABuilder() {
                       </label>
                       {customSignature && (
                         <div className="w-16 h-16 bg-white rounded flex items-center justify-center p-1 border border-slate-700 relative group">
-                           <img src={customSignature} alt="Signature" className="max-w-full max-h-full object-contain" />
-                           <button onClick={() => setCustomSignature(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                             <Trash2 className="w-3 h-3" />
-                           </button>
+                          <img src={customSignature} alt="Signature" className="max-w-full max-h-full object-contain" />
+                          <button onClick={() => setCustomSignature(null)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Trash2 className="w-3 h-3" />
+                          </button>
                         </div>
                       )}
                     </div>
@@ -457,7 +456,7 @@ export default function LOABuilder() {
                 <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">
                   {formType === 'names' ? 'Drivers List' : 'Vehicles List'}
                 </h3>
-                <button 
+                <button
                   onClick={addItem}
                   className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-md transition-all font-semibold"
                 >
@@ -471,7 +470,7 @@ export default function LOABuilder() {
                   nameItems.map((item, index) => (
                     <div key={item.id} className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3 relative">
                       <div className="absolute top-2 right-2">
-                        <button 
+                        <button
                           onClick={() => removeItem(item.id)}
                           className="text-slate-500 hover:text-red-400 p-1 transition-colors"
                         >
@@ -484,8 +483,8 @@ export default function LOABuilder() {
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Name (الاسم)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.name}
                             onChange={(e) => updateNameItem(item.id, 'name', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -493,8 +492,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Nationality (الجنسية)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.nationality}
                             onChange={(e) => updateNameItem(item.id, 'nationality', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -502,8 +501,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1 col-span-2">
                           <label className="text-xs font-semibold text-slate-400">Company Name (اسم الشركة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.companyName}
                             onChange={(e) => updateNameItem(item.id, 'companyName', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -511,8 +510,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Occupation (المهنة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.occupation}
                             onChange={(e) => updateNameItem(item.id, 'occupation', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -520,8 +519,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Visa Issue Area (مكان صدور الاقامة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.visaIssueArea}
                             onChange={(e) => updateNameItem(item.id, 'visaIssueArea', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -534,7 +533,7 @@ export default function LOABuilder() {
                   vehicleItems.map((item, index) => (
                     <div key={item.id} className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3 relative">
                       <div className="absolute top-2 right-2">
-                        <button 
+                        <button
                           onClick={() => removeItem(item.id)}
                           className="text-slate-500 hover:text-red-400 p-1 transition-colors"
                         >
@@ -547,8 +546,8 @@ export default function LOABuilder() {
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1 col-span-2">
                           <label className="text-xs font-semibold text-slate-400">Company Name (اسم الشركة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.companyName}
                             onChange={(e) => updateVehicleItem(item.id, 'companyName', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -556,8 +555,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Plate No (رقم اللوحة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.plateNo}
                             onChange={(e) => updateVehicleItem(item.id, 'plateNo', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -565,8 +564,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Plate Type (نوع اللوحة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.plateType}
                             onChange={(e) => updateVehicleItem(item.id, 'plateType', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -574,8 +573,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Place of Issue (مصدر اللوحة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.placeOfIssue}
                             onChange={(e) => updateVehicleItem(item.id, 'placeOfIssue', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -583,8 +582,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1">
                           <label className="text-xs font-semibold text-slate-400">Type of Car (نوع المركبة)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.typeOfCar}
                             onChange={(e) => updateVehicleItem(item.id, 'typeOfCar', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-right text-slate-200 focus:outline-none focus:border-amber-500"
@@ -592,8 +591,8 @@ export default function LOABuilder() {
                         </div>
                         <div className="space-y-1 col-span-2">
                           <label className="text-xs font-semibold text-slate-400">License Expiry Date (تاريخ انتهاء الملكية)</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             value={item.licenseExpiryDate}
                             onChange={(e) => updateVehicleItem(item.id, 'licenseExpiryDate', e.target.value)}
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
@@ -610,7 +609,7 @@ export default function LOABuilder() {
 
         {/* RIGHT COLUMN: PRECISE PREMIUM A4 PREVIEW */}
         <section className="lg:col-span-7 flex flex-col items-center justify-start print-full-width">
-          
+
           <div className="no-print w-full flex items-center justify-between mb-4 px-2">
             <span className="text-xs text-slate-400 flex items-center gap-1">
               <Info className="w-3.5 h-3.5 text-amber-500" />
@@ -623,10 +622,10 @@ export default function LOABuilder() {
 
           {/* THE DOCUMENT CONTAINER */}
           <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-0 relative font-[Arial,sans-serif]">
-            
+
             {/* DOCUMENT WRAPPER FOR PADDING */}
             <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-0">
-              
+
               {/* BRAND HEADER */}
               <div className="text-center space-y-2 mb-4">
                 <div className="text-sm font-bold border-b-2 border-black inline-block pb-0.5">
@@ -721,7 +720,7 @@ export default function LOABuilder() {
                             {item.companyName.split('-').map((part, i) => (
                               <React.Fragment key={i}>
                                 {part}{i < item.companyName.split('-').length - 1 ? ' - ' : ''}
-                                {i === 0 && <br/>}
+                                {i === 0 && <br />}
                               </React.Fragment>
                             ))}
                           </td>
@@ -742,7 +741,7 @@ export default function LOABuilder() {
                             {item.companyName.split('-').map((part, i) => (
                               <React.Fragment key={i}>
                                 {part}{i < item.companyName.split('-').length - 1 ? ' - ' : ''}
-                                {i === 0 && <br/>}
+                                {i === 0 && <br />}
                               </React.Fragment>
                             ))}
                           </td>

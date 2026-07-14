@@ -94,7 +94,7 @@ export default function LOABuilder() {
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      resizeImage(file, 300, 150, (resizedBase64) => {
+      resizeImage(file, 1200, 1200, (resizedBase64) => {
         setCustomLogo(resizedBase64);
         showToast("Logo updated successfully!");
       });
@@ -104,7 +104,7 @@ export default function LOABuilder() {
   const handleStampUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      resizeImage(file, 160, 120, (resizedBase64) => {
+      resizeImage(file, 1200, 1200, (resizedBase64) => {
         setCustomStamp(resizedBase64);
         showToast("Stamp uploaded successfully!");
       });
@@ -114,7 +114,7 @@ export default function LOABuilder() {
   const handleSignatureUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      resizeImage(file, 200, 100, (resizedBase64) => {
+      resizeImage(file, 1200, 1200, (resizedBase64) => {
         setCustomSignature(resizedBase64);
         showToast("Signature uploaded successfully!");
       });
@@ -217,8 +217,21 @@ export default function LOABuilder() {
   };
 
   const exportToWord = () => {
-    const element = document.getElementById('print-container');
-    if (!element) return;
+    const originalElement = document.getElementById('print-container');
+    if (!originalElement) return;
+
+    // Clone the element so we don't modify the live DOM
+    const element = originalElement.cloneNode(true);
+    const liveImages = originalElement.getElementsByTagName('img');
+    const cloneImages = element.getElementsByTagName('img');
+    
+    // Explicitly set width/height HTML attributes based on live rendered size
+    for (let i = 0; i < liveImages.length; i++) {
+      if (liveImages[i].clientWidth && liveImages[i].clientHeight) {
+        cloneImages[i].setAttribute('width', liveImages[i].clientWidth);
+        cloneImages[i].setAttribute('height', liveImages[i].clientHeight);
+      }
+    }
 
     const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
       "xmlns:w='urn:schemas-microsoft-com:office:word' " +

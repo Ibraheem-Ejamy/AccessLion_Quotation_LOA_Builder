@@ -764,20 +764,21 @@ export default function LOABuilder() {
               </div>
 
               <div className="mt-6 px-4" style={{ marginTop: '1.5rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
+                {/* Images placed resting on the dashed line */}
+                {(customSignature || customStamp) && (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '40px', marginBottom: '5px' }}>
+                    {customSignature && <img src={customSignature} style={{ maxHeight: '80px', maxWidth: '160px', objectFit: 'contain' }} alt="Signature" />}
+                    {customStamp && <img src={customStamp} style={{ maxHeight: '110px', maxWidth: '130px', objectFit: 'contain' }} alt="Company Seal" />}
+                  </div>
+                )}
                 <hr style={{ borderTop: '1px dashed black', marginBottom: '0.5rem', borderBottom: 'none', borderLeft: 'none', borderRight: 'none' }} />
                 <table border="0" style={{ width: '100%', borderCollapse: 'collapse', border: 'none' }}>
                   <tbody>
                     <tr style={{ border: 'none' }}>
-                      <td style={{ border: 'none', textAlign: 'left', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'middle', width: '33%' }}>
+                      <td style={{ border: 'none', textAlign: 'left', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'top', width: '50%' }}>
                         Authorized signatory with company seal:
                       </td>
-                      <td style={{ border: 'none', textAlign: 'center', verticalAlign: 'middle', width: '34%', padding: 0 }}>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-                          {customSignature && <img src={customSignature} style={{ maxHeight: '70px', maxWidth: '140px', objectFit: 'contain' }} alt="Signature" />}
-                          {customStamp && <img src={customStamp} style={{ maxHeight: '85px', maxWidth: '110px', objectFit: 'contain' }} alt="Company Seal" />}
-                        </div>
-                      </td>
-                      <td style={{ border: 'none', textAlign: 'right', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'middle', width: '33%' }} dir="rtl">
+                      <td style={{ border: 'none', textAlign: 'right', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'top', width: '50%' }} dir="rtl">
                         المخول بالتوقيع مع ختم الشركة:
                       </td>
                     </tr>

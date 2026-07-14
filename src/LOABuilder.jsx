@@ -217,10 +217,12 @@ export default function LOABuilder() {
       ".flex { display: flex; } " +
       ".justify-between { justify-content: space-between; } " +
       ".border-t { border-top: 1px dashed black; } " +
+      "@page WordSection1 { size: 595.3pt 841.9pt; margin: 0.5in 0.5in 0.5in 0.5in; mso-header-margin: 0.5in; mso-footer-margin: 0.5in; mso-paper-source: 0; }" +
+      "div.WordSection1 { page: WordSection1; }" +
       "</style></head><body>";
 
     const footer = "</body></html>";
-    const html = header + element.innerHTML + footer;
+    const html = header + "<div class='WordSection1'>" + element.innerHTML + "</div>" + footer;
 
     const blob = new Blob(['\ufeff', html], {
       type: 'application/msword'
@@ -754,7 +756,7 @@ export default function LOABuilder() {
               </div>
 
               {/* FOOTER */}
-              <div className="mt-4 space-y-1 mb-8 text-center" style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '2rem' }}>
+              <div className="mt-4 space-y-1 mb-4 text-center" style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
                 <div className="text-sm font-bold italic" style={{ fontWeight: 'bold', fontStyle: 'italic', fontSize: '14px' }}>
                   <u>تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.</u>
                 </div>

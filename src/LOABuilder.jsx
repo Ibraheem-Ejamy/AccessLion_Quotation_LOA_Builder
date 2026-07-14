@@ -765,9 +765,9 @@ export default function LOABuilder() {
                 </div>
               </div>
 
-              <div className="mt-6 px-4" style={{ marginTop: '1.5rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
+              <div className="mt-6 px-4" style={{ marginTop: '1.5rem', paddingLeft: '1rem', paddingRight: '1rem', pageBreakInside: 'avoid' }}>
                 <hr style={{ borderTop: '1px dashed black', marginBottom: '0.5rem', borderBottom: 'none', borderLeft: 'none', borderRight: 'none' }} />
-                <table border="0" style={{ width: '100%', borderCollapse: 'collapse', border: 'none' }}>
+                <table border="0" style={{ width: '100%', borderCollapse: 'collapse', border: 'none', pageBreakInside: 'avoid' }}>
                   <tbody>
                     <tr style={{ border: 'none' }}>
                       <td style={{ border: 'none', textAlign: 'left', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'middle', width: '33%' }}>
@@ -775,8 +775,8 @@ export default function LOABuilder() {
                       </td>
                       <td style={{ border: 'none', textAlign: 'center', verticalAlign: 'middle', width: '34%', padding: 0 }}>
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-                          {customSignature && <img src={customSignature} style={{ maxHeight: '70px', maxWidth: '140px', objectFit: 'contain' }} alt="Signature" />}
-                          {customStamp && <img src={customStamp} style={{ maxHeight: '85px', maxWidth: '110px', objectFit: 'contain' }} alt="Company Seal" />}
+                          {customSignature && <img src={customSignature} height="70" style={{ height: '70px', maxHeight: '70px', maxWidth: '140px', objectFit: 'contain' }} alt="Signature" />}
+                          {customStamp && <img src={customStamp} height="85" style={{ height: '85px', maxHeight: '85px', maxWidth: '110px', objectFit: 'contain' }} alt="Company Seal" />}
                         </div>
                       </td>
                       <td style={{ border: 'none', textAlign: 'right', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'middle', width: '33%' }} dir="rtl">

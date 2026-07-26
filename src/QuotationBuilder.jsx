@@ -15,7 +15,8 @@ import {
   ShieldAlert,
   FileCheck,
   CheckCircle2,
-  Info
+  Info,
+  Layout
 } from 'lucide-react';
 
 const getTodayDateString = () => {
@@ -142,6 +143,22 @@ export default function QuotationBuilder() {
   const [stampImage, setStampImage] = useState(null);
   const [statusMessage, setStatusMessage] = useState(null);
   const [designStyle, setDesignStyle] = useState("luxury-dark"); // luxury-dark, royal-gold, elegant-clean
+  
+  const [columns, setColumns] = useState({
+    col1: "No.",
+    col2: "Machinery / Equipment Specification",
+    col3: "Qty",
+    col4: "Unit Price",
+    col5: "Total"
+  });
+
+  const [sectionsVisibility, setSectionsVisibility] = useState({
+    amountInWords: true,
+    rentalTerms: true,
+    generalTerms: true,
+    signatures: true
+  });
+  
   const fileInputRef = useRef(null);
   const signatureInputRef = useRef(null);
   const stampInputRef = useRef(null);
@@ -308,7 +325,9 @@ export default function QuotationBuilder() {
       generalTerms,
       vatRate,
       currency,
-      designStyle
+      designStyle,
+      columns,
+      sectionsVisibility
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -336,6 +355,8 @@ export default function QuotationBuilder() {
         if (parsed.vatRate !== undefined) setVatRate(parsed.vatRate);
         if (parsed.currency) setCurrency(parsed.currency);
         if (parsed.designStyle) setDesignStyle(parsed.designStyle);
+        if (parsed.columns) setColumns(parsed.columns);
+        if (parsed.sectionsVisibility) setSectionsVisibility(parsed.sectionsVisibility);
         showToast("Quotation data loaded successfully!");
       } catch {
         showToast("Invalid JSON structure.", "error");
@@ -411,13 +432,13 @@ export default function QuotationBuilder() {
     }
   };
 
-  // Convert numbers to words for luxury aesthetic
   const numberToWords = (num) => {
     const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
     const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
-    if ((num = num.toString()).length > 9) return 'Amount Exceeded Limit';
-    let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    const numStr = Math.floor(num).toString();
+    if (numStr.length > 9) return 'Amount Exceeded Limit';
+    let n = ('000000000' + numStr).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
     if (!n) return '';
     let str = '';
     str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
@@ -425,7 +446,11 @@ export default function QuotationBuilder() {
     str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
     str += (Number(n[4]) != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
     str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
-    return str ? str + ' ' + currency + ' Only' : 'Zero ' + currency;
+    
+    let decimals = Math.round((num - Math.floor(num)) * 100);
+    let decimalStr = decimals > 0 ? ` and ${decimals}/100` : '';
+
+    return str ? str + ' ' + currency + decimalStr + ' Only' : 'Zero ' + currency;
   };
 
   return (
@@ -579,6 +604,14 @@ export default function QuotationBuilder() {
             >
               <FileCheck className="w-4 h-4" />
               Terms
+            </button>
+            <button
+              onClick={() => setActiveTab("layout")}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-all ${activeTab === 'layout' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100'
+                }`}
+            >
+              <Layout className="w-4 h-4" />
+              Layout
             </button>
           </div>
 
@@ -964,6 +997,59 @@ export default function QuotationBuilder() {
               </div>
             </div>
           )}
+
+          {/* TAB CONTENT: LAYOUT / SECTIONS */}
+          {activeTab === 'layout' && (
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl flex-1">
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Table Columns Customization</h3>
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-semibold text-slate-400 w-24">Column 1</label>
+                    <input type="text" value={columns.col1} onChange={(e) => setColumns({...columns, col1: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-semibold text-slate-400 w-24">Column 2</label>
+                    <input type="text" value={columns.col2} onChange={(e) => setColumns({...columns, col2: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-semibold text-slate-400 w-24">Column 3</label>
+                    <input type="text" value={columns.col3} onChange={(e) => setColumns({...columns, col3: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-semibold text-slate-400 w-24">Column 4</label>
+                    <input type="text" value={columns.col4} onChange={(e) => setColumns({...columns, col4: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-semibold text-slate-400 w-24">Column 5</label>
+                    <input type="text" value={columns.col5} onChange={(e) => setColumns({...columns, col5: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-slate-800">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Toggle Sections</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.amountInWords} onChange={(e) => setSectionsVisibility({...sectionsVisibility, amountInWords: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Amount in Words</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.rentalTerms} onChange={(e) => setSectionsVisibility({...sectionsVisibility, rentalTerms: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Special Machinery Terms</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.generalTerms} onChange={(e) => setSectionsVisibility({...sectionsVisibility, generalTerms: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">General Terms & Conditions</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.signatures} onChange={(e) => setSectionsVisibility({...sectionsVisibility, signatures: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Signatures Area</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* RIGHT COLUMN: PRECISE PREMIUM A4 PREVIEW */}
@@ -1079,11 +1165,11 @@ export default function QuotationBuilder() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-900 text-white premium-header-bg border-b-2 border-amber-500">
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest rounded-tl-lg text-center w-10">No.</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest">Machinery / Equipment Specification</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-center w-14">Qty</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-right w-28">Unit Price</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-right rounded-tr-lg w-28">Total ({currency})</th>
+                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest rounded-tl-lg text-center w-10">{columns.col1}</th>
+                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest">{columns.col2}</th>
+                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-center w-14">{columns.col3}</th>
+                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-right w-28">{columns.col4}</th>
+                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-right rounded-tr-lg w-28">{columns.col5} ({currency})</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -1098,7 +1184,9 @@ export default function QuotationBuilder() {
                             <td className="py-2.5 px-3 text-[11px] text-slate-900 font-bold text-center">{item.qty}</td>
                             <td className="py-2.5 px-3 text-[11px] text-slate-800 text-right font-medium">
                               {item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                              <span className="text-[9px] text-slate-500 block">per {item.unit}</span>
+                              {item.unit && item.unit.trim() !== '' && (
+                                <span className="text-[9px] text-slate-500 block">per {item.unit}</span>
+                              )}
                             </td>
                             <td className="py-2.5 px-3 text-[11px] text-slate-900 font-bold text-right">
                               {itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -1113,10 +1201,14 @@ export default function QuotationBuilder() {
                 {/* TOTAL CALCULATIONS BOX */}
                 <div className="grid grid-cols-1 sm:grid-cols-12 print:grid-cols-12 gap-6 items-start pt-2">
                   <div className="sm:col-span-7 print:col-span-7 space-y-1.5">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Total Amount in Words</span>
-                    <p className="text-[11px] italic text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100 font-medium">
-                      {numberToWords(calculateTotal())}
-                    </p>
+                    {sectionsVisibility.amountInWords && (
+                      <>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Total Amount in Words</span>
+                        <p className="text-[11px] italic text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100 font-medium">
+                          {numberToWords(calculateTotal())}
+                        </p>
+                      </>
+                    )}
                   </div>
 
                   <div className="sm:col-span-5 print:col-span-5 bg-slate-50 p-3.5 rounded-xl space-y-2 border border-slate-100">
@@ -1142,33 +1234,43 @@ export default function QuotationBuilder() {
                 </div>
 
                 {/* RENTAL TERMS & GENERAL TERMS BILINGUAL */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
-                  {/* Rental Machinery terms of liability */}
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-amber-500/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      Special Machinery Rental Terms
-                    </h4>
-                    <ul className="space-y-2 text-[10px] text-slate-600 leading-relaxed pl-3 list-disc">
-                      {rentalTerms.map((term, index) => (
-                        <li key={index} className="pl-1">{term}</li>
-                      ))}
-                    </ul>
-                  </div>
+                {(sectionsVisibility.rentalTerms || sectionsVisibility.generalTerms) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
+                    {/* Rental Machinery terms of liability */}
+                    <div>
+                      {sectionsVisibility.rentalTerms && (
+                        <div className="space-y-3">
+                          <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-amber-500/30">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                            Special Machinery Rental Terms
+                          </h4>
+                          <ul className="space-y-2 text-[10px] text-slate-600 leading-relaxed pl-3 list-disc">
+                            {rentalTerms.map((term, index) => (
+                              <li key={index} className="pl-1">{term}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
 
-                  {/* General T&Cs */}
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-amber-500/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      General Terms & Conditions
-                    </h4>
-                    <ul className="space-y-2 text-[10px] text-slate-600 leading-relaxed pl-3 list-disc">
-                      {generalTerms.map((term, index) => (
-                        <li key={index} className="pl-1">{term}</li>
-                      ))}
-                    </ul>
+                    {/* General T&Cs */}
+                    <div>
+                      {sectionsVisibility.generalTerms && (
+                        <div className="space-y-3">
+                          <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-amber-500/30">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                            General Terms & Conditions
+                          </h4>
+                          <ul className="space-y-2 text-[10px] text-slate-600 leading-relaxed pl-3 list-disc">
+                            {generalTerms.map((term, index) => (
+                              <li key={index} className="pl-1">{term}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
 
               </div>
 
@@ -1176,29 +1278,31 @@ export default function QuotationBuilder() {
               <div className="pt-8 space-y-6 print:break-inside-avoid">
 
                 {/* Signatures Layout */}
-                <div className="grid grid-cols-2 gap-8 text-center pt-4 border-t border-slate-100">
-                  <div className="space-y-8">
-                    <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Prepared & Approved By</p>
-                    <div className="inline-block border-t border-slate-300 w-44 pt-2 relative">
-                      {(signatureImage || stampImage) && (
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 flex items-center justify-center w-full pointer-events-none z-10" style={{ height: '0px' }}>
-                          {stampImage && <img src={stampImage} alt="Stamp" className="absolute w-24 h-24 object-contain opacity-80 mix-blend-multiply" style={{ bottom: '-45px', right: '-20px' }} />}
-                          {signatureImage && <img src={signatureImage} alt="Signature" className="absolute w-40 h-20 object-contain mix-blend-multiply" style={{ bottom: '-5px', left: '-10px' }} />}
-                        </div>
-                      )}
-                      <p className="text-xs font-bold text-slate-900">Access Lion Management</p>
-                      <p className="text-[9px] text-slate-400">Authorized Signatory & Stamp</p>
+                {sectionsVisibility.signatures && (
+                  <div className="grid grid-cols-2 gap-8 text-center pt-4 border-t border-slate-100">
+                    <div className="space-y-8">
+                      <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Prepared & Approved By</p>
+                      <div className="inline-block border-t border-slate-300 w-44 pt-2 relative">
+                        {(signatureImage || stampImage) && (
+                          <div className="absolute top-0 left-1/2 -translate-x-1/2 flex items-center justify-center w-full pointer-events-none z-10" style={{ height: '0px' }}>
+                            {stampImage && <img src={stampImage} alt="Stamp" className="absolute w-24 h-24 object-contain opacity-80 mix-blend-multiply" style={{ bottom: '-45px', right: '-20px' }} />}
+                            {signatureImage && <img src={signatureImage} alt="Signature" className="absolute w-40 h-20 object-contain mix-blend-multiply" style={{ bottom: '-5px', left: '-10px' }} />}
+                          </div>
+                        )}
+                        <p className="text-xs font-bold text-slate-900">Access Lion Management</p>
+                        <p className="text-[9px] text-slate-400">Authorized Signatory & Stamp</p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="space-y-8">
-                    <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Accepted & Confirmed By</p>
-                    <div className="inline-block border-t border-slate-300 min-w-[11rem] max-w-[16rem] pt-2">
-                      <p className="text-xs font-bold text-slate-900">For {clientInfo.company || 'Client/LPO Authority'}</p>
-                      <p className="text-[9px] text-slate-400">Authorized Signature & Stamp</p>
+                    <div className="space-y-8">
+                      <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Accepted & Confirmed By</p>
+                      <div className="inline-block border-t border-slate-300 min-w-[11rem] max-w-[16rem] pt-2">
+                        <p className="text-xs font-bold text-slate-900">For {clientInfo.company || 'Client/LPO Authority'}</p>
+                        <p className="text-[9px] text-slate-400">Authorized Signature & Stamp</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {/* Symmetrical footer info strip */}
                 <div className="pt-4 border-t border-slate-100 text-center space-y-1">

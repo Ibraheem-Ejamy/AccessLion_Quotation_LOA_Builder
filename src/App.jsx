@@ -19,7 +19,7 @@ export default function App() {
             <div className="text-amber-500 font-bold text-lg md:text-xl tracking-widest uppercase">
               {activeTab === 'quotation' ? 'Access Lion Quotation Builder' : 
                activeTab === 'loa' ? 'Access Lion LOA Builder' : 
-               activeTab === 'receipt' ? 'Access Lion Receipt Voucher' :
+               activeTab === 'receipt' ? 'Access Lion Payment Voucher' :
                'Access Lion Vehicle Reception'}
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function App() {
                 }`}
             >
               <ClipboardCheck className="w-4 h-4" />
-              Receipt Voucher
+              Payment Voucher
             </button>
           </div>
         </div>

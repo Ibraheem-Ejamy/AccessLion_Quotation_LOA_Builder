@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Printer, Download, Upload, Plus, Trash2, Receipt } from 'lucide-react';
 import topLeftCorner from './assets/receipt_top_left.png';
 import bottomRightCorner from './assets/receipt_bottom_right.png';
@@ -65,8 +65,21 @@ export default function ReceiptVoucher() {
     date: ''
   });
 
+  const [sectionsVisibility, setSectionsVisibility] = useState({
+    paymentMethod: true,
+    bankDetails: true,
+  });
+
   const [statusMessage, setStatusMessage] = useState(null);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const originalTitle = document.title;
+    document.title = voucherNo ? `Vo-no. ${voucherNo.replace(/\//g, '_')}` : 'Payment_Voucher';
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [voucherNo]);
 
   const showToast = (text, type = "success") => {
     setStatusMessage({ text, type });
@@ -95,7 +108,7 @@ export default function ReceiptVoucher() {
   };
 
   const exportConfiguration = () => {
-    const config = {
+      const config = {
       voucherNo,
       date,
       amount,
@@ -103,7 +116,8 @@ export default function ReceiptVoucher() {
       description,
       paymentMethod,
       bankDetails,
-      receivedBy
+      receivedBy,
+      sectionsVisibility
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -130,6 +144,7 @@ export default function ReceiptVoucher() {
         if (parsed.paymentMethod) setPaymentMethod(parsed.paymentMethod);
         if (parsed.bankDetails) setBankDetails(parsed.bankDetails);
         if (parsed.receivedBy) setReceivedBy(parsed.receivedBy);
+        if (parsed.sectionsVisibility) setSectionsVisibility(parsed.sectionsVisibility);
         showToast("Draft loaded successfully!");
       } catch {
         showToast("Invalid JSON structure.", "error");
@@ -371,7 +386,19 @@ export default function ReceiptVoucher() {
           </div>
 
           <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
-            <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2 border-b border-slate-800 pb-2">Payment Details</h3>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-2 border-b border-slate-800 pb-2">
+              <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Payment Details</h3>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={sectionsVisibility.paymentMethod} onChange={(e) => setSectionsVisibility({...sectionsVisibility, paymentMethod: e.target.checked})} className="w-4 h-4 accent-[#c5a059] rounded" />
+                  <span className="text-xs text-slate-300 font-semibold uppercase">Show Methods</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={sectionsVisibility.bankDetails} onChange={(e) => setSectionsVisibility({...sectionsVisibility, bankDetails: e.target.checked})} className="w-4 h-4 accent-[#c5a059] rounded" />
+                  <span className="text-xs text-slate-300 font-semibold uppercase">Show Bank Ref</span>
+                </label>
+              </div>
+            </div>
             <div className="grid grid-cols-2 gap-4">
               {['cash', 'cheque', 'bankTransfer', 'onlinePayment'].map(method => (
                 <label key={method} className="flex items-center gap-2 cursor-pointer">
@@ -504,54 +531,61 @@ export default function ReceiptVoucher() {
                 </div>
 
                 {/* Payment Method */}
-                <div className="relative flex items-center pt-3">
-                  <span className="font-bold text-[12px] text-[#111] mr-6 shrink-0 uppercase tracking-wide">
-                    PAYMENT METHOD:
-                  </span>
-                  <div className="flex gap-8 items-center flex-wrap">
-                    {[
-                      { id: 'cash', label: 'Cash' },
-                      { id: 'cheque', label: 'Cheque' },
-                      { id: 'bankTransfer', label: 'Bank Transfer' },
-                      { id: 'onlinePayment', label: 'Online' }
-                    ].map(pm => (
-                      <div key={pm.id} className="flex items-center gap-2">
-                        <div className="w-[14px] h-[14px] border-[1.5px] border-[#222] flex items-center justify-center bg-white relative">
-                          {paymentMethod[pm.id] && <div className="text-black font-extrabold text-[12px] leading-none">✓</div>}
+                {sectionsVisibility.paymentMethod && (
+                  <div className="relative flex items-center pt-3">
+                    <span className="font-bold text-[12px] text-[#111] mr-6 shrink-0 uppercase tracking-wide">
+                      PAYMENT METHOD:
+                    </span>
+                    <div className="flex gap-8 items-center flex-wrap">
+                      {[
+                        { id: 'cash', label: 'Cash' },
+                        { id: 'cheque', label: 'Cheque' },
+                        { id: 'bankTransfer', label: 'Bank Transfer' },
+                        { id: 'onlinePayment', label: 'Online' }
+                      ].map(pm => (
+                        <div key={pm.id} className="flex items-center gap-2">
+                          <div className="w-[14px] h-[14px] border-[1.5px] border-[#222] flex items-center justify-center bg-white relative">
+                            {paymentMethod[pm.id] && <div className="text-black font-extrabold text-[12px] leading-none">✓</div>}
+                          </div>
+                          <span className="text-[12px] font-semibold text-[#222] uppercase">{pm.label}</span>
                         </div>
-                        <span className="text-[12px] font-semibold text-[#222] uppercase">{pm.label}</span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <div className="relative flex items-baseline pt-3">
-                  <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
-                    BANK NAME:
-                  </span>
-                  <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.bankName ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
-                    {bankDetails.bankName}
-                  </div>
-                </div>
-                
-                <div className="relative flex justify-between items-baseline gap-10 pt-3">
-                  <div className="flex-[3] flex items-baseline">
-                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
-                      CHEQUE/REF. NO:
-                    </span>
-                    <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.chequeNo ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
-                      {bankDetails.chequeNo}
+                {/* Bank Details */}
+                {sectionsVisibility.bankDetails && (
+                  <>
+                    <div className="relative flex items-baseline pt-3">
+                      <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
+                        BANK NAME:
+                      </span>
+                      <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.bankName ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
+                        {bankDetails.bankName}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex-[2] flex items-baseline">
-                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
-                      DATE:
-                    </span>
-                    <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.date ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed text-center`}>
-                      {bankDetails.date}
+                    
+                    <div className="relative flex justify-between items-baseline gap-10 pt-3">
+                      <div className="flex-[3] flex items-baseline">
+                        <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
+                          CHEQUE/REF. NO:
+                        </span>
+                        <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.chequeNo ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
+                          {bankDetails.chequeNo}
+                        </div>
+                      </div>
+                      <div className="flex-[2] flex items-baseline">
+                        <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
+                          DATE:
+                        </span>
+                        <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.date ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed text-center`}>
+                          {bankDetails.date}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
 
               {/* Signatures */}

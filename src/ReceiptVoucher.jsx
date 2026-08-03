@@ -347,7 +347,7 @@ export default function ReceiptVoucher() {
             <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2 border-b border-slate-800 pb-2">Signatures</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-400">Name</label>
+                <label className="text-xs font-semibold text-slate-400">Approved By</label>
                 <input type="text" value={receivedBy.name} onChange={(e) => setReceivedBy({...receivedBy, name: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
               </div>
               <div className="space-y-1">
@@ -504,7 +504,7 @@ export default function ReceiptVoucher() {
                   <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                     {receivedBy.name}
                   </div>
-                  <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">NAME</span>
+                  <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">APPROVED BY</span>
                 </div>
 
                 <div className="flex flex-col flex-[2.5]">

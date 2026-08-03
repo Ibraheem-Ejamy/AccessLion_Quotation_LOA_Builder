@@ -389,15 +389,15 @@ export default function ReceiptVoucher() {
               <div className="flex justify-between items-end mb-8 mt-2 px-1 font-[Arial,sans-serif]">
                 <div className="flex gap-2 items-end w-[35%]">
                   <span className="font-bold text-[14px] text-[#111]">Voucher No:</span>
-                  <div className="border-b-[1.5px] border-[#222] pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide">{voucherNo}</div>
+                  <div className="pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide">{voucherNo}</div>
                 </div>
                 <div className="flex gap-2 items-end w-[25%]">
                   <span className="font-bold text-[14px] text-[#111]">Date:</span>
-                  <div className="border-b-[1.5px] border-[#222] pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide text-center">{date}</div>
+                  <div className="pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide text-center">{date}</div>
                 </div>
                 <div className="flex flex-col items-end w-[35%]">
                   <div className="font-bold text-[12px] text-[#111] mb-1.5 w-full text-left uppercase">Amount (AED):</div>
-                  <div className="flex bg-white w-full border-[1.5px] border-[#222] p-[1px]">
+                  <div className="flex bg-white w-fit border-[1.5px] border-[#222] p-[1px]">
                     {renderAmountBoxes()}
                   </div>
                 </div>
@@ -410,7 +410,7 @@ export default function ReceiptVoucher() {
                     <span className="font-bold text-[13px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                       {field.label}:
                     </span>
-                    <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 relative leading-relaxed">
+                    <div className={`flex-1 ${field.value ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 relative leading-relaxed`}>
                       {field.value}
                     </div>
                   </div>
@@ -423,23 +423,23 @@ export default function ReceiptVoucher() {
                       DESCRIPTION:
                     </span>
                     <div className="flex-1">
-                      <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[30px] text-[14px] text-[#222] font-semibold px-2 break-all leading-relaxed">
+                      <div className={`${description.split('\n')[0] ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} min-h-[30px] text-[14px] text-[#222] font-semibold px-2 break-all leading-relaxed`}>
                         {description.split('\n')[0] || ''}
                       </div>
                     </div>
                   </div>
-                  <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[30px] text-[14px] text-[#222] font-semibold px-2 mt-7 leading-relaxed">
+                  <div className={`${description.split('\n').length > 1 && description.split('\n')[1] ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} min-h-[30px] text-[14px] text-[#222] font-semibold px-2 mt-7 leading-relaxed`}>
                     {description.split('\n').length > 1 ? description.split('\n').slice(1).join(' ') : ''}
                   </div>
-                  <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[30px] text-[14px] text-[#222] font-semibold px-2 mt-7 leading-relaxed"></div>
+                  <div className={`${description.split('\n').length > 2 && description.split('\n')[2] ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} min-h-[30px] text-[14px] text-[#222] font-semibold px-2 mt-7 leading-relaxed`}></div>
                 </div>
                 
                 <div className="relative flex items-end pt-2">
                   <span className="font-bold text-[13px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                     AMOUNT (Figures):
                   </span>
-                  <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[14px] text-[#222] font-bold px-2 leading-relaxed">
-                    AED {amount} /-
+                  <div className={`flex-1 ${amount && amount !== '0.00' ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[14px] text-[#222] font-bold px-2 leading-relaxed`}>
+                    {amount ? `AED ${amount} /-` : ''}
                   </div>
                 </div>
 
@@ -469,7 +469,7 @@ export default function ReceiptVoucher() {
                   <span className="font-bold text-[13px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                     BANK NAME:
                   </span>
-                  <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 leading-relaxed">
+                  <div className={`flex-1 ${bankDetails.bankName ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 leading-relaxed`}>
                     {bankDetails.bankName}
                   </div>
                 </div>
@@ -479,7 +479,7 @@ export default function ReceiptVoucher() {
                     <span className="font-bold text-[13px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                       CHEQUE/REF. NO:
                     </span>
-                    <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 leading-relaxed">
+                    <div className={`flex-1 ${bankDetails.chequeNo ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 leading-relaxed`}>
                       {bankDetails.chequeNo}
                     </div>
                   </div>
@@ -487,7 +487,7 @@ export default function ReceiptVoucher() {
                     <span className="font-bold text-[13px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                       DATE:
                     </span>
-                    <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 leading-relaxed text-center">
+                    <div className={`flex-1 ${bankDetails.date ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[14px] text-[#222] font-semibold px-2 leading-relaxed text-center`}>
                       {bankDetails.date}
                     </div>
                   </div>

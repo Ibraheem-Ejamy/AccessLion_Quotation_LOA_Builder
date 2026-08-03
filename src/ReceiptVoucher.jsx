@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react';
 import { Printer, Download, Upload, Plus, Trash2, Receipt } from 'lucide-react';
-import newLogo from './assets/AL_Logo_Gold.png';
-import mainLogo from './assets/AL_Logo.png';
+import topLeftCorner from './assets/receipt_top_left.png';
+import bottomRightCorner from './assets/receipt_bottom_right.png';
+import watermark from './assets/receipt_watermark.png';
+import headerLogo from './assets/receipt_header_logo.png';
 
 export default function ReceiptVoucher() {
   const [voucherNo, setVoucherNo] = useState('AL-0123');
@@ -359,108 +361,92 @@ export default function ReceiptVoucher() {
             
             {/* Watermark Background */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-              <img src={newLogo} alt="Watermark" className="w-[75%] max-w-[600px] object-contain opacity-15" />
+              <img src={watermark} alt="Watermark" className="w-[85%] max-w-[650px] object-contain opacity-20" onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
 
             {/* Corner Vectors (Top Left) */}
             <div className="absolute top-0 left-0 w-80 h-80 overflow-hidden z-0 pointer-events-none">
-              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-95 transform -translate-x-6 -translate-y-6">
-                <path fill="#222" d="M0,0 L200,0 C150,50 100,100 0,200 Z" />
-                <path fill="#C5A059" d="M0,0 L180,0 C130,40 80,80 0,180 Z" />
-                <path fill="#111" d="M0,0 L140,0 C90,30 50,60 0,140 Z" />
-                {/* Thin gold accent lines */}
-                <path fill="none" stroke="#C5A059" strokeWidth="1.5" d="M0,20 L160,20 C110,60 60,100 0,160" />
-                <path fill="none" stroke="#C5A059" strokeWidth="0.8" d="M0,40 L120,40 C80,70 40,100 0,120" />
-              </svg>
+              <img src={topLeftCorner} alt="Top Left Corner" className="w-full h-full object-cover transform scale-110 origin-top-left" onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
 
             <div className="flex flex-col flex-1 p-10 pt-16 print:p-10 z-10 h-full relative">
               
               {/* Header */}
-              <div className="flex items-start justify-between mb-12 pl-6 pr-4 relative z-10">
-                <div className="flex flex-col items-center ml-14">
-                  <img src={newLogo} alt="Access Lion Logo" className="h-28 w-28 object-contain drop-shadow-md" />
-                  <div className="mt-1 text-center">
-                    <h1 className="text-2xl font-bold tracking-[0.2em] text-[#222]">ACCESS</h1>
-                    <div className="flex items-center gap-2 justify-center my-0.5">
-                      <div className="h-[1px] w-6 bg-[#C5A059]"></div>
-                      <span className="text-[#C5A059] font-semibold tracking-[0.3em] text-sm">LION</span>
-                      <div className="h-[1px] w-6 bg-[#C5A059]"></div>
-                    </div>
-                    <p className="text-[7px] font-bold tracking-wider text-[#333]">GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</p>
-                  </div>
+              <div className="flex items-start justify-between mb-10 pl-[85px] pr-4 relative z-10">
+                <div className="flex flex-col items-center">
+                  <img src={headerLogo} alt="Access Lion Logo" className="h-32 w-auto object-contain drop-shadow-md" onError={(e) => { e.target.style.display = 'none'; }} />
                 </div>
                 
                 <div className="flex flex-col items-end mt-4">
-                  <h2 className="text-[40px] font-black text-[#1a557a] tracking-tight leading-none">RECEIPT</h2>
-                  <h2 className="text-[40px] font-black text-[#222] tracking-tight leading-none mt-1">VOUCHER</h2>
+                  <h2 className="text-[44px] font-black text-[#205178] tracking-tight leading-none uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>RECEIPT</h2>
+                  <h2 className="text-[44px] font-black text-[#111] tracking-tight leading-none mt-1 uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>VOUCHER</h2>
                 </div>
               </div>
 
               {/* Voucher Info Row */}
               <div className="flex justify-between items-end mb-10 px-2 font-[Arial,sans-serif]">
-                <div className="w-1/3">
-                  <div className="font-bold text-[17px] text-[#111]">Voucher No:</div>
+                <div className="w-[30%]">
+                  <div className="font-bold text-[18px] text-[#111]">Voucher No:</div>
                   <div className="text-[17px] text-[#222] mt-1 tracking-wide">{voucherNo}</div>
                 </div>
-                <div className="w-1/3 -ml-4">
-                  <div className="font-bold text-[17px] text-[#111]">Date:</div>
+                <div className="w-[30%] text-left pl-4">
+                  <div className="font-bold text-[18px] text-[#111]">Date:</div>
                   <div className="text-[17px] text-[#222] mt-1 tracking-wide">{date}</div>
                 </div>
-                <div className="w-1/3 flex flex-col items-end">
-                  <div className="font-bold text-[17px] text-[#111] mb-1">Amount (AED):</div>
-                  <div className="flex bg-white">
+                <div className="w-[40%] flex flex-col items-end">
+                  <div className="font-bold text-[18px] text-[#111] mb-1 w-full text-left">Amount (AED):</div>
+                  <div className="flex bg-white w-full">
                     {renderAmountBoxes()}
                   </div>
                 </div>
               </div>
 
               {/* Dynamic Fields */}
-              <div className="flex-1 space-y-9 mt-4 px-2">
+              <div className="flex-1 space-y-10 mt-2 px-2">
                 {fields.map((field) => (
                   <div key={field.id} className="relative flex items-end">
-                    <span className="font-bold text-[17px] text-[#111] whitespace-nowrap mr-3 shrink-0">
+                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
                       {field.label}:
                     </span>
-                    <div className="flex-1 border-b-[1.5px] border-[#333] pb-1 min-h-[30px] text-[17px] text-[#222] font-medium px-2 relative leading-tight">
+                    <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 relative leading-tight">
                       {field.value}
                     </div>
                   </div>
                 ))}
                 
                 {/* Description Lines */}
-                <div className="relative">
+                <div className="relative pt-2">
                   <div className="flex items-start">
-                    <span className="font-bold text-[17px] text-[#111] whitespace-nowrap mr-3 shrink-0 mt-1">
+                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 mt-1 uppercase">
                       DESCRIPTION:
                     </span>
                     <div className="flex-1">
-                      <div className="border-b-[1.5px] border-[#333] min-h-[34px] text-[17px] text-[#222] font-medium px-2 break-all leading-tight">
+                      <div className="border-b-[2px] border-[#333] min-h-[34px] text-[18px] text-[#222] font-medium px-2 break-all leading-tight">
                         {description.split('\n')[0] || ''}
                       </div>
                     </div>
                   </div>
-                  <div className="border-b-[1.5px] border-[#333] min-h-[34px] text-[17px] text-[#222] font-medium px-2 mt-5 leading-tight">
+                  <div className="border-b-[2px] border-[#333] min-h-[34px] text-[18px] text-[#222] font-medium px-2 mt-6 leading-tight">
                     {description.split('\n').length > 1 ? description.split('\n').slice(1).join(' ') : ''}
                   </div>
-                  <div className="border-b-[1.5px] border-[#333] min-h-[34px] text-[17px] text-[#222] font-medium px-2 mt-5 leading-tight"></div>
+                  <div className="border-b-[2px] border-[#333] min-h-[34px] text-[18px] text-[#222] font-medium px-2 mt-6 leading-tight"></div>
                 </div>
                 
-                <div className="relative flex items-end">
-                  <span className="font-bold text-[17px] text-[#111] whitespace-nowrap mr-3 shrink-0">
+                <div className="relative flex items-end pt-2">
+                  <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
                     AMOUNT (Figures):
                   </span>
-                  <div className="flex-1 border-b-[1.5px] border-[#333] pb-1 min-h-[30px] text-[17px] text-[#222] font-medium px-2 leading-tight">
+                  <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
                     <span className="font-semibold">AED</span> {amount} <span className="font-semibold">/-</span>
                   </div>
                 </div>
 
                 {/* Payment Method */}
-                <div className="relative flex items-center pt-2">
-                  <span className="font-bold text-[17px] text-[#111] whitespace-nowrap mr-5 shrink-0">
+                <div className="relative flex items-center pt-4">
+                  <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-6 shrink-0 uppercase">
                     PAYMENT METHOD:
                   </span>
-                  <div className="flex gap-5 items-center">
+                  <div className="flex gap-6 items-center flex-wrap">
                     {[
                       { id: 'cash', label: 'Cash' },
                       { id: 'cheque', label: 'Cheque' },
@@ -468,38 +454,38 @@ export default function ReceiptVoucher() {
                       { id: 'onlinePayment', label: 'Online Payment' }
                     ].map(pm => (
                       <div key={pm.id} className="flex items-center gap-2">
-                        <div className="w-[18px] h-[18px] border-[1.5px] border-[#333] flex items-center justify-center bg-white relative top-0.5">
-                          {paymentMethod[pm.id] && <div className="text-black font-bold text-sm leading-none mt-0.5">✓</div>}
+                        <div className="w-[20px] h-[20px] border-[1.5px] border-[#333] flex items-center justify-center bg-white relative top-0.5">
+                          {paymentMethod[pm.id] && <div className="text-black font-bold text-[16px] leading-none mt-0.5">✓</div>}
                         </div>
-                        <span className="text-[17px] font-medium text-[#222]">{pm.label}</span>
+                        <span className="text-[18px] font-medium text-[#222]">{pm.label}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="relative flex items-end">
-                  <span className="font-bold text-[17px] text-[#111] whitespace-nowrap mr-3 shrink-0">
+                <div className="relative flex items-end pt-4">
+                  <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
                     BANK NAME:
                   </span>
-                  <div className="flex-1 border-b-[1.5px] border-[#333] pb-1 min-h-[30px] text-[17px] text-[#222] font-medium px-2 leading-tight">
+                  <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
                     {bankDetails.bankName}
                   </div>
                 </div>
                 
-                <div className="relative flex justify-between items-end gap-6">
+                <div className="relative flex justify-between items-end gap-8 pt-4">
                   <div className="flex-[3] flex items-end">
-                    <span className="font-bold text-[17px] text-[#111] whitespace-nowrap mr-3 shrink-0">
+                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
                       CHEQUE/REF. NO:
                     </span>
-                    <div className="flex-1 border-b-[1.5px] border-[#333] pb-1 min-h-[30px] text-[17px] text-[#222] font-medium px-2 leading-tight">
+                    <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
                       {bankDetails.chequeNo}
                     </div>
                   </div>
                   <div className="flex-[2] flex items-end">
-                    <span className="font-bold text-[17px] text-[#111] whitespace-nowrap mr-3 shrink-0">
+                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
                       DATE:
                     </span>
-                    <div className="flex-1 border-b-[1.5px] border-[#333] pb-1 min-h-[30px] text-[17px] text-[#222] font-medium px-2 leading-tight">
+                    <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
                       {bankDetails.date}
                     </div>
                   </div>
@@ -507,44 +493,38 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Signatures */}
-              <div className="mt-16 mb-20 flex justify-between gap-6 px-2">
-                <div className="flex flex-col flex-[2]">
-                  <div className="border-b-[1.5px] border-[#333] h-10 w-full mb-1"></div>
+              <div className="mt-20 mb-24 flex justify-between gap-6 px-2">
+                <div className="flex flex-col flex-[2.5]">
+                  <div className="border-b-[2px] border-[#333] h-10 w-full mb-1"></div>
                   <div className="flex items-center gap-1.5 mt-1">
-                    <span className="font-bold text-[15px] text-[#111]">RECEIVED BY</span>
-                    <span className="text-[12px] font-medium text-[#444]">(Authorized Signature & Stamp):</span>
+                    <span className="font-bold text-[16px] text-[#111] uppercase">RECEIVED BY</span>
+                    <span className="text-[13px] font-semibold text-[#444]">(Authorized Signature & Stamp):</span>
                   </div>
                 </div>
-                <div className="flex flex-col flex-1 pl-4">
-                  <div className="border-b-[1.5px] border-[#333] h-10 w-full mb-1 flex items-end justify-center pb-1 font-medium text-[17px] text-[#222]">
+                <div className="flex flex-col flex-[1.5] pl-6 border-l-[2px] border-[#333] ml-4">
+                  <div className="border-b-[2px] border-[#333] h-10 w-full mb-1 flex items-end justify-center pb-1 font-medium text-[18px] text-[#222]">
                     {receivedBy.name}
                   </div>
-                  <span className="font-bold text-[15px] text-[#111] mt-1">NAME:</span>
+                  <span className="font-bold text-[16px] text-[#111] mt-1 uppercase">NAME:</span>
                 </div>
-                <div className="flex flex-col flex-1 pl-4">
-                  <div className="border-b-[1.5px] border-[#333] h-10 w-full mb-1 flex items-end justify-center pb-1 font-medium text-[17px] text-[#222]">
+                <div className="flex flex-col flex-[1.5] pl-6 border-l-[2px] border-[#333] ml-4">
+                  <div className="border-b-[2px] border-[#333] h-10 w-full mb-1 flex items-end justify-center pb-1 font-medium text-[18px] text-[#222]">
                     {receivedBy.date}
                   </div>
-                  <span className="font-bold text-[15px] text-[#111] mt-1">DATE:</span>
+                  <span className="font-bold text-[16px] text-[#111] mt-1 uppercase">DATE:</span>
                 </div>
               </div>
             </div>
 
             {/* Footer with Corner Vectors */}
             <div className="mt-auto relative overflow-hidden bg-white z-0 w-full">
-              <div className="absolute bottom-0 right-0 w-80 h-40 overflow-hidden pointer-events-none rotate-180 z-0">
-                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-95 transform -translate-x-8 -translate-y-8">
-                  <path fill="#222" d="M0,0 L200,0 C150,50 100,100 0,200 Z" />
-                  <path fill="#C5A059" d="M0,0 L180,0 C130,40 80,80 0,180 Z" />
-                  <path fill="#111" d="M0,0 L140,0 C90,30 50,60 0,140 Z" />
-                  <path fill="none" stroke="#C5A059" strokeWidth="1.5" d="M0,20 L160,20 C110,60 60,100 0,160" />
-                  <path fill="none" stroke="#C5A059" strokeWidth="0.8" d="M0,40 L120,40 C80,70 40,100 0,120" />
-                </svg>
+              <div className="absolute bottom-0 right-0 w-96 h-96 overflow-hidden pointer-events-none z-0">
+                <img src={bottomRightCorner} alt="Bottom Right Corner" className="w-full h-full object-cover transform scale-110 origin-bottom-right" onError={(e) => { e.target.style.display = 'none'; }} />
               </div>
               
-              <div className="border-t-[3px] border-[#C5A059] relative z-10 w-[90%] mx-auto py-5 text-center pb-8">
-                <h3 className="text-[15px] font-black text-[#111] mb-1">ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</h3>
-                <p className="text-[13px] text-[#333] leading-relaxed">
+              <div className="border-t-[3px] border-[#C5A059] relative z-10 w-[90%] mx-auto py-5 text-center pb-8 bg-white/70 backdrop-blur-[2px]">
+                <h3 className="text-[16px] font-black text-[#111] mb-1">ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</h3>
+                <p className="text-[14px] font-medium text-[#333] leading-relaxed">
                   Address: Office 201, Lion Tower, Salam Street, Abu Dhabi, UAE<br/>
                   Tel: +971-2-1234567 | Email: info@accesslion.ae<br/>
                   TRN (VAT No): 100345678900003

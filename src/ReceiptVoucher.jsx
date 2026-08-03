@@ -395,15 +395,9 @@ export default function ReceiptVoucher() {
                   <span className="font-bold text-[14px] text-[#111]">Voucher No:</span>
                   <div className="pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide">{voucherNo}</div>
                 </div>
-                <div className="flex gap-2 items-end w-[25%]">
+                <div className="flex gap-2 items-end w-[35%]">
                   <span className="font-bold text-[14px] text-[#111]">Date:</span>
-                  <div className="pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide text-center">{date}</div>
-                </div>
-                <div className="flex flex-col items-end w-[35%]">
-                  <div className="font-bold text-[12px] text-[#111] mb-1.5 w-full text-left uppercase">Amount (AED):</div>
-                  <div className="flex bg-white w-fit border-[1.5px] border-[#222] p-[1px]">
-                    {renderAmountBoxes()}
-                  </div>
+                  <div className="pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide text-right">{date}</div>
                 </div>
               </div>
 
@@ -411,7 +405,7 @@ export default function ReceiptVoucher() {
               <div className="flex-1 space-y-5 mt-4 px-1">
                 {fields.map((field) => (
                   <div key={field.id} className="relative flex items-end">
-                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
+                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                       {field.label}:
                     </span>
                     <div className={`flex-1 ${field.value ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 relative leading-relaxed`}>
@@ -439,7 +433,7 @@ export default function ReceiptVoucher() {
                 </div>
                 
                 <div className="relative flex items-end pt-2">
-                  <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
+                  <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                     AMOUNT (Figures):
                   </span>
                   <div className={`flex-1 ${amount && amount !== '0.00' ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-bold px-2 leading-relaxed`}>
@@ -470,7 +464,7 @@ export default function ReceiptVoucher() {
                 </div>
 
                 <div className="relative flex items-end pt-3">
-                  <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
+                  <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                     BANK NAME:
                   </span>
                   <div className={`flex-1 ${bankDetails.bankName ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
@@ -480,7 +474,7 @@ export default function ReceiptVoucher() {
                 
                 <div className="relative flex justify-between items-end gap-10 pt-3">
                   <div className="flex-[3] flex items-end">
-                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
+                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                       CHEQUE/REF. NO:
                     </span>
                     <div className={`flex-1 ${bankDetails.chequeNo ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
@@ -488,7 +482,7 @@ export default function ReceiptVoucher() {
                     </div>
                   </div>
                   <div className="flex-[2] flex items-end">
-                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
+                    <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                       DATE:
                     </span>
                     <div className={`flex-1 ${bankDetails.date ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed text-center`}>

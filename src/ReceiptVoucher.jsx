@@ -532,8 +532,8 @@ export default function ReceiptVoucher() {
               <div className="relative z-10 w-[85%] mx-auto mb-[50px] pt-3 border-t-[2px] border-[#C5A059] text-center bg-transparent">
                 <h3 className="text-[11px] font-black text-[#111] mb-0.5 tracking-wider">ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</h3>
                 <p className="text-[9px] font-bold text-[#222] leading-relaxed uppercase tracking-widest">
-                  Office 201, Lion Tower, Salam Street, Abu Dhabi, UAE<br/>
-                  Tel: +971-2-1234567 | Email: info@accesslion.ae | TRN: 100345678900003
+                  Government of Abu Dhabi, Building 196, Plot 19, Madinat Zayed East, Madinat Zayed, Abu Dhabi, United Arab Emirates<br/>
+                  Phone +971542811111 | TRN: 100227450200003
                 </p>
               </div>
             </div>

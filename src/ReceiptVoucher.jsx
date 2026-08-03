@@ -365,9 +365,7 @@ export default function ReceiptVoucher() {
             </div>
 
             {/* Corner Vectors (Top Left) */}
-            <div className="absolute top-0 left-0 w-80 h-80 overflow-hidden z-0 pointer-events-none">
-              <img src={topLeftCorner} alt="Top Left Corner" className="w-full h-full object-cover transform scale-110 origin-top-left" onError={(e) => { e.target.style.display = 'none'; }} />
-            </div>
+            <img src={topLeftCorner} alt="Top Left Corner" className="absolute top-0 left-0 w-80 max-w-[40%] object-contain pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
 
             <div className="flex flex-col flex-1 p-10 pt-16 print:p-10 z-10 h-full relative">
               
@@ -517,10 +515,8 @@ export default function ReceiptVoucher() {
             </div>
 
             {/* Footer with Corner Vectors */}
-            <div className="mt-auto relative overflow-hidden bg-white z-0 w-full">
-              <div className="absolute bottom-0 right-0 w-96 h-96 overflow-hidden pointer-events-none z-0">
-                <img src={bottomRightCorner} alt="Bottom Right Corner" className="w-full h-full object-cover transform scale-110 origin-bottom-right" onError={(e) => { e.target.style.display = 'none'; }} />
-              </div>
+            <div className="mt-auto relative bg-white z-0 w-full">
+              <img src={bottomRightCorner} alt="Bottom Right Corner" className="absolute bottom-0 right-0 w-96 max-w-[50%] object-contain pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
               
               <div className="border-t-[3px] border-[#C5A059] relative z-10 w-[90%] mx-auto py-5 text-center pb-8 bg-white/70 backdrop-blur-[2px]">
                 <h3 className="text-[16px] font-black text-[#111] mb-1">ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</h3>

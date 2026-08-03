@@ -191,7 +191,7 @@ export default function ReceiptVoucher() {
       <header className="no-print bg-slate-950 border-b border-slate-800 px-6 py-4 sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-amber-500 font-bold text-lg tracking-widest uppercase">
-            <Receipt className="w-6 h-6" /> Receipt Voucher Builder
+            <Receipt className="w-6 h-6" /> Payment Voucher Builder
           </div>
 
           <div className="flex items-center gap-3">
@@ -380,7 +380,7 @@ export default function ReceiptVoucher() {
                 </div>
                 
                 <div className="flex flex-col items-stretch">
-                  <h2 className="text-[52px] font-black text-[#205178] tracking-tight leading-none uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>RECEIPT</h2>
+                  <h2 className="text-[52px] font-black text-[#205178] tracking-tight leading-none uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>PAYMENT</h2>
                   <h2 className="text-[28px] font-black text-[#111] leading-none uppercase flex justify-between w-full" style={{ fontFamily: 'Arial Black, sans-serif' }}>
                     {'VOUCHER'.split('').map((char, index) => (
                       <span key={index}>{char}</span>

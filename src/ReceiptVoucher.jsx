@@ -493,28 +493,30 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Signatures */}
-              <div className="mt-8 mb-0 flex justify-between gap-12 px-4">
-                <div className="flex flex-col flex-[2.5]">
-                  <div className="border-b-[1.5px] border-[#222] h-12 w-full mb-2 relative">
-                    <div className="absolute -bottom-5 left-0 right-0 text-center">
-                      <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider">(Authorized Signature & Stamp)</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center mt-6">
-                    <span className="font-bold text-[16px] text-[#111] uppercase tracking-widest">RECEIVED BY</span>
-                  </div>
-                </div>
+              <div className="mt-8 mb-0 flex justify-between gap-8 px-2">
                 <div className="flex flex-col flex-[1.5] relative pt-1">
+                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
+                  </div>
+                  <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">PREPARED BY</span>
+                </div>
+                
+                <div className="flex flex-col flex-[2] relative pt-1">
                   <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                     {receivedBy.name}
                   </div>
-                  <span className="font-bold text-[13px] text-[#111] mt-1 uppercase text-center tracking-widest">NAME</span>
+                  <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">NAME</span>
                 </div>
+
+                <div className="flex flex-col flex-[2.5] relative pt-1">
+                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
+                  </div>
+                  <span className="text-[11px] font-bold text-[#555] mt-1 uppercase text-center tracking-wider">(Authorized Signature & Stamp)</span>
+                </div>
+
                 <div className="flex flex-col flex-[1.5] relative pt-1">
                   <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
-                    {receivedBy.date}
                   </div>
-                  <span className="font-bold text-[13px] text-[#111] mt-1 uppercase text-center tracking-widest">DATE</span>
+                  <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">RECEIVED BY</span>
                 </div>
               </div>
             </div>
@@ -526,7 +528,7 @@ export default function ReceiptVoucher() {
               <div className="relative z-10 w-[85%] mx-auto mb-[50px] pt-3 border-t-[2px] border-[#C5A059] text-center bg-transparent">
                 <h3 className="text-[11px] font-black text-[#111] mb-0.5 tracking-wider">ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</h3>
                 <p className="text-[9px] font-bold text-[#222] leading-relaxed uppercase tracking-widest">
-                  Government of Abu Dhabi, Building 196, Plot 19, Madinat Zayed East, Madinat Zayed, Abu Dhabi, United Arab Emirates<br/>
+                  P.O Box: 58914, Al Dhafra Region, Zayed City, Abu Dhabi, United Arab Emirates<br/>
                   Phone +971542811111 | TRN: 100227450200003
                 </p>
               </div>

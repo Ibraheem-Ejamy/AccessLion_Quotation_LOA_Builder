@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Printer, CarFront, Truck, Bus, Users, FileText } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Printer, CarFront, Truck, Bus, Users, FileText, Download, Upload, Plus, Trash2 } from 'lucide-react';
 
 // Use the newly attached logo and diagrams by importing them here.
 import newLogo from './assets/AL_Logo_Gold.png'; 
@@ -11,23 +11,30 @@ export default function VehicleReceptionReport() {
   const [vehicleType, setVehicleType] = useState('light');
   const [activeTab, setActiveTab] = useState('vehicle');
 
-  const [vehicleInfo, setVehicleInfo] = useState({
-    plateNo: '',
-    chassisNo: '',
-    brand: '',
-    model: '',
-    color: '',
-    year: '',
-    owner: '',
-    odometer: ''
-  });
+  const [vehicleFields, setVehicleFields] = useState([
+    { id: '1', label: 'Plate No.', value: '' },
+    { id: '2', label: 'Chassis No.', value: '' },
+    { id: '3', label: 'Make / Brand', value: '' },
+    { id: '4', label: 'Model', value: '' },
+    { id: '5', label: 'Color', value: '' },
+    { id: '6', label: 'Year', value: '' },
+    { id: '7', label: 'Owner', value: '' },
+    { id: '8', label: 'Odometer (Out)', value: '' }
+  ]);
 
-  const [driverInfo, setDriverInfo] = useState({
-    fullName: '',
-    companyName: '',
-    companyLicense: '',
-    expiryDate: ''
-  });
+  const [driverFields, setDriverFields] = useState([
+    { id: '1', label: 'Full Name', value: '' },
+    { id: '2', label: 'Company Name', value: '' },
+    { id: '3', label: 'Company License', value: '' },
+    { id: '4', label: 'Expiry Date', value: '' }
+  ]);
+  const fileInputRef = useRef(null);
+  const [statusMessage, setStatusMessage] = useState(null);
+
+  const showToast = (text, type = "success") => {
+    setStatusMessage({ text, type });
+    setTimeout(() => setStatusMessage(null), 4000);
+  };
 
   const [receiptDate, setReceiptDate] = useState('');
   const [remarks, setRemarks] = useState('');
@@ -42,6 +49,67 @@ export default function VehicleReceptionReport() {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const exportConfiguration = () => {
+    const config = {
+      vehicleType,
+      vehicleFields,
+      driverFields,
+      receiptDate,
+      remarks
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    
+    // Find plate no if exists for the filename
+    const plateField = vehicleFields.find(f => f.label.toLowerCase().includes('plate'));
+    const plateName = plateField && plateField.value ? plateField.value : 'Draft';
+    
+    downloadAnchor.setAttribute("download", `VehicleReception_${plateName}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    showToast("Draft exported successfully!");
+  };
+
+  const importConfiguration = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const parsed = JSON.parse(event.target.result);
+        if (parsed.vehicleType) setVehicleType(parsed.vehicleType);
+        
+        if (parsed.vehicleFields) {
+          setVehicleFields(parsed.vehicleFields);
+        } else if (parsed.vehicleInfo) {
+          // Backwards compatibility for old drafts
+          setVehicleFields([
+            { id: '1', label: 'Plate No.', value: parsed.vehicleInfo.plateNo || '' },
+            { id: '2', label: 'Chassis No.', value: parsed.vehicleInfo.chassisNo || '' },
+            { id: '3', label: 'Make / Brand', value: parsed.vehicleInfo.brand || '' },
+            { id: '4', label: 'Model', value: parsed.vehicleInfo.model || '' },
+            { id: '5', label: 'Color', value: parsed.vehicleInfo.color || '' },
+            { id: '6', label: 'Year', value: parsed.vehicleInfo.year || '' },
+            { id: '7', label: 'Owner', value: parsed.vehicleInfo.owner || '' },
+            { id: '8', label: 'Odometer (Out)', value: parsed.vehicleInfo.odometer || '' }
+          ]);
+        }
+        
+        if (parsed.driverFields) setDriverFields(parsed.driverFields);
+        if (parsed.receiptDate !== undefined) setReceiptDate(parsed.receiptDate);
+        if (parsed.remarks !== undefined) setRemarks(parsed.remarks);
+        showToast("Draft loaded successfully!");
+      } catch {
+        showToast("Invalid JSON structure.", "error");
+      }
+    };
+    reader.readAsText(file);
+    // reset input
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   return (
@@ -111,13 +179,36 @@ export default function VehicleReceptionReport() {
             ))}
           </div>
 
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-2 bg-[#c5a059] hover:bg-[#b08d4a] text-black font-bold px-5 py-2.5 rounded-lg transition-colors shadow-lg"
-          >
-            <Printer className="w-5 h-5" />
-            <span>Print Document</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={importConfiguration}
+              accept=".json"
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2.5 rounded-lg transition-colors shadow-sm"
+            >
+              <Upload className="w-5 h-5" />
+              <span className="hidden sm:inline">Import</span>
+            </button>
+            <button
+              onClick={exportConfiguration}
+              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2.5 rounded-lg transition-colors shadow-sm"
+            >
+              <Download className="w-5 h-5" />
+              <span className="hidden sm:inline">Export</span>
+            </button>
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 bg-[#c5a059] hover:bg-[#b08d4a] text-black font-bold px-5 py-2.5 rounded-lg transition-colors shadow-lg"
+            >
+              <Printer className="w-5 h-5" />
+              <span>Print Document</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -152,64 +243,104 @@ export default function VehicleReceptionReport() {
 
           {activeTab === 'vehicle' && (
             <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
-              <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2 border-b border-slate-800 pb-2">Vehicle Details</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Plate No.</label>
-                  <input type="text" value={vehicleInfo.plateNo} onChange={(e) => setVehicleInfo({...vehicleInfo, plateNo: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Plate No." />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Chassis No.</label>
-                  <input type="text" value={vehicleInfo.chassisNo} onChange={(e) => setVehicleInfo({...vehicleInfo, chassisNo: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Chassis No." />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Make / Brand</label>
-                  <input type="text" value={vehicleInfo.brand} onChange={(e) => setVehicleInfo({...vehicleInfo, brand: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Make / Brand" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Model</label>
-                  <input type="text" value={vehicleInfo.model} onChange={(e) => setVehicleInfo({...vehicleInfo, model: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Model" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Color</label>
-                  <input type="text" value={vehicleInfo.color} onChange={(e) => setVehicleInfo({...vehicleInfo, color: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Color" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Year</label>
-                  <input type="text" value={vehicleInfo.year} onChange={(e) => setVehicleInfo({...vehicleInfo, year: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Year" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Owner</label>
-                  <input type="text" value={vehicleInfo.owner} onChange={(e) => setVehicleInfo({...vehicleInfo, owner: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Owner" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Odometer (Out)</label>
-                  <input type="text" value={vehicleInfo.odometer} onChange={(e) => setVehicleInfo({...vehicleInfo, odometer: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Odometer" />
-                </div>
+              <div className="flex justify-between items-center mb-2 border-b border-slate-800 pb-2">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Vehicle Details</h3>
+                <button
+                  onClick={() => setVehicleFields([...vehicleFields, { id: Date.now().toString(), label: 'New Field', value: '' }])}
+                  className="flex items-center gap-1 text-xs text-[#c5a059] hover:text-[#b08d4a] transition-colors font-bold"
+                >
+                  <Plus className="w-4 h-4" /> Add Field
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {vehicleFields.map((field, index) => (
+                  <div key={field.id} className="flex gap-2 items-start">
+                    <div className="w-2/5 space-y-1">
+                      <input
+                        type="text"
+                        value={field.label}
+                        onChange={(e) => {
+                          const next = [...vehicleFields];
+                          next[index].label = e.target.value;
+                          setVehicleFields(next);
+                        }}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-sm text-[#c5a059] font-semibold focus:outline-none focus:border-[#c5a059]"
+                        placeholder="Label"
+                      />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <input
+                        type="text"
+                        value={field.value}
+                        onChange={(e) => {
+                          const next = [...vehicleFields];
+                          next[index].value = e.target.value;
+                          setVehicleFields(next);
+                        }}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]"
+                        placeholder="Value"
+                      />
+                    </div>
+                    <button
+                      onClick={() => setVehicleFields(vehicleFields.filter((_, i) => i !== index))}
+                      className="mt-1 p-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
           {activeTab === 'driver' && (
             <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
-              <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2 border-b border-slate-800 pb-2">Driver Details</h3>
+              <div className="flex justify-between items-center mb-2 border-b border-slate-800 pb-2">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Driver Details</h3>
+                <button
+                  onClick={() => setDriverFields([...driverFields, { id: Date.now().toString(), label: 'New Field', value: '' }])}
+                  className="flex items-center gap-1 text-xs text-[#c5a059] hover:text-[#b08d4a] transition-colors font-bold"
+                >
+                  <Plus className="w-4 h-4" /> Add Field
+                </button>
+              </div>
               <div className="space-y-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Full Name</label>
-                  <input type="text" value={driverInfo.fullName} onChange={(e) => setDriverInfo({...driverInfo, fullName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Full Name" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Company Name</label>
-                  <input type="text" value={driverInfo.companyName} onChange={(e) => setDriverInfo({...driverInfo, companyName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Company Name" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Company License</label>
-                  <input type="text" value={driverInfo.companyLicense} onChange={(e) => setDriverInfo({...driverInfo, companyLicense: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Company License" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Expiry Date</label>
-                  <input type="text" value={driverInfo.expiryDate} onChange={(e) => setDriverInfo({...driverInfo, expiryDate: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Expiry Date" />
-                </div>
+                {driverFields.map((field, index) => (
+                  <div key={field.id} className="flex gap-2 items-start">
+                    <div className="w-1/3 space-y-1">
+                      <input
+                        type="text"
+                        value={field.label}
+                        onChange={(e) => {
+                          const next = [...driverFields];
+                          next[index].label = e.target.value;
+                          setDriverFields(next);
+                        }}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-[#c5a059] font-semibold focus:outline-none focus:border-[#c5a059]"
+                        placeholder="Label"
+                      />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <input
+                        type="text"
+                        value={field.value}
+                        onChange={(e) => {
+                          const next = [...driverFields];
+                          next[index].value = e.target.value;
+                          setDriverFields(next);
+                        }}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]"
+                        placeholder="Value"
+                      />
+                    </div>
+                    <button
+                      onClick={() => setDriverFields(driverFields.filter((_, i) => i !== index))}
+                      className="mt-1 p-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -261,30 +392,36 @@ export default function VehicleReceptionReport() {
                 </div>
                 <table className="w-full border-collapse border border-[#e5e5e5]">
                   <tbody>
-                    <tr>
-                      <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Plate No.</td>
-                      <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.plateNo}</td>
-                      <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Chassis No.</td>
-                      <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.chassisNo}</td>
-                    </tr>
-                    <tr>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Make / Brand</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.brand}</td>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Model</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.model}</td>
-                    </tr>
-                    <tr>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Color</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.color}</td>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Year</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.year}</td>
-                    </tr>
-                    <tr>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Owner</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.owner}</td>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Odometer (Out)</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{vehicleInfo.odometer}</td>
-                    </tr>
+                    {Array.from({ length: Math.ceil(vehicleFields.length / 2) }).map((_, rowIndex) => {
+                      const field1 = vehicleFields[rowIndex * 2];
+                      const field2 = vehicleFields[rowIndex * 2 + 1];
+                      return (
+                        <tr key={rowIndex}>
+                          {field1 ? (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">{field1.label}</td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{field1.value}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle"></td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 h-6"></td>
+                            </>
+                          )}
+                          {field2 ? (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">{field2.label}</td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{field2.value}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle"></td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 h-6"></td>
+                            </>
+                          )}
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -296,18 +433,36 @@ export default function VehicleReceptionReport() {
                 </div>
                 <table className="w-full border-collapse border border-[#e5e5e5]">
                   <tbody>
-                    <tr>
-                      <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Full Name</td>
-                      <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{driverInfo.fullName}</td>
-                      <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Company Name</td>
-                      <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{driverInfo.companyName}</td>
-                    </tr>
-                    <tr>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Company License</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{driverInfo.companyLicense}</td>
-                      <td className="bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">Expiry Date</td>
-                      <td className="border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{driverInfo.expiryDate}</td>
-                    </tr>
+                    {Array.from({ length: Math.ceil(driverFields.length / 2) }).map((_, rowIndex) => {
+                      const field1 = driverFields[rowIndex * 2];
+                      const field2 = driverFields[rowIndex * 2 + 1];
+                      return (
+                        <tr key={rowIndex}>
+                          {field1 ? (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">{field1.label}</td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{field1.value}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle"></td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 h-6"></td>
+                            </>
+                          )}
+                          {field2 ? (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle">{field2.label}</td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 font-semibold text-[#333] h-6">{field2.value}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="w-1/4 bg-[#f4f2eb] border border-[#e5e5e5] p-1 px-2 font-bold text-[#111] align-middle"></td>
+                              <td className="w-1/4 border border-[#e5e5e5] p-1 h-6"></td>
+                            </>
+                          )}
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -438,6 +593,12 @@ export default function VehicleReceptionReport() {
           </div>
         </section>
       </main>
+      {/* Toast Notification */}
+      {statusMessage && (
+        <div className={`fixed bottom-6 right-6 px-6 py-3 rounded-lg shadow-2xl z-[100] border font-semibold flex items-center gap-2 transform transition-all duration-300 ${statusMessage.type === 'error' ? 'bg-red-500/90 text-white border-red-400' : 'bg-[#c5a059]/90 text-black border-[#b08d4a]'}`}>
+          {statusMessage.text}
+        </div>
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { LayoutDashboard, FileSignature, ClipboardCheck } from 'lucide-react';
 import QuotationBuilder from './QuotationBuilder';
 import LOABuilder from './LOABuilder';
 import VehicleReceptionReport from './VehicleReceptionReport';
+import ReceiptVoucher from './ReceiptVoucher';
 import alLogo from './assets/AL_Logo.png';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
             <div className="text-amber-500 font-bold text-lg md:text-xl tracking-widest uppercase">
               {activeTab === 'quotation' ? 'Access Lion Quotation Builder' : 
                activeTab === 'loa' ? 'Access Lion LOA Builder' : 
+               activeTab === 'receipt' ? 'Access Lion Receipt Voucher' :
                'Access Lion Vehicle Reception'}
             </div>
           </div>
@@ -52,6 +54,16 @@ export default function App() {
               <ClipboardCheck className="w-4 h-4" />
               Vehicle Reception
             </button>
+            <button
+              onClick={() => setActiveTab('receipt')}
+              className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold text-sm transition-all ${activeTab === 'receipt'
+                  ? 'bg-amber-500 text-slate-950 shadow-md'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                }`}
+            >
+              <ClipboardCheck className="w-4 h-4" />
+              Receipt Voucher
+            </button>
           </div>
         </div>
       </div>
@@ -60,6 +72,7 @@ export default function App() {
       <div className="flex-1 w-full">
         {activeTab === 'quotation' ? <QuotationBuilder /> : 
          activeTab === 'loa' ? <LOABuilder /> : 
+         activeTab === 'receipt' ? <ReceiptVoucher /> : 
          <VehicleReceptionReport />}
       </div>
     </div>

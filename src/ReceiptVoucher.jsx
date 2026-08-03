@@ -162,21 +162,22 @@ export default function ReceiptVoucher() {
           }
           @page {
             size: A4 portrait;
-            margin: 0 !important;
+            margin: 0;
           }
           .print-a4-strict {
             width: 794px !important;
-            height: 1122px !important;
+            height: 1123px !important;
             max-width: 794px !important;
-            max-height: 1122px !important;
+            max-height: 1123px !important;
+            min-width: 794px !important;
+            min-height: 1123px !important;
             overflow: hidden !important;
             box-sizing: border-box !important;
-            margin: 0 auto !important;
             padding: 0 !important;
             page-break-after: avoid !important;
             page-break-inside: avoid !important;
-            transform: scale(0.98) !important;
-            transform-origin: top center !important;
+            margin: 0 auto !important;
+            position: relative !important;
           }
           input[type="checkbox"] {
             accent-color: #c5a059 !important;
@@ -359,8 +360,8 @@ export default function ReceiptVoucher() {
         </section>
 
         {/* RIGHT COLUMN: THE DOCUMENT CONTAINER */}
-        <section className="lg:col-span-7 flex flex-col items-center justify-start w-full">
-          <div className="w-[794px] max-w-full bg-white text-black shadow-2xl overflow-hidden flex flex-col print:border-none print:shadow-none h-[1122px] min-h-[1122px] relative font-[Arial,sans-serif] print-a4-strict mx-auto">
+        <section className="lg:col-span-7 flex flex-col items-center justify-start">
+          <div className="w-[794px] h-[1123px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print:border-none print:shadow-none relative font-[Arial,sans-serif] print-a4-strict">
             
             {/* Watermark Background */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
@@ -370,7 +371,7 @@ export default function ReceiptVoucher() {
             {/* Corner Vectors (Top Left) */}
             <img src={topLeftCorner} alt="Top Left Corner" className="absolute top-0 left-0 w-80 max-w-[40%] object-contain pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
 
-            <div className="flex flex-col flex-1 px-12 pt-16 pb-8 z-10 h-full relative">
+            <div className="flex flex-col flex-1 px-12 pt-16 pb-[180px] print:px-12 print:pt-16 print:pb-[180px] z-10 h-full relative">
               
               {/* Header */}
               <div className="flex items-center justify-between mb-8 pl-[70px] pr-4 relative z-10">
@@ -525,7 +526,7 @@ export default function ReceiptVoucher() {
             </div>
 
             {/* Footer with Corner Vectors */}
-            <div className="mt-auto relative bg-transparent z-0 w-full h-[160px] flex flex-col justify-end overflow-hidden">
+            <div className="absolute bottom-0 left-0 right-0 bg-transparent z-0 w-full h-[160px] flex flex-col justify-end overflow-hidden pointer-events-none">
               <img src={bottomRightCorner} alt="Bottom Right Corner" className="absolute bottom-0 left-0 w-full h-auto object-cover pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
               
               <div className="relative z-10 w-[85%] mx-auto mb-[50px] pt-3 border-t-[2px] border-[#C5A059] text-center bg-transparent">

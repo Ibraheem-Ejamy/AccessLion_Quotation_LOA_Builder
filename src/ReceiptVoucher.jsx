@@ -493,14 +493,14 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Signatures */}
-              <div className="mt-8 mb-0 flex justify-between gap-12 px-4">
-                <div className="flex flex-col flex-[1.5] relative pt-1">
+              <div className="mt-8 mb-0 flex items-start justify-between gap-12 px-4">
+                <div className="flex flex-col flex-[1.5]">
                   <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                   </div>
                   <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">PREPARED BY</span>
                 </div>
                 
-                <div className="flex flex-col flex-[2] relative pt-1">
+                <div className="flex flex-col flex-[2]">
                   <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                     {receivedBy.name}
                   </div>
@@ -508,13 +508,11 @@ export default function ReceiptVoucher() {
                 </div>
 
                 <div className="flex flex-col flex-[2.5]">
-                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-2 relative">
-                    <div className="absolute -bottom-5 left-0 right-0 text-center">
-                      <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider">(Authorized Signature & Stamp)</span>
-                    </div>
+                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                   </div>
-                  <div className="flex items-center justify-center mt-5">
-                    <span className="font-bold text-[12px] text-[#111] uppercase tracking-widest">RECEIVED BY</span>
+                  <div className="flex flex-col items-center mt-1 space-y-1">
+                    <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider">(Authorized Signature & Stamp)</span>
+                    <span className="font-bold text-[12px] text-[#111] uppercase tracking-widest pt-2">RECEIVED BY</span>
                   </div>
                 </div>
               </div>

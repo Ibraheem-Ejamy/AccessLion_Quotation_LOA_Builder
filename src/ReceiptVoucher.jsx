@@ -162,18 +162,21 @@ export default function ReceiptVoucher() {
           }
           @page {
             size: A4 portrait;
-            margin: 0;
+            margin: 0 !important;
           }
           .print-a4-strict {
-            width: 210mm !important;
-            height: 296mm !important;
-            max-height: 296mm !important;
+            width: 794px !important;
+            height: 1122px !important;
+            max-width: 794px !important;
+            max-height: 1122px !important;
             overflow: hidden !important;
             box-sizing: border-box !important;
+            margin: 0 auto !important;
             padding: 0 !important;
             page-break-after: avoid !important;
             page-break-inside: avoid !important;
-            margin: 0 !important;
+            transform: scale(0.98) !important;
+            transform-origin: top center !important;
           }
           input[type="checkbox"] {
             accent-color: #c5a059 !important;
@@ -356,8 +359,8 @@ export default function ReceiptVoucher() {
         </section>
 
         {/* RIGHT COLUMN: THE DOCUMENT CONTAINER */}
-        <section className="lg:col-span-7 flex flex-col items-center justify-start print-full-width">
-          <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1123px] print:min-h-0 relative font-[Arial,sans-serif] print-a4-strict">
+        <section className="lg:col-span-7 flex flex-col items-center justify-start w-full">
+          <div className="w-[794px] max-w-full bg-white text-black shadow-2xl overflow-hidden flex flex-col print:border-none print:shadow-none h-[1122px] min-h-[1122px] relative font-[Arial,sans-serif] print-a4-strict mx-auto">
             
             {/* Watermark Background */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
@@ -367,7 +370,7 @@ export default function ReceiptVoucher() {
             {/* Corner Vectors (Top Left) */}
             <img src={topLeftCorner} alt="Top Left Corner" className="absolute top-0 left-0 w-80 max-w-[40%] object-contain pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
 
-            <div className="flex flex-col flex-1 px-12 pt-16 pb-8 print:p-10 z-10 h-full relative">
+            <div className="flex flex-col flex-1 px-12 pt-16 pb-8 z-10 h-full relative">
               
               {/* Header */}
               <div className="flex items-center justify-between mb-8 pl-[70px] pr-4 relative z-10">

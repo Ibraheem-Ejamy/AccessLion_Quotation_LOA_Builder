@@ -6,7 +6,9 @@ import watermark from './assets/receipt_watermark.png';
 import headerLogo from './assets/receipt_header_logo.png';
 
 export default function ReceiptVoucher() {
-  const [voucherNo, setVoucherNo] = useState('AL-0123');
+  const [voucherNo, setVoucherNo] = useState(() => {
+    return localStorage.getItem('lastVoucherNo') || '01';
+  });
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
   
@@ -46,6 +48,23 @@ export default function ReceiptVoucher() {
 
   const handlePrint = () => {
     window.print();
+    
+    // Auto increment after print dialog is opened
+    if (voucherNo) {
+      const match = voucherNo.match(/^(.*?)(\d+)(.*)$/);
+      if (match) {
+        const prefix = match[1];
+        const numStr = match[2];
+        const suffix = match[3];
+        const nextNum = (parseInt(numStr, 10) + 1).toString().padStart(numStr.length, '0');
+        const nextVoucherNo = `${prefix}${nextNum}${suffix}`;
+        
+        localStorage.setItem('lastVoucherNo', nextVoucherNo);
+        setTimeout(() => {
+          setVoucherNo(nextVoucherNo);
+        }, 1500);
+      }
+    }
   };
 
   const exportConfiguration = () => {

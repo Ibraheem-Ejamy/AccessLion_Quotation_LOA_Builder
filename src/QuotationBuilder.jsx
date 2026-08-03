@@ -131,7 +131,13 @@ export default function QuotationBuilder() {
   // --- STATE ---
   const [companyInfo, setCompanyInfo] = useState(initialCompanyInfo);
   const [clientInfo, setClientInfo] = useState(initialClientInfo);
-  const [quoteInfo, setQuoteInfo] = useState(initialQuoteInfo);
+  const [quoteInfo, setQuoteInfo] = useState(() => {
+    const saved = localStorage.getItem('lastQuotationNo');
+    return {
+      ...initialQuoteInfo,
+      quoteNo: saved || "QUO 011/26"
+    };
+  });
   const [items, setItems] = useState(initialItems);
   const [rentalTerms, setRentalTerms] = useState(initialRentalTerms);
   const [generalTerms, setGeneralTerms] = useState(initialGeneralTerms);
@@ -425,6 +431,24 @@ export default function QuotationBuilder() {
 
       const filename = quoteInfo.quoteNo ? `Quotation_${quoteInfo.quoteNo.replace(/\//g, '_')}.pdf` : 'Quotation.pdf';
       pdf.save(filename);
+      
+      // Auto-increment quotation number after successful download
+      if (quoteInfo.quoteNo) {
+        const match = quoteInfo.quoteNo.match(/^(.*?)(\d+)(.*)$/);
+        if (match) {
+          const prefix = match[1];
+          const numStr = match[2];
+          const suffix = match[3];
+          const nextNum = (parseInt(numStr, 10) + 1).toString().padStart(numStr.length, '0');
+          const nextQuoteNo = `${prefix}${nextNum}${suffix}`;
+          
+          localStorage.setItem('lastQuotationNo', nextQuoteNo);
+          // Wait briefly to allow the download to finish before updating UI
+          setTimeout(() => {
+            setQuoteInfo(prev => ({ ...prev, quoteNo: nextQuoteNo }));
+          }, 1500);
+        }
+      }
     } catch (err) {
       console.error("PDF generation failed:", err);
       showToast("Failed to generate PDF. Falling back to print.", "error");

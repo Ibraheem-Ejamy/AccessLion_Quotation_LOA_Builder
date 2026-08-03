@@ -2,14 +2,32 @@ import { useState, useRef } from 'react';
 import { Printer, Download, Upload, Plus, Trash2, Receipt } from 'lucide-react';
 import topLeftCorner from './assets/receipt_top_left.png';
 import bottomRightCorner from './assets/receipt_bottom_right.png';
-import watermark from './assets/receipt_watermark.png';
-import headerLogo from './assets/receipt_header_logo.png';
-
 const formatDisplayDate = (dateString) => {
   if (!dateString) return '';
   const [year, month, day] = dateString.split('-');
   if (!year || !month || !day) return dateString;
   return `${day}/${month}/${year}`;
+};
+
+const numberToWords = (num) => {
+  const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+  const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  const numStr = Math.floor(num).toString();
+  if (numStr.length > 9) return 'Amount Exceeded Limit';
+  let n = ('000000000' + numStr).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+  if (!n) return '';
+  let str = '';
+  str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+  str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+  str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+  str += (Number(n[4]) != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+  str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
+  
+  let decimals = Math.round((num - Math.floor(num)) * 100);
+  let decimalStr = decimals > 0 ? ` and ${decimals}/100` : '';
+
+  return str ? str.trim() + ' AED' + decimalStr + ' Only' : 'Zero AED';
 };
 
 export default function ReceiptVoucher() {
@@ -268,7 +286,23 @@ export default function ReceiptVoucher() {
               </div>
               <div className="space-y-1 col-span-2">
                 <label className="text-xs font-semibold text-slate-400">Amount (AED)</label>
-                <input type="text" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="e.g. 1500.00" />
+                <input 
+                  type="text" 
+                  value={amount} 
+                  onChange={(e) => {
+                    const newAmt = e.target.value;
+                    setAmount(newAmt);
+                    const num = parseFloat(newAmt.replace(/,/g, ''));
+                    if (!isNaN(num)) {
+                      const words = numberToWords(num);
+                      setFields(prev => prev.map(f => f.label === 'THE SUM OF (in words)' ? { ...f, value: words } : f));
+                    } else if (newAmt === '') {
+                      setFields(prev => prev.map(f => f.label === 'THE SUM OF (in words)' ? { ...f, value: '' } : f));
+                    }
+                  }} 
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" 
+                  placeholder="e.g. 1500.00" 
+                />
               </div>
             </div>
           </div>
@@ -443,15 +477,19 @@ export default function ReceiptVoucher() {
                       DESCRIPTION:
                     </span>
                     <div className="flex-1">
-                      <div className={`border-b-[1.5px] border-dashed ${description.split('\n')[0] ? 'border-transparent' : 'border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 break-all leading-relaxed`}>
-                        {description.split('\n')[0] || ''}
-                      </div>
+                      {description ? (
+                        <div className="min-h-[84px] text-[13px] text-[#222] font-semibold px-2 break-all leading-relaxed whitespace-pre-wrap">
+                          {description}
+                        </div>
+                      ) : (
+                        <>
+                          <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[28px] px-2"></div>
+                          <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[28px] px-2 mt-5"></div>
+                          <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[28px] px-2 mt-5"></div>
+                        </>
+                      )}
                     </div>
                   </div>
-                  <div className={`border-b-[1.5px] border-dashed ${description.split('\n').length > 1 && description.split('\n')[1] ? 'border-transparent' : 'border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 mt-5 leading-relaxed`}>
-                    {description.split('\n').length > 1 ? description.split('\n').slice(1).join(' ') : ''}
-                  </div>
-                  <div className={`border-b-[1.5px] border-dashed ${description.split('\n').length > 2 && description.split('\n')[2] ? 'border-transparent' : 'border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 mt-5 leading-relaxed`}></div>
                 </div>
                 
                 <div className="relative flex items-baseline pt-2">

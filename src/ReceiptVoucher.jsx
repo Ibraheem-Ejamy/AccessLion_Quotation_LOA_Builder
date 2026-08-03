@@ -367,123 +367,123 @@ export default function ReceiptVoucher() {
             {/* Corner Vectors (Top Left) */}
             <img src={topLeftCorner} alt="Top Left Corner" className="absolute top-0 left-0 w-80 max-w-[40%] object-contain pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
 
-            <div className="flex flex-col flex-1 p-10 pt-16 print:p-10 z-10 h-full relative">
+            <div className="flex flex-col flex-1 px-12 pt-16 pb-8 print:p-10 z-10 h-full relative">
               
               {/* Header */}
-              <div className="flex items-start justify-between mb-10 pl-[85px] pr-4 relative z-10">
-                <div className="flex flex-col items-center">
-                  <img src={headerLogo} alt="Access Lion Logo" className="h-32 w-auto object-contain drop-shadow-md" onError={(e) => { e.target.style.display = 'none'; }} />
+              <div className="flex items-center justify-between mb-8 pl-[70px] pr-4 relative z-10">
+                <div className="flex flex-col items-start">
+                  <img src={headerLogo} alt="Access Lion Logo" className="h-28 w-auto object-contain drop-shadow-sm" onError={(e) => { e.target.style.display = 'none'; }} />
                 </div>
                 
-                <div className="flex flex-col items-end mt-4">
-                  <h2 className="text-[44px] font-black text-[#205178] tracking-tight leading-none uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>RECEIPT</h2>
-                  <h2 className="text-[44px] font-black text-[#111] tracking-tight leading-none mt-1 uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>VOUCHER</h2>
+                <div className="flex flex-col items-end">
+                  <h2 className="text-[38px] font-black text-[#205178] tracking-widest leading-none uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>RECEIPT</h2>
+                  <h2 className="text-[38px] font-black text-[#111] tracking-widest leading-none mt-1 uppercase" style={{ fontFamily: 'Arial Black, sans-serif' }}>VOUCHER</h2>
                 </div>
               </div>
 
               {/* Voucher Info Row */}
-              <div className="flex justify-between items-end mb-10 px-2 font-[Arial,sans-serif]">
-                <div className="w-[30%]">
-                  <div className="font-bold text-[18px] text-[#111]">Voucher No:</div>
-                  <div className="text-[17px] text-[#222] mt-1 tracking-wide">{voucherNo}</div>
+              <div className="flex justify-between items-end mb-8 mt-2 px-1 font-[Arial,sans-serif]">
+                <div className="flex gap-2 items-end w-[35%]">
+                  <span className="font-bold text-[16px] text-[#111]">Voucher No:</span>
+                  <div className="border-b-[1.5px] border-[#222] pb-0.5 text-[16px] text-[#222] font-semibold flex-1 tracking-wide">{voucherNo}</div>
                 </div>
-                <div className="w-[30%] text-left pl-4">
-                  <div className="font-bold text-[18px] text-[#111]">Date:</div>
-                  <div className="text-[17px] text-[#222] mt-1 tracking-wide">{date}</div>
+                <div className="flex gap-2 items-end w-[25%]">
+                  <span className="font-bold text-[16px] text-[#111]">Date:</span>
+                  <div className="border-b-[1.5px] border-[#222] pb-0.5 text-[16px] text-[#222] font-semibold flex-1 tracking-wide text-center">{date}</div>
                 </div>
-                <div className="w-[40%] flex flex-col items-end">
-                  <div className="font-bold text-[18px] text-[#111] mb-1 w-full text-left">Amount (AED):</div>
-                  <div className="flex bg-white w-full">
+                <div className="flex flex-col items-end w-[35%]">
+                  <div className="font-bold text-[14px] text-[#111] mb-1.5 w-full text-left uppercase">Amount (AED):</div>
+                  <div className="flex bg-white w-full border-[1.5px] border-[#222] p-[1px]">
                     {renderAmountBoxes()}
                   </div>
                 </div>
               </div>
 
               {/* Dynamic Fields */}
-              <div className="flex-1 space-y-10 mt-2 px-2">
+              <div className="flex-1 space-y-8 mt-4 px-1">
                 {fields.map((field) => (
                   <div key={field.id} className="relative flex items-end">
-                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
+                    <span className="font-bold text-[15px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                       {field.label}:
                     </span>
-                    <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 relative leading-tight">
+                    <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[16px] text-[#222] font-semibold px-2 relative leading-relaxed">
                       {field.value}
                     </div>
                   </div>
                 ))}
                 
                 {/* Description Lines */}
-                <div className="relative pt-2">
+                <div className="relative pt-1">
                   <div className="flex items-start">
-                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 mt-1 uppercase">
+                    <span className="font-bold text-[15px] text-[#111] mr-3 shrink-0 mt-1 uppercase tracking-wide">
                       DESCRIPTION:
                     </span>
                     <div className="flex-1">
-                      <div className="border-b-[2px] border-[#333] min-h-[34px] text-[18px] text-[#222] font-medium px-2 break-all leading-tight">
+                      <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[30px] text-[16px] text-[#222] font-semibold px-2 break-all leading-relaxed">
                         {description.split('\n')[0] || ''}
                       </div>
                     </div>
                   </div>
-                  <div className="border-b-[2px] border-[#333] min-h-[34px] text-[18px] text-[#222] font-medium px-2 mt-6 leading-tight">
+                  <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[30px] text-[16px] text-[#222] font-semibold px-2 mt-7 leading-relaxed">
                     {description.split('\n').length > 1 ? description.split('\n').slice(1).join(' ') : ''}
                   </div>
-                  <div className="border-b-[2px] border-[#333] min-h-[34px] text-[18px] text-[#222] font-medium px-2 mt-6 leading-tight"></div>
+                  <div className="border-b-[1.5px] border-dashed border-[#555] min-h-[30px] text-[16px] text-[#222] font-semibold px-2 mt-7 leading-relaxed"></div>
                 </div>
                 
                 <div className="relative flex items-end pt-2">
-                  <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
+                  <span className="font-bold text-[15px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                     AMOUNT (Figures):
                   </span>
-                  <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
-                    <span className="font-semibold">AED</span> {amount} <span className="font-semibold">/-</span>
+                  <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[16px] text-[#222] font-bold px-2 leading-relaxed">
+                    AED {amount} /-
                   </div>
                 </div>
 
                 {/* Payment Method */}
-                <div className="relative flex items-center pt-4">
-                  <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-6 shrink-0 uppercase">
+                <div className="relative flex items-center pt-3">
+                  <span className="font-bold text-[15px] text-[#111] mr-6 shrink-0 uppercase tracking-wide">
                     PAYMENT METHOD:
                   </span>
-                  <div className="flex gap-6 items-center flex-wrap">
+                  <div className="flex gap-8 items-center flex-wrap">
                     {[
                       { id: 'cash', label: 'Cash' },
                       { id: 'cheque', label: 'Cheque' },
                       { id: 'bankTransfer', label: 'Bank Transfer' },
-                      { id: 'onlinePayment', label: 'Online Payment' }
+                      { id: 'onlinePayment', label: 'Online' }
                     ].map(pm => (
                       <div key={pm.id} className="flex items-center gap-2">
-                        <div className="w-[20px] h-[20px] border-[1.5px] border-[#333] flex items-center justify-center bg-white relative top-0.5">
-                          {paymentMethod[pm.id] && <div className="text-black font-bold text-[16px] leading-none mt-0.5">✓</div>}
+                        <div className="w-[16px] h-[16px] border-[1.5px] border-[#222] flex items-center justify-center bg-white relative">
+                          {paymentMethod[pm.id] && <div className="text-black font-extrabold text-[14px] leading-none">✓</div>}
                         </div>
-                        <span className="text-[18px] font-medium text-[#222]">{pm.label}</span>
+                        <span className="text-[15px] font-semibold text-[#222] uppercase">{pm.label}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="relative flex items-end pt-4">
-                  <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
+                <div className="relative flex items-end pt-3">
+                  <span className="font-bold text-[15px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                     BANK NAME:
                   </span>
-                  <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
+                  <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[16px] text-[#222] font-semibold px-2 leading-relaxed">
                     {bankDetails.bankName}
                   </div>
                 </div>
                 
-                <div className="relative flex justify-between items-end gap-8 pt-4">
+                <div className="relative flex justify-between items-end gap-10 pt-3">
                   <div className="flex-[3] flex items-end">
-                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
+                    <span className="font-bold text-[15px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                       CHEQUE/REF. NO:
                     </span>
-                    <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
+                    <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[16px] text-[#222] font-semibold px-2 leading-relaxed">
                       {bankDetails.chequeNo}
                     </div>
                   </div>
                   <div className="flex-[2] flex items-end">
-                    <span className="font-bold text-[18px] text-[#111] whitespace-nowrap mr-3 shrink-0 uppercase">
+                    <span className="font-bold text-[15px] text-[#111] mr-3 shrink-0 uppercase tracking-wide">
                       DATE:
                     </span>
-                    <div className="flex-1 border-b-[2px] border-[#333] pb-1 min-h-[30px] text-[18px] text-[#222] font-medium px-2 leading-tight">
+                    <div className="flex-1 border-b-[1.5px] border-dashed border-[#555] pb-1 min-h-[26px] text-[16px] text-[#222] font-semibold px-2 leading-relaxed text-center">
                       {bankDetails.date}
                     </div>
                   </div>
@@ -491,39 +491,41 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Signatures */}
-              <div className="mt-20 mb-24 flex justify-between gap-6 px-2">
+              <div className="mt-16 mb-20 flex justify-between gap-12 px-4">
                 <div className="flex flex-col flex-[2.5]">
-                  <div className="border-b-[2px] border-[#333] h-10 w-full mb-1"></div>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <span className="font-bold text-[16px] text-[#111] uppercase">RECEIVED BY</span>
-                    <span className="text-[13px] font-semibold text-[#444]">(Authorized Signature & Stamp):</span>
+                  <div className="border-b-[1.5px] border-[#222] h-12 w-full mb-2 relative">
+                    <div className="absolute -bottom-5 left-0 right-0 text-center">
+                      <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider">(Authorized Signature & Stamp)</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center mt-6">
+                    <span className="font-bold text-[16px] text-[#111] uppercase tracking-widest">RECEIVED BY</span>
                   </div>
                 </div>
-                <div className="flex flex-col flex-[1.5] pl-6 border-l-[2px] border-[#333] ml-4">
-                  <div className="border-b-[2px] border-[#333] h-10 w-full mb-1 flex items-end justify-center pb-1 font-medium text-[18px] text-[#222]">
+                <div className="flex flex-col flex-[1.5] relative pt-1">
+                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                     {receivedBy.name}
                   </div>
-                  <span className="font-bold text-[16px] text-[#111] mt-1 uppercase">NAME:</span>
+                  <span className="font-bold text-[13px] text-[#111] mt-1 uppercase text-center tracking-widest">NAME</span>
                 </div>
-                <div className="flex flex-col flex-[1.5] pl-6 border-l-[2px] border-[#333] ml-4">
-                  <div className="border-b-[2px] border-[#333] h-10 w-full mb-1 flex items-end justify-center pb-1 font-medium text-[18px] text-[#222]">
+                <div className="flex flex-col flex-[1.5] relative pt-1">
+                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                     {receivedBy.date}
                   </div>
-                  <span className="font-bold text-[16px] text-[#111] mt-1 uppercase">DATE:</span>
+                  <span className="font-bold text-[13px] text-[#111] mt-1 uppercase text-center tracking-widest">DATE</span>
                 </div>
               </div>
             </div>
 
             {/* Footer with Corner Vectors */}
-            <div className="mt-auto relative bg-white z-0 w-full">
+            <div className="mt-auto relative bg-white z-0 w-full h-[120px]">
               <img src={bottomRightCorner} alt="Bottom Right Corner" className="absolute bottom-0 right-0 w-96 max-w-[50%] object-contain pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
               
-              <div className="border-t-[3px] border-[#C5A059] relative z-10 w-[90%] mx-auto py-5 text-center pb-8 bg-white/70 backdrop-blur-[2px]">
-                <h3 className="text-[16px] font-black text-[#111] mb-1">ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</h3>
-                <p className="text-[14px] font-medium text-[#333] leading-relaxed">
-                  Address: Office 201, Lion Tower, Salam Street, Abu Dhabi, UAE<br/>
-                  Tel: +971-2-1234567 | Email: info@accesslion.ae<br/>
-                  TRN (VAT No): 100345678900003
+              <div className="absolute bottom-0 left-0 right-0 border-t-[2px] border-[#C5A059] z-10 w-[85%] mx-auto py-3 text-center bg-white/80 backdrop-blur-[2px]">
+                <h3 className="text-[11px] font-black text-[#111] mb-0.5 tracking-wider">ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C</h3>
+                <p className="text-[9px] font-bold text-[#444] leading-relaxed uppercase tracking-widest">
+                  Office 201, Lion Tower, Salam Street, Abu Dhabi, UAE<br/>
+                  Tel: +971-2-1234567 | Email: info@accesslion.ae | TRN: 100345678900003
                 </p>
               </div>
             </div>

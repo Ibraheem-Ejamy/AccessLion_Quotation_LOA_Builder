@@ -27,7 +27,7 @@ const numberToWords = (num) => {
   str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
   
   let decimals = Math.round((num - Math.floor(num)) * 100);
-  let decimalStr = decimals > 0 ? ` and ${decimals}/100` : '';
+  let decimalStr = decimals > 0 ? ` and ${decimals} Fils` : '';
 
   return str ? str.trim() + ' AED' + decimalStr + ' Only' : 'Zero AED';
 };

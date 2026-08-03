@@ -727,7 +727,25 @@ export default function QuotationBuilder() {
                     <input
                       type="date"
                       value={quoteInfo.date}
-                      onChange={(e) => setQuoteInfo({ ...quoteInfo, date: e.target.value })}
+                      onChange={(e) => {
+                        const newDateStr = e.target.value;
+                        let newExpiryDateStr = quoteInfo.expiryDate;
+                        if (newDateStr) {
+                          const dateObj = new Date(newDateStr);
+                          if (!isNaN(dateObj)) {
+                            dateObj.setMonth(dateObj.getMonth() + 1);
+                            const year = dateObj.getFullYear();
+                            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                            const day = String(dateObj.getDate()).padStart(2, '0');
+                            newExpiryDateStr = `${year}-${month}-${day}`;
+                          }
+                        }
+                        setQuoteInfo({ 
+                          ...quoteInfo, 
+                          date: newDateStr, 
+                          expiryDate: newExpiryDateStr 
+                        });
+                      }}
                       className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
                     />
                   </div>

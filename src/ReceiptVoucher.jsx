@@ -5,6 +5,13 @@ import bottomRightCorner from './assets/receipt_bottom_right.png';
 import watermark from './assets/receipt_watermark.png';
 import headerLogo from './assets/receipt_header_logo.png';
 
+const formatDisplayDate = (dateString) => {
+  if (!dateString) return '';
+  const [year, month, day] = dateString.split('-');
+  if (!year || !month || !day) return dateString;
+  return `${day}/${month}/${year}`;
+};
+
 export default function ReceiptVoucher() {
   const [voucherNo, setVoucherNo] = useState(() => {
     return localStorage.getItem('lastVoucherNo') || '01';
@@ -257,7 +264,7 @@ export default function ReceiptVoucher() {
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-400">Date</label>
-                <input type="text" value={date} onChange={(e) => setDate(e.target.value)} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="DD/MM/YYYY" />
+                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
               </div>
               <div className="space-y-1 col-span-2">
                 <label className="text-xs font-semibold text-slate-400">Amount (AED)</label>
@@ -405,14 +412,14 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Voucher Info Row */}
-              <div className="flex justify-between items-end mb-8 mt-2 px-1 font-[Arial,sans-serif]">
-                <div className="flex gap-2 items-end w-[35%]">
+              <div className="flex justify-between items-baseline mb-8 mt-2 px-1 font-[Arial,sans-serif]">
+                <div className="flex gap-2 items-baseline">
                   <span className="font-bold text-[14px] text-[#111]">Voucher No:</span>
-                  <div className="pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide">{voucherNo}</div>
+                  <div className="text-[14px] text-[#222] font-semibold tracking-wide">{voucherNo}</div>
                 </div>
-                <div className="flex gap-2 items-end w-[35%]">
+                <div className="flex gap-2 items-baseline">
                   <span className="font-bold text-[14px] text-[#111]">Date:</span>
-                  <div className="pb-0.5 text-[14px] text-[#222] font-semibold flex-1 tracking-wide text-right">{date}</div>
+                  <div className="text-[14px] text-[#222] font-semibold tracking-wide">{formatDisplayDate(date)}</div>
                 </div>
               </div>
 

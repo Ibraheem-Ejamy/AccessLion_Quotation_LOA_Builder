@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, FileSignature, ClipboardCheck } from 'lucide-react';
 import QuotationBuilder from './QuotationBuilder';
 import LOABuilder from './LOABuilder';
@@ -8,6 +8,14 @@ import alLogo from './assets/AL_Logo.png';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('quotation');
+
+  // Force scroll to top on reload and on tab switch
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, [activeTab]);
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col font-sans">

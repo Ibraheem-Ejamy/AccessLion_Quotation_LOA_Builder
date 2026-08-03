@@ -493,7 +493,7 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Signatures */}
-              <div className="mt-8 mb-0 flex justify-between gap-8 px-2">
+              <div className="mt-8 mb-0 flex justify-between gap-12 px-4">
                 <div className="flex flex-col flex-[1.5] relative pt-1">
                   <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
                   </div>
@@ -507,16 +507,15 @@ export default function ReceiptVoucher() {
                   <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">NAME</span>
                 </div>
 
-                <div className="flex flex-col flex-[2.5] relative pt-1">
-                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
+                <div className="flex flex-col flex-[2.5]">
+                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-2 relative">
+                    <div className="absolute -bottom-5 left-0 right-0 text-center">
+                      <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider">(Authorized Signature & Stamp)</span>
+                    </div>
                   </div>
-                  <span className="text-[11px] font-bold text-[#555] mt-1 uppercase text-center tracking-wider">(Authorized Signature & Stamp)</span>
-                </div>
-
-                <div className="flex flex-col flex-[1.5] relative pt-1">
-                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
+                  <div className="flex items-center justify-center mt-5">
+                    <span className="font-bold text-[12px] text-[#111] uppercase tracking-widest">RECEIVED BY</span>
                   </div>
-                  <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">RECEIVED BY</span>
                 </div>
               </div>
             </div>

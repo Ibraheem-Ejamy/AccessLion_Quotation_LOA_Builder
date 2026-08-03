@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { Printer, Download, Upload, Plus, Trash2, Receipt } from 'lucide-react';
 import topLeftCorner from './assets/receipt_top_left.png';
 import bottomRightCorner from './assets/receipt_bottom_right.png';
+import watermark from './assets/receipt_watermark.png';
+import headerLogo from './assets/receipt_header_logo.png';
 const formatDisplayDate = (dateString) => {
   if (!dateString) return '';
   const [year, month, day] = dateString.split('-');

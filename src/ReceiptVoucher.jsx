@@ -404,11 +404,11 @@ export default function ReceiptVoucher() {
               {/* Dynamic Fields */}
               <div className="flex-1 space-y-5 mt-4 px-1">
                 {fields.map((field) => (
-                  <div key={field.id} className="relative flex items-end">
+                  <div key={field.id} className="relative flex items-baseline">
                     <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                       {field.label}:
                     </span>
-                    <div className={`flex-1 ${field.value ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 relative leading-relaxed`}>
+                    <div className={`flex-1 border-b-[1.5px] border-dashed ${field.value ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 relative leading-relaxed`}>
                       {field.value}
                     </div>
                   </div>
@@ -421,22 +421,22 @@ export default function ReceiptVoucher() {
                       DESCRIPTION:
                     </span>
                     <div className="flex-1">
-                      <div className={`${description.split('\n')[0] ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 break-all leading-relaxed`}>
+                      <div className={`border-b-[1.5px] border-dashed ${description.split('\n')[0] ? 'border-transparent' : 'border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 break-all leading-relaxed`}>
                         {description.split('\n')[0] || ''}
                       </div>
                     </div>
                   </div>
-                  <div className={`${description.split('\n').length > 1 && description.split('\n')[1] ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 mt-5 leading-relaxed`}>
+                  <div className={`border-b-[1.5px] border-dashed ${description.split('\n').length > 1 && description.split('\n')[1] ? 'border-transparent' : 'border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 mt-5 leading-relaxed`}>
                     {description.split('\n').length > 1 ? description.split('\n').slice(1).join(' ') : ''}
                   </div>
-                  <div className={`${description.split('\n').length > 2 && description.split('\n')[2] ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 mt-5 leading-relaxed`}></div>
+                  <div className={`border-b-[1.5px] border-dashed ${description.split('\n').length > 2 && description.split('\n')[2] ? 'border-transparent' : 'border-[#555]'} min-h-[28px] text-[13px] text-[#222] font-semibold px-2 mt-5 leading-relaxed`}></div>
                 </div>
                 
-                <div className="relative flex items-end pt-2">
+                <div className="relative flex items-baseline pt-2">
                   <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                     AMOUNT (Figures):
                   </span>
-                  <div className={`flex-1 ${amount && amount !== '0.00' ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-bold px-2 leading-relaxed`}>
+                  <div className={`flex-1 border-b-[1.5px] border-dashed ${amount && amount !== '0.00' ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-bold px-2 leading-relaxed`}>
                     {amount ? `AED ${amount} /-` : ''}
                   </div>
                 </div>
@@ -463,29 +463,29 @@ export default function ReceiptVoucher() {
                   </div>
                 </div>
 
-                <div className="relative flex items-end pt-3">
+                <div className="relative flex items-baseline pt-3">
                   <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                     BANK NAME:
                   </span>
-                  <div className={`flex-1 ${bankDetails.bankName ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
+                  <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.bankName ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
                     {bankDetails.bankName}
                   </div>
                 </div>
                 
-                <div className="relative flex justify-between items-end gap-10 pt-3">
-                  <div className="flex-[3] flex items-end">
+                <div className="relative flex justify-between items-baseline gap-10 pt-3">
+                  <div className="flex-[3] flex items-baseline">
                     <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                       CHEQUE/REF. NO:
                     </span>
-                    <div className={`flex-1 ${bankDetails.chequeNo ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
+                    <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.chequeNo ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
                       {bankDetails.chequeNo}
                     </div>
                   </div>
-                  <div className="flex-[2] flex items-end">
+                  <div className="flex-[2] flex items-baseline">
                     <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
                       DATE:
                     </span>
-                    <div className={`flex-1 ${bankDetails.date ? '' : 'border-b-[1.5px] border-dashed border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed text-center`}>
+                    <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.date ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed text-center`}>
                       {bankDetails.date}
                     </div>
                   </div>

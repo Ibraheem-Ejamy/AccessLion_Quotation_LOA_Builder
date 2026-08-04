@@ -103,7 +103,8 @@ export default function QuotationBuilder() {
     date: getTodayDateString(),
     expiryDate: getExpiryDateString(),
     contactPerson: "Mr./Mrs",
-    contactNo: "+971 54 281 1111"
+    contactNo: "+971 54 281 1111",
+    preparedByDesignation: "Operations & Rental Dept."
   };
 
   const initialItems = [
@@ -162,7 +163,8 @@ export default function QuotationBuilder() {
     amountInWords: true,
     rentalTerms: true,
     generalTerms: true,
-    signatures: true
+    signatures: true,
+    bankDetails: true
   });
   
   const fileInputRef = useRef(null);
@@ -787,6 +789,15 @@ export default function QuotationBuilder() {
                       className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
                     />
                   </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Sender Designation</label>
+                    <input
+                      type="text"
+                      value={quoteInfo.preparedByDesignation || ''}
+                      onChange={(e) => setQuoteInfo({ ...quoteInfo, preparedByDesignation: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -1088,6 +1099,10 @@ export default function QuotationBuilder() {
                     <input type="checkbox" checked={sectionsVisibility.signatures} onChange={(e) => setSectionsVisibility({...sectionsVisibility, signatures: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
                     <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Signatures Area</span>
                   </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.bankDetails} onChange={(e) => setSectionsVisibility({...sectionsVisibility, bankDetails: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Bank Details</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -1251,6 +1266,24 @@ export default function QuotationBuilder() {
                         </p>
                       </>
                     )}
+                    {sectionsVisibility.bankDetails && (
+                      <div className="mt-2 pt-2 border-t border-slate-100">
+                        <h4 className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Company Bank Details</h4>
+                        <div className="grid grid-cols-2 text-[8px] gap-x-2 gap-y-0.5">
+                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Account Name:</span><span className="text-slate-700">Access Lion Gen Cont & Transporting</span></div>
+                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Account Number:</span><span className="text-slate-700">117-132-1559506-02-6</span></div>
+                          
+                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Name Of Bank:</span><span className="text-slate-700">First Abu Dhabi Bank (FAB)</span></div>
+                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">IBAN:</span><span className="text-slate-700">AE-53-035-117-132-1559506-02-6</span></div>
+                          
+                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Branch:</span><span className="text-slate-700">Madinat Zayed</span></div>
+                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Currency:</span><span className="text-slate-700">AED</span></div>
+                          
+                          <div className="flex pb-0.5"><span className="w-16 font-bold text-slate-500">Bank Address:</span><span className="text-slate-700">P.O. BOX: 58914, Abu Dhabi</span></div>
+                          <div className="flex pb-0.5"><span className="w-16 font-bold text-slate-500">Swift Code:</span><span className="text-slate-700">NBADAEAA</span></div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="sm:col-span-5 print:col-span-5 bg-slate-50 p-3.5 rounded-xl space-y-2 border border-slate-100">
@@ -1331,7 +1364,7 @@ export default function QuotationBuilder() {
                             {signatureImage && <img src={signatureImage} alt="Signature" className="absolute w-40 h-20 object-contain mix-blend-multiply" style={{ bottom: '-5px', left: '-10px' }} />}
                           </div>
                         )}
-                        <p className="text-xs font-bold text-slate-900">Access Lion Management</p>
+                        <p className="text-xs font-bold text-slate-900">{quoteInfo.preparedByDesignation || 'Operations & Rental Dept.'}</p>
                         <p className="text-[9px] text-slate-400">Authorized Signatory & Stamp</p>
                       </div>
                     </div>

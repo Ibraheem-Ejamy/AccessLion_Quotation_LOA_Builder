@@ -107,13 +107,24 @@ export default function QuotationBuilder() {
     preparedByDesignation: "Operations & Rental Dept."
   };
 
+  const initialColumns = [
+    { id: 'col_index', name: 'No.', type: 'index' },
+    { id: 'col_desc', name: 'Machinery / Equipment Specification', type: 'text' },
+    { id: 'col_qty', name: 'Qty', type: 'multiplier' },
+    { id: 'col_price', name: 'Unit Price', type: 'multiplier' },
+    { id: 'col_unit', name: 'Unit / Term', type: 'text' },
+    { id: 'col_total', name: 'Total', type: 'total' }
+  ];
+
   const initialItems = [
     {
       id: "1",
-      description: "MAN LIFT JLG 600AJ WITHOUT OPERATOR",
-      qty: 1,
-      price: 8500,
-      unit: "month"
+      values: {
+        col_desc: "MAN LIFT JLG 600AJ WITHOUT OPERATOR",
+        col_qty: 1,
+        col_price: 8500,
+        col_unit: "month"
+      }
     }
   ];
 
@@ -151,13 +162,7 @@ export default function QuotationBuilder() {
   const [statusMessage, setStatusMessage] = useState(null);
   const [designStyle, setDesignStyle] = useState("luxury-dark"); // luxury-dark, royal-gold, elegant-clean
   
-  const [columns, setColumns] = useState({
-    col1: "No.",
-    col2: "Machinery / Equipment Specification",
-    col3: "Qty",
-    col4: "Unit Price",
-    col5: "Total"
-  });
+  const [columns, setColumns] = useState(initialColumns);
 
   const [sectionsVisibility, setSectionsVisibility] = useState({
     amountInWords: true,
@@ -249,8 +254,21 @@ export default function QuotationBuilder() {
   };
 
   // Calculations
+  const getItemTotal = (item) => {
+    let total = 1;
+    let hasMultiplier = false;
+    columns.forEach(col => {
+      if (col.type === 'multiplier') {
+        hasMultiplier = true;
+        const val = parseFloat(item.values[col.id]) || 0;
+        total *= val;
+      }
+    });
+    return hasMultiplier ? total : 0;
+  };
+
   const calculateSubtotal = () => {
-    return items.reduce((sum, item) => sum + (item.qty * item.price), 0);
+    return items.reduce((sum, item) => sum + getItemTotal(item), 0);
   };
 
   const calculateVat = () => {
@@ -263,23 +281,26 @@ export default function QuotationBuilder() {
 
   // Items Management
   const addItem = () => {
+    const newValues = {};
+    columns.forEach(col => {
+      if (col.type === 'text') newValues[col.id] = "";
+      if (col.type === 'multiplier') newValues[col.id] = 1;
+    });
     setItems([
       ...items,
       {
         id: Date.now().toString(),
-        description: "New Machinery / Service Rental",
-        qty: 1,
-        price: 1000,
-        unit: "month"
+        values: newValues
       }
     ]);
   };
 
-  const updateItem = (id, field, value) => {
+  const updateItem = (id, colId, value) => {
     setItems(items.map(item => {
       if (item.id === id) {
-        const val = (field === 'qty' || field === 'price') ? parseFloat(value) || 0 : value;
-        return { ...item, [field]: val };
+        const col = columns.find(c => c.id === colId);
+        const val = col?.type === 'multiplier' ? parseFloat(value) || 0 : value;
+        return { ...item, values: { ...item.values, [colId]: val } };
       }
       return item;
     }));
@@ -291,6 +312,22 @@ export default function QuotationBuilder() {
       return;
     }
     setItems(items.filter(item => item.id !== id));
+  };
+
+  // Column Management
+  const addColumn = () => {
+    const newColId = 'col_' + Date.now().toString();
+    setColumns([...columns.slice(0, -1), { id: newColId, name: 'New Column', type: 'text' }, columns[columns.length - 1]]);
+    // Initialize new column for all items
+    setItems(items.map(item => ({ ...item, values: { ...item.values, [newColId]: "" } })));
+  };
+
+  const removeColumn = (id) => {
+    setColumns(columns.filter(c => c.id !== id));
+  };
+
+  const updateColumn = (id, field, value) => {
+    setColumns(columns.map(c => c.id === id ? { ...c, [field]: value } : c));
   };
 
   // Terms Management
@@ -357,13 +394,40 @@ export default function QuotationBuilder() {
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
         if (parsed.clientInfo) setClientInfo(parsed.clientInfo);
         if (parsed.quoteInfo) setQuoteInfo(parsed.quoteInfo);
-        if (parsed.items) setItems(parsed.items);
+        if (parsed.items) {
+          const migratedItems = parsed.items.map(item => {
+            if (item.values) return item;
+            return {
+              id: item.id,
+              values: {
+                col_desc: item.description || '',
+                col_qty: item.qty || 1,
+                col_price: item.price || 0,
+                col_unit: item.unit || ''
+              }
+            };
+          });
+          setItems(migratedItems);
+        }
         if (parsed.rentalTerms) setRentalTerms(parsed.rentalTerms);
         if (parsed.generalTerms) setGeneralTerms(parsed.generalTerms);
         if (parsed.vatRate !== undefined) setVatRate(parsed.vatRate);
         if (parsed.currency) setCurrency(parsed.currency);
         if (parsed.designStyle) setDesignStyle(parsed.designStyle);
-        if (parsed.columns) setColumns(parsed.columns);
+        if (parsed.columns) {
+          if (Array.isArray(parsed.columns)) {
+            setColumns(parsed.columns);
+          } else {
+            setColumns([
+              { id: 'col_index', name: parsed.columns.col1 || 'No.', type: 'index' },
+              { id: 'col_desc', name: parsed.columns.col2 || 'Description', type: 'text' },
+              { id: 'col_qty', name: parsed.columns.col3 || 'Qty', type: 'multiplier' },
+              { id: 'col_price', name: parsed.columns.col4 || 'Unit Price', type: 'multiplier' },
+              { id: 'col_unit', name: 'Unit', type: 'text' },
+              { id: 'col_total', name: parsed.columns.col5 || 'Total', type: 'total' }
+            ]);
+          }
+        }
         if (parsed.sectionsVisibility) setSectionsVisibility(parsed.sectionsVisibility);
         showToast("Quotation data loaded successfully!");
       } catch {
@@ -459,21 +523,45 @@ export default function QuotationBuilder() {
   };
 
   const numberToWords = (num) => {
+    if (num === 0 || isNaN(num)) return 'Zero ' + currency;
+
     const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
     const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
-    const numStr = Math.floor(num).toString();
-    if (numStr.length > 9) return 'Amount Exceeded Limit';
-    let n = ('000000000' + numStr).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-    if (!n) return '';
+    const convertBlock = (n) => {
+      let res = '';
+      if (Math.floor(n / 100) > 0) {
+        res += a[Math.floor(n / 100)] + 'Hundred ';
+        n %= 100;
+      }
+      if (n > 0) {
+        if (n < 20) {
+          res += a[n];
+        } else {
+          res += b[Math.floor(n / 10)] + (n % 10 > 0 ? ' ' + a[n % 10] : ' ');
+        }
+      }
+      return res;
+    };
+
+    const intPart = Math.floor(num);
     let str = '';
-    str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-    str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-    str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-    str += (Number(n[4]) != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
-    str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
-    
-    let decimals = Math.round((num - Math.floor(num)) * 100);
+    if (intPart > 0) {
+      if (Math.floor(intPart / 1000000000) > 0) {
+        str += convertBlock(Math.floor(intPart / 1000000000)) + 'Billion ';
+      }
+      if (Math.floor((intPart % 1000000000) / 1000000) > 0) {
+        str += convertBlock(Math.floor((intPart % 1000000000) / 1000000)) + 'Million ';
+      }
+      if (Math.floor((intPart % 1000000) / 1000) > 0) {
+        str += convertBlock(Math.floor((intPart % 1000000) / 1000)) + 'Thousand ';
+      }
+      if (intPart % 1000 > 0) {
+        str += convertBlock(intPart % 1000);
+      }
+    }
+
+    let decimals = Math.round((num - intPart) * 100);
     let decimalStr = decimals > 0 ? ` and ${decimals} Fils` : '';
 
     return str ? str.trim() + ' ' + currency + decimalStr + ' Only' : 'Zero ' + currency;
@@ -931,48 +1019,20 @@ export default function QuotationBuilder() {
                       </button>
                     </div>
 
-                    <span className="text-xs font-bold text-amber-500 uppercase tracking-wider">Line #{index + 1}</span>
+                    <span className="text-xs font-bold text-amber-500 uppercase tracking-wider block mb-2">Line #{index + 1}</span>
 
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-slate-400">Description / Machinery Spec</label>
-                      <input
-                        type="text"
-                        value={item.description}
-                        onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
-                        placeholder="e.g. MAN LIFT JLG 600AJ WITHOUT OPERATOR"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-2">
-                      <div className="space-y-1">
-                        <label className="text-xs font-semibold text-slate-400">Qty</label>
-                        <input
-                          type="number"
-                          value={item.qty}
-                          onChange={(e) => updateItem(item.id, 'qty', e.target.value)}
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-xs font-semibold text-slate-400">Price ({currency})</label>
-                        <input
-                          type="number"
-                          value={item.price}
-                          onChange={(e) => updateItem(item.id, 'price', e.target.value)}
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-xs font-semibold text-slate-400">Unit / Term</label>
-                        <input
-                          type="text"
-                          value={item.unit}
-                          onChange={(e) => updateItem(item.id, 'unit', e.target.value)}
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
-                          placeholder="e.g. month, day, total"
-                        />
-                      </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {columns.filter(c => c.type === 'text' || c.type === 'multiplier').map(col => (
+                        <div key={col.id} className={`space-y-1 ${col.type === 'text' ? 'sm:col-span-2' : ''}`}>
+                          <label className="text-xs font-semibold text-slate-400">{col.name}</label>
+                          <input
+                            type={col.type === 'multiplier' ? "number" : "text"}
+                            value={item.values[col.id] || ''}
+                            onChange={(e) => updateItem(item.id, col.id, e.target.value)}
+                            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 ))}
@@ -1055,28 +1115,37 @@ export default function QuotationBuilder() {
           {activeTab === 'layout' && (
             <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl flex-1">
               <div className="space-y-4">
-                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Table Columns Customization</h3>
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs font-semibold text-slate-400 w-24">Column 1</label>
-                    <input type="text" value={columns.col1} onChange={(e) => setColumns({...columns, col1: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs font-semibold text-slate-400 w-24">Column 2</label>
-                    <input type="text" value={columns.col2} onChange={(e) => setColumns({...columns, col2: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs font-semibold text-slate-400 w-24">Column 3</label>
-                    <input type="text" value={columns.col3} onChange={(e) => setColumns({...columns, col3: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs font-semibold text-slate-400 w-24">Column 4</label>
-                    <input type="text" value={columns.col4} onChange={(e) => setColumns({...columns, col4: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs font-semibold text-slate-400 w-24">Column 5</label>
-                    <input type="text" value={columns.col5} onChange={(e) => setColumns({...columns, col5: e.target.value})} className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
-                  </div>
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Table Columns Customization</h3>
+                  <button
+                    onClick={addColumn}
+                    className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-md transition-all font-semibold"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    Add Column
+                  </button>
+                </div>
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                  {columns.filter(c => c.type !== 'index' && c.type !== 'total').map((col, index) => (
+                    <div key={col.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 bg-slate-900 p-3 rounded-lg border border-slate-800">
+                      <div className="flex-1 w-full space-y-1">
+                        <label className="text-[10px] uppercase font-bold text-slate-500">Column Name</label>
+                        <input type="text" value={col.name} onChange={(e) => updateColumn(col.id, 'name', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500" />
+                      </div>
+                      <div className="w-full sm:w-32 space-y-1">
+                        <label className="text-[10px] uppercase font-bold text-slate-500">Data Type</label>
+                        <select value={col.type} onChange={(e) => updateColumn(col.id, 'type', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500">
+                          <option value="text">Text (Label)</option>
+                          <option value="multiplier">Number (Multiply into Total)</option>
+                        </select>
+                      </div>
+                      <div className="pt-5 sm:pt-4">
+                        <button onClick={() => removeColumn(col.id)} className="text-slate-500 hover:text-red-400 p-2" title="Remove Column">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -1222,32 +1291,34 @@ export default function QuotationBuilder() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-900 text-white premium-header-bg border-b-2 border-amber-500">
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest rounded-tl-lg text-center w-10">{columns.col1}</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest">{columns.col2}</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-center w-14">{columns.col3}</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-right w-28">{columns.col4}</th>
-                        <th className="py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest text-right rounded-tr-lg w-28">{columns.col5} ({currency})</th>
+                        {columns.map((col, idx) => (
+                          <th key={col.id} className={`py-2.5 px-3 text-[10px] font-bold uppercase tracking-widest ${idx === 0 ? 'rounded-tl-lg text-center w-10' : idx === columns.length - 1 ? 'text-right rounded-tr-lg w-28' : col.type === 'multiplier' ? 'text-right w-24' : ''}`}>
+                            {col.name} {col.type === 'total' ? `(${currency})` : ''}
+                          </th>
+                        ))}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {items.map((item, index) => {
-                        const itemTotal = item.qty * item.price;
+                        const itemTotal = getItemTotal(item);
                         return (
                           <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
-                            <td className="py-2.5 px-3 text-[11px] font-bold text-slate-400 text-center">{index + 1}</td>
-                            <td className="py-2.5 px-3 text-[11px] text-slate-900 font-semibold leading-snug">
-                              {item.description}
-                            </td>
-                            <td className="py-2.5 px-3 text-[11px] text-slate-900 font-bold text-center">{item.qty}</td>
-                            <td className="py-2.5 px-3 text-[11px] text-slate-800 text-right font-medium">
-                              {item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                              {item.unit && item.unit.trim() !== '' && (
-                                <span className="text-[9px] text-slate-500 block">per {item.unit}</span>
-                              )}
-                            </td>
-                            <td className="py-2.5 px-3 text-[11px] text-slate-900 font-bold text-right">
-                              {itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </td>
+                            {columns.map((col) => {
+                              if (col.type === 'index') {
+                                return <td key={col.id} className="py-2.5 px-3 text-[11px] font-bold text-slate-400 text-center">{index + 1}</td>;
+                              }
+                              if (col.type === 'total') {
+                                return <td key={col.id} className="py-2.5 px-3 text-[11px] text-slate-900 font-bold text-right">{itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>;
+                              }
+                              const val = item.values[col.id] || '';
+                              if (col.type === 'multiplier') {
+                                const numVal = parseFloat(val);
+                                const isQty = col.name.toLowerCase().includes('qty');
+                                const displayVal = !isNaN(numVal) ? numVal.toLocaleString(undefined, { minimumFractionDigits: isQty && Number.isInteger(numVal) ? 0 : 2, maximumFractionDigits: 2 }) : val;
+                                return <td key={col.id} className="py-2.5 px-3 text-[11px] text-slate-800 text-right font-medium">{displayVal}</td>;
+                              }
+                              return <td key={col.id} className="py-2.5 px-3 text-[11px] text-slate-900 font-semibold leading-snug whitespace-pre-wrap">{val}</td>;
+                            })}
                           </tr>
                         );
                       })}

@@ -12,21 +12,45 @@ const formatDisplayDate = (dateString) => {
 };
 
 const numberToWords = (num) => {
+  if (num === 0 || isNaN(num)) return 'Zero AED';
+
   const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
   const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
-  const numStr = Math.floor(num).toString();
-  if (numStr.length > 9) return 'Amount Exceeded Limit';
-  let n = ('000000000' + numStr).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-  if (!n) return '';
+  const convertBlock = (n) => {
+    let res = '';
+    if (Math.floor(n / 100) > 0) {
+      res += a[Math.floor(n / 100)] + 'Hundred ';
+      n %= 100;
+    }
+    if (n > 0) {
+      if (n < 20) {
+        res += a[n];
+      } else {
+        res += b[Math.floor(n / 10)] + (n % 10 > 0 ? ' ' + a[n % 10] : ' ');
+      }
+    }
+    return res;
+  };
+
+  const intPart = Math.floor(num);
   let str = '';
-  str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
-  str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
-  str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
-  str += (Number(n[4]) != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
-  str += (Number(n[5]) != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' ' : '';
-  
-  let decimals = Math.round((num - Math.floor(num)) * 100);
+  if (intPart > 0) {
+    if (Math.floor(intPart / 1000000000) > 0) {
+      str += convertBlock(Math.floor(intPart / 1000000000)) + 'Billion ';
+    }
+    if (Math.floor((intPart % 1000000000) / 1000000) > 0) {
+      str += convertBlock(Math.floor((intPart % 1000000000) / 1000000)) + 'Million ';
+    }
+    if (Math.floor((intPart % 1000000) / 1000) > 0) {
+      str += convertBlock(Math.floor((intPart % 1000000) / 1000)) + 'Thousand ';
+    }
+    if (intPart % 1000 > 0) {
+      str += convertBlock(intPart % 1000);
+    }
+  }
+
+  let decimals = Math.round((num - intPart) * 100);
   let decimalStr = decimals > 0 ? ` and ${decimals} Fils` : '';
 
   return str ? str.trim() + ' AED' + decimalStr + ' Only' : 'Zero AED';

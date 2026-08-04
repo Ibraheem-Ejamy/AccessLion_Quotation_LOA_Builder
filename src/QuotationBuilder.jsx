@@ -1277,7 +1277,7 @@ export default function QuotationBuilder() {
                     <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest block">Access Lion Contact Person</span>
                     <div className="space-y-0.5">
                       <h4 className="font-extrabold text-slate-900 text-xs">{quoteInfo.contactPerson}</h4>
-                      <p className="text-[11px] text-slate-700 font-medium">Operations & Rental Dept.</p>
+                      <p className="text-[11px] text-slate-700 font-medium">{quoteInfo.preparedByDesignation}</p>
                       <p className="text-[11px] text-slate-600 flex items-center gap-1">
                         <span>Direct Contact:</span> <strong className="text-slate-900 font-bold">{quoteInfo.contactNo}</strong>
                       </p>

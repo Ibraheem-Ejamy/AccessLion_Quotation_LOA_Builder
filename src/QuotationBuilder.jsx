@@ -1271,8 +1271,9 @@ export default function QuotationBuilder() {
                         <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
                           Company Bank Details
                         </h4>
-                        <table className="w-full text-[8.5px] text-left border-collapse border border-slate-200">
-                          <tbody>
+                        <div className="overflow-hidden border border-slate-200 rounded-md">
+                          <table className="w-full text-[8.5px] text-left border-collapse">
+                            <tbody>
                             <tr className="border-b border-slate-200">
                               <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200 w-[18%]">Account Name:</th>
                               <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200 w-[32%]">Access Lion Gen Cont & Transporting</td>
@@ -1299,6 +1300,7 @@ export default function QuotationBuilder() {
                             </tr>
                           </tbody>
                         </table>
+                        </div>
                       </div>
                     )}
                   </div>

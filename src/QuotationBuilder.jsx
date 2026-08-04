@@ -1267,21 +1267,38 @@ export default function QuotationBuilder() {
                       </>
                     )}
                     {sectionsVisibility.bankDetails && (
-                      <div className="mt-2 pt-2 border-t border-slate-100">
-                        <h4 className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Company Bank Details</h4>
-                        <div className="grid grid-cols-2 text-[8px] gap-x-2 gap-y-0.5">
-                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Account Name:</span><span className="text-slate-700">Access Lion Gen Cont & Transporting</span></div>
-                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Account Number:</span><span className="text-slate-700">117-132-1559506-02-6</span></div>
-                          
-                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Name Of Bank:</span><span className="text-slate-700">First Abu Dhabi Bank (FAB)</span></div>
-                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">IBAN:</span><span className="text-slate-700">AE-53-035-117-132-1559506-02-6</span></div>
-                          
-                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Branch:</span><span className="text-slate-700">Madinat Zayed</span></div>
-                          <div className="flex border-b border-slate-50 pb-0.5"><span className="w-16 font-bold text-slate-500">Currency:</span><span className="text-slate-700">AED</span></div>
-                          
-                          <div className="flex pb-0.5"><span className="w-16 font-bold text-slate-500">Bank Address:</span><span className="text-slate-700">P.O. BOX: 58914, Abu Dhabi</span></div>
-                          <div className="flex pb-0.5"><span className="w-16 font-bold text-slate-500">Swift Code:</span><span className="text-slate-700">NBADAEAA</span></div>
-                        </div>
+                      <div className="mt-3">
+                        <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                          Company Bank Details
+                        </h4>
+                        <table className="w-full text-[8.5px] text-left border-collapse border border-slate-200">
+                          <tbody>
+                            <tr className="border-b border-slate-200">
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200 w-[18%]">Account Name:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200 w-[32%]">Access Lion Gen Cont & Transporting</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200 w-[18%]">Account Number:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium w-[32%]">117-132-1559506-02-6</td>
+                            </tr>
+                            <tr className="border-b border-slate-200">
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Name Of Bank:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200">First Abu Dhabi Bank (FAB)</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">IBAN:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium whitespace-nowrap">AE-53-035-117-132-1559506-02-6</td>
+                            </tr>
+                            <tr className="border-b border-slate-200">
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Branch:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200">Madinat Zayed</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Currency:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium">AED</td>
+                            </tr>
+                            <tr>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Bank Address:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200">P.O. BOX: 58914, Abu Dhabi</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Swift Code:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium">NBADAEAA</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     )}
                   </div>

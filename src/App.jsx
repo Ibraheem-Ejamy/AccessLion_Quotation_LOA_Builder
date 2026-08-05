@@ -77,11 +77,19 @@ export default function App() {
       </div>
 
       {/* RENDER ACTIVE BUILDER */}
-      <div className="flex-1 w-full">
-        {activeTab === 'quotation' ? <QuotationBuilder /> : 
-         activeTab === 'loa' ? <LOABuilder /> : 
-         activeTab === 'receipt' ? <ReceiptVoucher /> : 
-         <VehicleReceptionReport />}
+      <div className="flex-1 w-full relative">
+        <div className={activeTab === 'quotation' ? 'block' : 'hidden'}>
+          <QuotationBuilder />
+        </div>
+        <div className={activeTab === 'loa' ? 'block' : 'hidden'}>
+          <LOABuilder />
+        </div>
+        <div className={activeTab === 'receipt' ? 'block' : 'hidden'}>
+          <ReceiptVoucher />
+        </div>
+        <div className={activeTab === 'vehicle-report' ? 'block' : 'hidden'}>
+          <VehicleReceptionReport />
+        </div>
       </div>
     </div>
   );

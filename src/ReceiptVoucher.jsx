@@ -82,7 +82,11 @@ export default function ReceiptVoucher() {
   const [bankDetails, setBankDetails] = useState({
     bankName: '',
     chequeNo: '',
-    date: '',
+    date: ''
+  });
+
+  const [cardDetails, setCardDetails] = useState({
+    bankName: '',
     cardHolderName: ''
   });
 
@@ -94,6 +98,7 @@ export default function ReceiptVoucher() {
   const [sectionsVisibility, setSectionsVisibility] = useState({
     paymentMethod: true,
     bankDetails: true,
+    cardDetails: false,
   });
 
   const [statusMessage, setStatusMessage] = useState(null);
@@ -142,6 +147,7 @@ export default function ReceiptVoucher() {
       description,
       paymentMethod,
       bankDetails,
+      cardDetails,
       receivedBy,
       sectionsVisibility
     };
@@ -167,10 +173,11 @@ export default function ReceiptVoucher() {
         if (parsed.amount !== undefined) setAmount(parsed.amount);
         if (parsed.fields) setFields(parsed.fields);
         if (parsed.description !== undefined) setDescription(parsed.description);
-        if (parsed.paymentMethod) setPaymentMethod(parsed.paymentMethod);
-        if (parsed.bankDetails) setBankDetails(parsed.bankDetails);
-        if (parsed.receivedBy) setReceivedBy(parsed.receivedBy);
-        if (parsed.sectionsVisibility) setSectionsVisibility(parsed.sectionsVisibility);
+        if (parsed.paymentMethod) setPaymentMethod(prev => ({ ...prev, ...parsed.paymentMethod }));
+        if (parsed.bankDetails) setBankDetails(prev => ({ ...prev, ...parsed.bankDetails }));
+        if (parsed.cardDetails) setCardDetails(prev => ({ ...prev, ...parsed.cardDetails }));
+        if (parsed.receivedBy) setReceivedBy(prev => ({ ...prev, ...parsed.receivedBy }));
+        if (parsed.sectionsVisibility) setSectionsVisibility(prev => ({ ...prev, ...parsed.sectionsVisibility }));
         showToast("Draft loaded successfully!");
       } catch {
         showToast("Invalid JSON structure.", "error");
@@ -423,6 +430,10 @@ export default function ReceiptVoucher() {
                   <input type="checkbox" checked={sectionsVisibility.bankDetails} onChange={(e) => setSectionsVisibility({...sectionsVisibility, bankDetails: e.target.checked})} className="w-4 h-4 accent-[#c5a059] rounded" />
                   <span className="text-xs text-slate-300 font-semibold uppercase">Show Bank Ref</span>
                 </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={sectionsVisibility.cardDetails} onChange={(e) => setSectionsVisibility({...sectionsVisibility, cardDetails: e.target.checked})} className="w-4 h-4 accent-[#c5a059] rounded" />
+                  <span className="text-xs text-slate-300 font-semibold uppercase">Show Card Details</span>
+                </label>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -438,17 +449,28 @@ export default function ReceiptVoucher() {
                 </label>
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-800">
+              <div className="col-span-2 mb-1">
+                <span className="text-xs font-bold text-slate-300 uppercase">Card Payment Details</span>
+              </div>
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-400">Bank Name</label>
-                <input type="text" value={bankDetails.bankName} onChange={(e) => setBankDetails({...bankDetails, bankName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
+                <input type="text" value={cardDetails.bankName} onChange={(e) => setCardDetails({...cardDetails, bankName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-400">Card Holder Name</label>
-                <input type="text" value={bankDetails.cardHolderName} onChange={(e) => setBankDetails({...bankDetails, cardHolderName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Only if card payment" />
+                <input type="text" value={cardDetails.cardHolderName} onChange={(e) => setCardDetails({...cardDetails, cardHolderName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            
+            <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-800">
+              <div className="col-span-2 mb-1">
+                <span className="text-xs font-bold text-slate-300 uppercase">Bank Reference (Cheque/Transfer)</span>
+              </div>
+              <div className="space-y-1 col-span-2">
+                <label className="text-xs font-semibold text-slate-400">Bank Name</label>
+                <input type="text" value={bankDetails.bankName} onChange={(e) => setBankDetails({...bankDetails, bankName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
+              </div>
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-400">Cheque/Ref. No.</label>
                 <input type="text" value={bankDetails.chequeNo} onChange={(e) => setBankDetails({...bankDetails, chequeNo: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
@@ -458,6 +480,7 @@ export default function ReceiptVoucher() {
                 <input type="text" value={bankDetails.date} onChange={(e) => setBankDetails({...bankDetails, date: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
               </div>
             </div>
+
           </div>
 
           <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
@@ -598,16 +621,6 @@ export default function ReceiptVoucher() {
                         {bankDetails.bankName}
                       </div>
                     </div>
-                    {bankDetails.cardHolderName && (
-                      <div className="relative flex items-baseline pt-2">
-                        <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
-                          CARD HOLDER NAME:
-                        </span>
-                        <div className={`flex-1 border-b-[1.5px] border-dashed border-transparent pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
-                          {bankDetails.cardHolderName}
-                        </div>
-                      </div>
-                    )}
                     
                     <div className="relative flex justify-between items-baseline gap-10 pt-3">
                       <div className="flex-[3] flex items-baseline">
@@ -625,6 +638,28 @@ export default function ReceiptVoucher() {
                         <div className={`flex-1 border-b-[1.5px] border-dashed ${bankDetails.date ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed text-center`}>
                           {bankDetails.date}
                         </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+                
+                {/* Card Details */}
+                {sectionsVisibility.cardDetails && (
+                  <>
+                    <div className="relative flex items-baseline pt-3">
+                      <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
+                        CARD BANK NAME:
+                      </span>
+                      <div className={`flex-1 border-b-[1.5px] border-dashed ${cardDetails.bankName ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
+                        {cardDetails.bankName}
+                      </div>
+                    </div>
+                    <div className="relative flex items-baseline pt-2">
+                      <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
+                        CARD HOLDER NAME:
+                      </span>
+                      <div className={`flex-1 border-b-[1.5px] border-dashed ${cardDetails.cardHolderName ? 'border-transparent' : 'border-[#555]'} pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
+                        {cardDetails.cardHolderName}
                       </div>
                     </div>
                   </>

@@ -75,13 +75,15 @@ export default function ReceiptVoucher() {
     cash: false,
     cheque: false,
     bankTransfer: false,
-    onlinePayment: false
+    onlinePayment: false,
+    cardPayment: false
   });
 
   const [bankDetails, setBankDetails] = useState({
     bankName: '',
     chequeNo: '',
-    date: ''
+    date: '',
+    cardHolderName: ''
   });
 
   const [receivedBy, setReceivedBy] = useState({
@@ -424,7 +426,7 @@ export default function ReceiptVoucher() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {['cash', 'cheque', 'bankTransfer', 'onlinePayment'].map(method => (
+              {['cash', 'cheque', 'bankTransfer', 'onlinePayment', 'cardPayment'].map(method => (
                 <label key={method} className="flex items-center gap-2 cursor-pointer">
                   <input 
                     type="checkbox" 
@@ -436,9 +438,15 @@ export default function ReceiptVoucher() {
                 </label>
               ))}
             </div>
-            <div className="space-y-1 mt-4">
-              <label className="text-xs font-semibold text-slate-400">Bank Name</label>
-              <input type="text" value={bankDetails.bankName} onChange={(e) => setBankDetails({...bankDetails, bankName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400">Bank Name</label>
+                <input type="text" value={bankDetails.bankName} onChange={(e) => setBankDetails({...bankDetails, bankName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-400">Card Holder Name</label>
+                <input type="text" value={bankDetails.cardHolderName} onChange={(e) => setBankDetails({...bankDetails, cardHolderName: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" placeholder="Only if card payment" />
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
@@ -565,7 +573,8 @@ export default function ReceiptVoucher() {
                         { id: 'cash', label: 'Cash' },
                         { id: 'cheque', label: 'Cheque' },
                         { id: 'bankTransfer', label: 'Bank Transfer' },
-                        { id: 'onlinePayment', label: 'Online' }
+                        { id: 'onlinePayment', label: 'Online' },
+                        { id: 'cardPayment', label: 'Card' }
                       ].map(pm => (
                         <div key={pm.id} className="flex items-center gap-2">
                           <div className="w-[14px] h-[14px] border-[1.5px] border-[#222] flex items-center justify-center bg-white relative">
@@ -589,6 +598,16 @@ export default function ReceiptVoucher() {
                         {bankDetails.bankName}
                       </div>
                     </div>
+                    {bankDetails.cardHolderName && (
+                      <div className="relative flex items-baseline pt-2">
+                        <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
+                          CARD HOLDER NAME:
+                        </span>
+                        <div className={`flex-1 border-b-[1.5px] border-dashed border-transparent pb-1 min-h-[26px] text-[13px] text-[#222] font-semibold px-2 leading-relaxed`}>
+                          {bankDetails.cardHolderName}
+                        </div>
+                      </div>
+                    )}
                     
                     <div className="relative flex justify-between items-baseline gap-10 pt-3">
                       <div className="flex-[3] flex items-baseline">

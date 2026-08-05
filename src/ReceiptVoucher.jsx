@@ -505,7 +505,7 @@ export default function ReceiptVoucher() {
             
             {/* Watermark Background */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-              <img src={watermark} alt="Watermark" className="w-[85%] max-w-[650px] object-contain opacity-20" onError={(e) => { e.target.style.display = 'none'; }} />
+              <img src={watermark} alt="Watermark" className="w-[85%] max-w-[650px] object-contain opacity-5" onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
 
             {/* Corner Vectors (Top Left) */}

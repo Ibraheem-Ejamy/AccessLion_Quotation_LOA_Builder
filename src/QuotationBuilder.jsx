@@ -95,7 +95,10 @@ export default function QuotationBuilder() {
     contactPerson: "Mr. S. Rajendran",
     phone: "+971542343601",
     email: "",
-    address: "Abu Dhabi, U.A.E"
+    address: "Abu Dhabi, U.A.E",
+    customFields: [
+      { id: 'cf_1', label: 'Project Name', value: '' }
+    ]
   };
 
   const initialQuoteInfo = {
@@ -104,7 +107,8 @@ export default function QuotationBuilder() {
     expiryDate: getExpiryDateString(),
     contactPerson: "Mr./Mrs",
     contactNo: "+971 54 281 1111",
-    preparedByDesignation: "Operations & Rental Dept."
+    preparedByDesignation: "Operations & Rental Dept.",
+    subject: ""
   };
 
   const initialColumns = [
@@ -153,6 +157,7 @@ export default function QuotationBuilder() {
   const [items, setItems] = useState(initialItems);
   const [rentalTerms, setRentalTerms] = useState(initialRentalTerms);
   const [generalTerms, setGeneralTerms] = useState(initialGeneralTerms);
+  const [projectScope, setProjectScope] = useState("");
   const [vatRate, setVatRate] = useState(5);
   const [currency, setCurrency] = useState("AED");
   const [activeTab, setActiveTab] = useState("general");
@@ -165,9 +170,11 @@ export default function QuotationBuilder() {
   const [columns, setColumns] = useState(initialColumns);
 
   const [sectionsVisibility, setSectionsVisibility] = useState({
+    subject: true,
     amountInWords: true,
     rentalTerms: true,
     generalTerms: true,
+    projectScope: false,
     signatures: true,
     bankDetails: true
   });
@@ -372,7 +379,8 @@ export default function QuotationBuilder() {
       currency,
       designStyle,
       columns,
-      sectionsVisibility
+      sectionsVisibility,
+      projectScope
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -392,8 +400,18 @@ export default function QuotationBuilder() {
       try {
         const parsed = JSON.parse(event.target.result);
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-        if (parsed.clientInfo) setClientInfo(parsed.clientInfo);
-        if (parsed.quoteInfo) setQuoteInfo(parsed.quoteInfo);
+        if (parsed.clientInfo) {
+          setClientInfo({
+            ...parsed.clientInfo,
+            customFields: parsed.clientInfo.customFields || initialClientInfo.customFields
+          });
+        }
+        if (parsed.quoteInfo) {
+          setQuoteInfo({
+            ...parsed.quoteInfo,
+            subject: parsed.quoteInfo.subject || ''
+          });
+        }
         if (parsed.items) {
           const migratedItems = parsed.items.map(item => {
             if (item.values) return item;
@@ -428,7 +446,14 @@ export default function QuotationBuilder() {
             ]);
           }
         }
-        if (parsed.sectionsVisibility) setSectionsVisibility(parsed.sectionsVisibility);
+        if (parsed.sectionsVisibility) {
+          setSectionsVisibility({
+            ...parsed.sectionsVisibility,
+            subject: parsed.sectionsVisibility.subject !== undefined ? parsed.sectionsVisibility.subject : true,
+            projectScope: parsed.sectionsVisibility.projectScope !== undefined ? parsed.sectionsVisibility.projectScope : false
+          });
+        }
+        if (parsed.projectScope !== undefined) setProjectScope(parsed.projectScope);
         showToast("Quotation data loaded successfully!");
       } catch {
         showToast("Invalid JSON structure.", "error");
@@ -887,6 +912,18 @@ export default function QuotationBuilder() {
                     />
                   </div>
                 </div>
+                <div className="pt-2">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Quotation Subject (Optional)</label>
+                    <input
+                      type="text"
+                      value={quoteInfo.subject || ''}
+                      onChange={(e) => setQuoteInfo({ ...quoteInfo, subject: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                      placeholder="e.g. Quotation for Construction Project"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -988,6 +1025,57 @@ export default function QuotationBuilder() {
                   className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
                   placeholder="e.g. Abu Dhabi, U.A.E."
                 />
+              </div>
+              <div className="pt-4 border-t border-slate-800">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Custom Fields</h4>
+                  <button
+                    onClick={() => {
+                      const newField = { id: 'cf_' + Date.now(), label: 'New Field', value: '' };
+                      setClientInfo({ ...clientInfo, customFields: [...(clientInfo.customFields || []), newField] });
+                    }}
+                    className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] px-2 py-1 rounded-md transition-all font-semibold"
+                  >
+                    <Plus className="w-3 h-3" /> Add Field
+                  </button>
+                </div>
+                <div className="space-y-2 max-h-[150px] overflow-y-auto pr-1">
+                  {(clientInfo.customFields || []).map((cf, index) => (
+                    <div key={cf.id} className="flex items-center gap-2 bg-slate-900 p-2 rounded-lg border border-slate-800">
+                      <input
+                        type="text"
+                        value={cf.label}
+                        onChange={(e) => {
+                          const newFields = [...clientInfo.customFields];
+                          newFields[index].label = e.target.value;
+                          setClientInfo({ ...clientInfo, customFields: newFields });
+                        }}
+                        className="w-1/3 bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs text-slate-300 focus:outline-none focus:border-amber-500 placeholder-slate-600"
+                        placeholder="Label (e.g. Project)"
+                      />
+                      <input
+                        type="text"
+                        value={cf.value}
+                        onChange={(e) => {
+                          const newFields = [...clientInfo.customFields];
+                          newFields[index].value = e.target.value;
+                          setClientInfo({ ...clientInfo, customFields: newFields });
+                        }}
+                        className="flex-1 bg-slate-950 border border-slate-700 rounded-md px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-amber-500 placeholder-slate-600"
+                        placeholder="Value"
+                      />
+                      <button
+                        onClick={() => {
+                          const newFields = clientInfo.customFields.filter(f => f.id !== cf.id);
+                          setClientInfo({ ...clientInfo, customFields: newFields });
+                        }}
+                        className="text-slate-500 hover:text-red-400 p-1"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -1108,6 +1196,22 @@ export default function QuotationBuilder() {
                   ))}
                 </div>
               </div>
+
+              {/* Project Scope */}
+              <div className="space-y-4 pt-4 border-t border-slate-800">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Project Scope / Body Text</h3>
+                </div>
+                <div className="space-y-1">
+                  <textarea
+                    value={projectScope}
+                    onChange={(e) => setProjectScope(e.target.value)}
+                    rows="6"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500 placeholder-slate-600"
+                    placeholder="Enter project scope, methodology, or any other body text..."
+                  />
+                </div>
+              </div>
             </div>
           )}
 
@@ -1152,6 +1256,14 @@ export default function QuotationBuilder() {
               <div className="space-y-4 pt-4 border-t border-slate-800">
                 <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Toggle Sections</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.subject} onChange={(e) => setSectionsVisibility({...sectionsVisibility, subject: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Quotation Subject</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.projectScope} onChange={(e) => setSectionsVisibility({...sectionsVisibility, projectScope: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Project Scope (Body Text)</span>
+                  </label>
                   <label className="flex items-center gap-2 cursor-pointer group">
                     <input type="checkbox" checked={sectionsVisibility.amountInWords} onChange={(e) => setSectionsVisibility({...sectionsVisibility, amountInWords: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
                     <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Amount in Words</span>
@@ -1269,6 +1381,16 @@ export default function QuotationBuilder() {
                         </p>
                       )}
                       <p className="text-[11px] text-slate-500 leading-tight">{clientInfo.address}</p>
+                      
+                      {clientInfo.customFields && clientInfo.customFields.length > 0 && (
+                        <div className="pt-1 mt-1 border-t border-slate-100/60">
+                          {clientInfo.customFields.map(cf => cf.label && cf.value ? (
+                            <p key={cf.id} className="text-[11px] text-slate-600 flex items-start gap-1">
+                              <span className="min-w-[70px]">{cf.label}:</span> <strong className="text-slate-900 font-bold whitespace-pre-wrap">{cf.value}</strong>
+                            </p>
+                          ) : null)}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -1285,6 +1407,15 @@ export default function QuotationBuilder() {
                     </div>
                   </div>
                 </div>
+
+                {/* SUBJECT BANNER */}
+                {sectionsVisibility.subject && quoteInfo.subject && (
+                  <div className="py-2 border-b-2 border-amber-500">
+                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                      <span className="text-amber-500">SUBJECT:</span> {quoteInfo.subject}
+                    </h3>
+                  </div>
+                )}
 
                 {/* TABLE OF ITEMS */}
                 <div className="overflow-x-auto">
@@ -1433,6 +1564,19 @@ export default function QuotationBuilder() {
                           </ul>
                         </div>
                       )}
+                    </div>
+                  </div>
+                )}
+
+                {/* PROJECT SCOPE (BODY TEXT) */}
+                {sectionsVisibility.projectScope && projectScope && (
+                  <div className="pt-3 border-t border-slate-100">
+                    <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                      Project Scope & Details
+                    </h4>
+                    <div className="text-[10px] text-slate-700 leading-relaxed whitespace-pre-wrap pl-3">
+                      {projectScope}
                     </div>
                   </div>
                 )}

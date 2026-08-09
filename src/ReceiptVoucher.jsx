@@ -95,6 +95,13 @@ export default function ReceiptVoucher() {
     date: ''
   });
 
+  const [signatures, setSignatures] = useState({
+    preparedBy: null,
+    approvedBy: null,
+    receivedBy: null,
+    stamp: null
+  });
+
   const [sectionsVisibility, setSectionsVisibility] = useState({
     paymentMethod: true,
     bankDetails: true,
@@ -115,6 +122,21 @@ export default function ReceiptVoucher() {
   const showToast = (text, type = "success") => {
     setStatusMessage({ text, type });
     setTimeout(() => setStatusMessage(null), 4000);
+  };
+
+  const handleImageUpload = (e, field) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setSignatures(prev => ({ ...prev, [field]: event.target.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = (field) => {
+    setSignatures(prev => ({ ...prev, [field]: null }));
   };
 
   const handlePrint = () => {
@@ -149,6 +171,7 @@ export default function ReceiptVoucher() {
       bankDetails,
       cardDetails,
       receivedBy,
+      signatures,
       sectionsVisibility
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
@@ -177,6 +200,7 @@ export default function ReceiptVoucher() {
         if (parsed.bankDetails) setBankDetails(prev => ({ ...prev, ...parsed.bankDetails }));
         if (parsed.cardDetails) setCardDetails(prev => ({ ...prev, ...parsed.cardDetails }));
         if (parsed.receivedBy) setReceivedBy(prev => ({ ...prev, ...parsed.receivedBy }));
+        if (parsed.signatures) setSignatures(prev => ({ ...prev, ...parsed.signatures }));
         if (parsed.sectionsVisibility) setSectionsVisibility(prev => ({ ...prev, ...parsed.sectionsVisibility }));
         showToast("Draft loaded successfully!");
       } catch {
@@ -483,16 +507,95 @@ export default function ReceiptVoucher() {
 
           </div>
 
-          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
-            <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2 border-b border-slate-800 pb-2">Signatures</h3>
+          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl">
+            <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Signatures</h3>
+            
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-slate-400">Approved By</label>
+                <label className="text-xs font-semibold text-slate-400">Approved By (Name)</label>
                 <input type="text" value={receivedBy.name} onChange={(e) => setReceivedBy({...receivedBy, name: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-400">Date</label>
                 <input type="text" value={receivedBy.date} onChange={(e) => setReceivedBy({...receivedBy, date: e.target.value})} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-[#c5a059]" />
+              </div>
+            </div>
+
+            <div className="space-y-4 pt-4 border-t border-slate-800">
+              <h4 className="text-xs font-bold text-slate-400 uppercase">E-Signatures & Stamps</h4>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Prepared By Signature */}
+                <div className="space-y-2 bg-slate-900 p-3 rounded-xl border border-slate-800">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Prepared By (Signature)</label>
+                  {!signatures.preparedBy ? (
+                    <label className="flex flex-col items-center justify-center w-full h-16 border-2 border-slate-700 border-dashed rounded-lg cursor-pointer hover:bg-slate-800 hover:border-[#c5a059] transition-colors">
+                      <span className="text-xs text-slate-500 font-semibold">Upload Image</span>
+                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, 'preparedBy')} />
+                    </label>
+                  ) : (
+                    <div className="relative group w-full h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                      <img src={signatures.preparedBy} alt="Prepared By" className="max-h-full object-contain" />
+                      <button onClick={() => removeImage('preparedBy')} className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Approved By Signature */}
+                <div className="space-y-2 bg-slate-900 p-3 rounded-xl border border-slate-800">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Approved By (Signature)</label>
+                  {!signatures.approvedBy ? (
+                    <label className="flex flex-col items-center justify-center w-full h-16 border-2 border-slate-700 border-dashed rounded-lg cursor-pointer hover:bg-slate-800 hover:border-[#c5a059] transition-colors">
+                      <span className="text-xs text-slate-500 font-semibold">Upload Image</span>
+                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, 'approvedBy')} />
+                    </label>
+                  ) : (
+                    <div className="relative group w-full h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                      <img src={signatures.approvedBy} alt="Approved By" className="max-h-full object-contain" />
+                      <button onClick={() => removeImage('approvedBy')} className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Received By Signature */}
+                <div className="space-y-2 bg-slate-900 p-3 rounded-xl border border-slate-800">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Received By (Signature)</label>
+                  {!signatures.receivedBy ? (
+                    <label className="flex flex-col items-center justify-center w-full h-16 border-2 border-slate-700 border-dashed rounded-lg cursor-pointer hover:bg-slate-800 hover:border-[#c5a059] transition-colors">
+                      <span className="text-xs text-slate-500 font-semibold">Upload Image</span>
+                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, 'receivedBy')} />
+                    </label>
+                  ) : (
+                    <div className="relative group w-full h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                      <img src={signatures.receivedBy} alt="Received By" className="max-h-full object-contain" />
+                      <button onClick={() => removeImage('receivedBy')} className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Received By Stamp */}
+                <div className="space-y-2 bg-slate-900 p-3 rounded-xl border border-slate-800">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Received By (Stamp)</label>
+                  {!signatures.stamp ? (
+                    <label className="flex flex-col items-center justify-center w-full h-16 border-2 border-slate-700 border-dashed rounded-lg cursor-pointer hover:bg-slate-800 hover:border-[#c5a059] transition-colors">
+                      <span className="text-xs text-slate-500 font-semibold">Upload Image</span>
+                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, 'stamp')} />
+                    </label>
+                  ) : (
+                    <div className="relative group w-full h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                      <img src={signatures.stamp} alt="Stamp" className="max-h-full object-contain" />
+                      <button onClick={() => removeImage('stamp')} className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -667,22 +770,38 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Signatures */}
-              <div className="mt-8 mb-0 flex items-start justify-between gap-12 px-4">
-                <div className="flex flex-col flex-[1.5]">
-                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
+              <div className="mt-8 mb-0 flex items-start justify-between gap-12 px-4 relative z-20">
+                
+                {/* Prepared By */}
+                <div className="flex flex-col flex-[1.5] relative">
+                  <div className="border-b-[1.5px] border-[#222] h-12 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222] relative">
+                    {signatures.preparedBy && (
+                      <img src={signatures.preparedBy} className="absolute bottom-1 max-h-16 object-contain z-10" alt="Prepared By Signature" />
+                    )}
                   </div>
                   <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">PREPARED BY</span>
                 </div>
                 
-                <div className="flex flex-col flex-[2]">
-                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
-                    {receivedBy.name}
+                {/* Approved By */}
+                <div className="flex flex-col flex-[2] relative">
+                  <div className="border-b-[1.5px] border-[#222] h-12 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222] relative">
+                    {signatures.approvedBy && (
+                      <img src={signatures.approvedBy} className="absolute bottom-1 max-h-16 object-contain z-10" alt="Approved By Signature" />
+                    )}
+                    <span className="relative z-0">{receivedBy.name}</span>
                   </div>
                   <span className="font-bold text-[12px] text-[#111] mt-1 uppercase text-center tracking-widest">APPROVED BY</span>
                 </div>
 
-                <div className="flex flex-col flex-[2.5]">
-                  <div className="border-b-[1.5px] border-[#222] h-10 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222]">
+                {/* Received By */}
+                <div className="flex flex-col flex-[2.5] relative">
+                  <div className="border-b-[1.5px] border-[#222] h-12 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222] relative">
+                    {signatures.stamp && (
+                      <img src={signatures.stamp} className="absolute bottom-2 right-[-10px] max-h-24 opacity-80 object-contain z-0 mix-blend-multiply" alt="Stamp" />
+                    )}
+                    {signatures.receivedBy && (
+                      <img src={signatures.receivedBy} className="absolute bottom-1 max-h-16 object-contain z-10" alt="Received By Signature" />
+                    )}
                   </div>
                   <div className="flex flex-col items-center mt-1 space-y-1">
                     <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider">(Authorized Signature & Stamp)</span>

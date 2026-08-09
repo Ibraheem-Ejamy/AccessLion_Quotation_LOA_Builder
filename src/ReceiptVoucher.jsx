@@ -773,7 +773,7 @@ export default function ReceiptVoucher() {
               <div className="mt-8 mb-0 flex items-start justify-between gap-12 px-4 relative z-20">
                 
                 {/* Prepared By */}
-                <div className="flex flex-col flex-[1.5] relative">
+                <div className="flex flex-col flex-[2] relative">
                   <div className="border-b-[1.5px] border-[#222] h-12 w-full mb-1 flex items-end justify-center pb-1 font-bold text-[16px] text-[#222] relative">
                     {signatures.preparedBy && (
                       <img src={signatures.preparedBy} className="absolute bottom-1 max-h-16 object-contain z-10" alt="Prepared By Signature" />

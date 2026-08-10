@@ -350,7 +350,7 @@ export default function QuotationBuilder() {
 
   // Terms Management
   const addRentalTerm = () => {
-    setRentalTerms([...rentalTerms, "New liability or rental condition statement."]);
+    setRentalTerms([...rentalTerms, ""]);
   };
 
   const updateRentalTerm = (index, value) => {
@@ -373,7 +373,7 @@ export default function QuotationBuilder() {
   };
 
   const addGeneralTerm = () => {
-    setGeneralTerms([...generalTerms, "New general instruction or payment milestone."]);
+    setGeneralTerms([...generalTerms, ""]);
   };
 
   const updateGeneralTerm = (index, value) => {
@@ -1525,8 +1525,8 @@ export default function QuotationBuilder() {
 
                 {/* SUBJECT BANNER */}
                 {sectionsVisibility.subject && quoteInfo.subject && (
-                  <div className="py-2 border-b-2 border-amber-500">
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                  <div className="py-2 border-b-2 border-amber-500 text-center">
+                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest flex items-center justify-center gap-2">
                       <span className="text-amber-500">SUBJECT:</span> {quoteInfo.subject}
                     </h3>
                   </div>

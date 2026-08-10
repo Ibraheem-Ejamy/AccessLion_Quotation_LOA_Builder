@@ -521,7 +521,7 @@ export default function QuotationBuilder() {
             el.style.width = '794px';
             el.style.maxWidth = '794px';
             el.style.minHeight = '1123px';
-            el.classList.remove('shadow-2xl', 'rounded-2xl', 'border', 'border-slate-200');
+            el.classList.remove('shadow-2xl', 'rounded-2xl', 'border', 'border-slate-300');
           }
         }
       });
@@ -1419,7 +1419,7 @@ export default function QuotationBuilder() {
           </div>
 
           {/* THE DOCUMENT CONTAINER (Standard A4 Proportions in pixels roughly 794px wide for clean scaling) */}
-          <div id="pdf-content" className="w-full max-w-[800px] bg-white text-slate-900 shadow-2xl rounded-2xl overflow-hidden border border-slate-200 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
+          <div id="pdf-content" className="w-full max-w-[800px] bg-white text-slate-900 shadow-2xl rounded-2xl overflow-hidden border border-slate-300 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
 
             {/* Elegant luxury top border strip */}
             <div className="h-3 w-full bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900" />
@@ -1480,9 +1480,9 @@ export default function QuotationBuilder() {
                 </div>
 
                 {/* CLIENT & SENDER DETAILS METADATA */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-6 bg-slate-50/50 p-5 rounded-xl border border-slate-100">
+                <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-6 bg-slate-50/50 p-5 rounded-xl border border-slate-300">
                   {/* Quotation To (Client) */}
-                  <div className="space-y-1.5 border-r border-slate-100 pr-4 print:border-r">
+                  <div className="space-y-1.5 border-r border-slate-300 pr-4 print:border-r">
                     <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest block">Quotation To</span>
                     <div className="space-y-0.5">
                       <h4 className="font-extrabold text-slate-900 text-xs leading-snug">{clientInfo.company}</h4>
@@ -1498,7 +1498,7 @@ export default function QuotationBuilder() {
                       <p className="text-[11px] text-slate-500 leading-tight">{clientInfo.address}</p>
                       
                       {clientInfo.customFields && clientInfo.customFields.length > 0 && (
-                        <div className="pt-1 mt-1 border-t border-slate-100/60">
+                        <div className="pt-1 mt-1 border-t border-slate-300/60">
                           {clientInfo.customFields.map(cf => cf.label && cf.value ? (
                             <p key={cf.id} className="text-[11px] text-slate-600 flex items-start gap-1">
                               <span>{cf.label}:</span> <strong className="text-slate-900 font-bold whitespace-pre-wrap">{cf.value}</strong>
@@ -1544,7 +1544,7 @@ export default function QuotationBuilder() {
                         ))}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-slate-300">
                       {items.map((item, index) => {
                         const itemTotal = getItemTotal(item);
                         return (
@@ -1578,7 +1578,7 @@ export default function QuotationBuilder() {
                     {sectionsVisibility.amountInWords && (
                       <>
                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Total Amount in Words</span>
-                        <p className="text-[11px] italic text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100 font-medium">
+                        <p className="text-[11px] italic text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-300 font-medium">
                           {numberToWords(calculateTotal())}
                         </p>
                       </>
@@ -1588,31 +1588,31 @@ export default function QuotationBuilder() {
                         <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
                           Company Bank Details
                         </h4>
-                        <div className="overflow-hidden border border-slate-200 rounded-md">
+                        <div className="overflow-hidden border border-slate-300 rounded-md">
                           <table className="w-full text-[8.5px] text-left border-collapse">
                             <tbody>
-                            <tr className="border-b border-slate-200">
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200 w-[18%]">Account Name:</th>
-                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200 w-[32%]">Access Lion Gen Cont & Transporting</td>
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200 w-[18%]">Account Number:</th>
+                            <tr className="border-b border-slate-300">
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300 w-[18%]">Account Name:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-300 w-[32%]">Access Lion Gen Cont & Transporting</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300 w-[18%]">Account Number:</th>
                               <td className="py-1 px-2 text-slate-800 font-medium w-[32%]">117-132-1559506-02-6</td>
                             </tr>
-                            <tr className="border-b border-slate-200">
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Name Of Bank:</th>
-                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200">First Abu Dhabi Bank (FAB)</td>
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">IBAN:</th>
+                            <tr className="border-b border-slate-300">
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300">Name Of Bank:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-300">First Abu Dhabi Bank (FAB)</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300">IBAN:</th>
                               <td className="py-1 px-2 text-slate-800 font-medium whitespace-nowrap">AE-53-035-117-132-1559506-02-6</td>
                             </tr>
-                            <tr className="border-b border-slate-200">
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Branch:</th>
-                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200">Madinat Zayed</td>
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Currency:</th>
+                            <tr className="border-b border-slate-300">
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300">Branch:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-300">Madinat Zayed</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300">Currency:</th>
                               <td className="py-1 px-2 text-slate-800 font-medium">AED</td>
                             </tr>
                             <tr>
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Bank Address:</th>
-                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-200">P.O. BOX: 58914, Abu Dhabi</td>
-                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-200">Swift Code:</th>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300">Bank Address:</th>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-300">P.O. BOX: 58914, Abu Dhabi</td>
+                              <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300">Swift Code:</th>
                               <td className="py-1 px-2 text-slate-800 font-medium">NBADAEAA</td>
                             </tr>
                           </tbody>
@@ -1622,7 +1622,7 @@ export default function QuotationBuilder() {
                     )}
                   </div>
 
-                  <div className="sm:col-span-5 print:col-span-5 bg-slate-50 p-3.5 rounded-xl space-y-2 border border-slate-100">
+                  <div className="sm:col-span-5 print:col-span-5 bg-slate-50 p-3.5 rounded-xl space-y-2 border border-slate-300">
                     <div className="flex justify-between items-center text-[11px]">
                       <span className="text-slate-600">Subtotal:</span>
                       <span className="font-semibold text-slate-900">
@@ -1646,7 +1646,7 @@ export default function QuotationBuilder() {
 
                 {/* RENTAL TERMS & GENERAL TERMS BILINGUAL */}
                 {(sectionsVisibility.rentalTerms || sectionsVisibility.generalTerms) && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 pt-3 border-t border-slate-300">
                     {/* Rental Machinery terms of liability */}
                     <div>
                       {sectionsVisibility.rentalTerms && (
@@ -1685,7 +1685,7 @@ export default function QuotationBuilder() {
 
                 {/* PROJECT SCOPE (BODY TEXT) */}
                 {sectionsVisibility.projectScope && projectScope && (
-                  <div className="pt-3 border-t border-slate-100">
+                  <div className="pt-3 border-t border-slate-300">
                     <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
                       Project Scope & Details
@@ -1703,7 +1703,7 @@ export default function QuotationBuilder() {
 
                 {/* Signatures Layout */}
                 {sectionsVisibility.signatures && (
-                  <div className="grid grid-cols-2 gap-8 text-center pt-4 border-t border-slate-100">
+                  <div className="grid grid-cols-2 gap-8 text-center pt-4 border-t border-slate-300">
                     <div className="space-y-8">
                       <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Prepared & Approved By</p>
                       <div className="inline-block border-t border-slate-300 w-44 pt-2 relative">
@@ -1729,7 +1729,7 @@ export default function QuotationBuilder() {
                 )}
 
                 {/* Symmetrical footer info strip */}
-                <div className="pt-4 border-t border-slate-100 text-center space-y-1">
+                <div className="pt-4 border-t border-slate-300 text-center space-y-1">
                   <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                     ACCESS LION GENERAL CONTRACTING AND TRANSPORTING • ABU DHABI UAE
                   </p>

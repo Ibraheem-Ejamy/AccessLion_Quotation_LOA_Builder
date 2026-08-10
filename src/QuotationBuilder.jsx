@@ -84,8 +84,8 @@ const DefaultLionLogo = () => (
 export default function QuotationBuilder() {
   // --- PRESETS & INITIAL STATE ---
   const initialCompanyInfo = {
-    nameEn: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING",
-    nameAr: "اكسس ليون للمقاولات والنقليات العامة",
+    nameEn: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C",
+    nameAr: "اكسس ليون للمقاولات والنقليات العامة ذ.م.م ش.و.و",
     tel: "+971542811111",
     poBox: "58914",
     email: "info@accesslion.ae",
@@ -1442,14 +1442,14 @@ export default function QuotationBuilder() {
                     </div>
                     <div>
                       <h2 className="font-extrabold text-2xl tracking-wider text-slate-950 font-serif leading-none">ACCESS</h2>
-                      <h3 className="font-bold text-lg tracking-widest text-amber-600 font-serif leading-none mt-1">LION</h3>
+                      <h3 className="font-extrabold text-2xl tracking-wider text-amber-600 font-serif leading-none mt-1">LION</h3>
                       <p className="text-[9px] text-slate-500 uppercase tracking-widest mt-2">Elite Machinery Solutions</p>
                     </div>
                   </div>
 
                   {/* Company Details (English / Arabic bilingual setup matching original) */}
                   <div className="text-center sm:text-right print:text-right w-full sm:max-w-[60%] print:max-w-[60%] space-y-1">
-                    <h1 className="text-md font-extrabold text-slate-900 leading-tight">اكسس ليون للمقاولات والنقليات العامة</h1>
+                    <h1 className="text-md font-extrabold text-slate-900 leading-tight">{companyInfo.nameAr}</h1>
                     <h2 className="text-xs font-bold text-amber-700 tracking-wide">{companyInfo.nameEn}</h2>
                     <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
                       Tel: {companyInfo.tel} • P.O.Box: {companyInfo.poBox} • Web: {companyInfo.web} <br />

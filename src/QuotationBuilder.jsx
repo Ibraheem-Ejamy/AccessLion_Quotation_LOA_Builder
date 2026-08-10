@@ -1501,7 +1501,7 @@ export default function QuotationBuilder() {
                         <div className="pt-1 mt-1 border-t border-slate-100/60">
                           {clientInfo.customFields.map(cf => cf.label && cf.value ? (
                             <p key={cf.id} className="text-[11px] text-slate-600 flex items-start gap-1">
-                              <span className="min-w-[70px]">{cf.label}:</span> <strong className="text-slate-900 font-bold whitespace-pre-wrap">{cf.value}</strong>
+                              <span>{cf.label}:</span> <strong className="text-slate-900 font-bold whitespace-pre-wrap">{cf.value}</strong>
                             </p>
                           ) : null)}
                         </div>

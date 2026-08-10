@@ -17,7 +17,9 @@ import {
   CheckCircle2,
   Info,
   Layout,
-  Edit2
+  Edit2,
+  ChevronUp,
+  ChevronDown
 } from 'lucide-react';
 
 const getTodayDateString = () => {
@@ -361,6 +363,15 @@ export default function QuotationBuilder() {
     setRentalTerms(rentalTerms.filter((_, i) => i !== index));
   };
 
+  const moveRentalTerm = (index, direction) => {
+    if ((direction === -1 && index === 0) || (direction === 1 && index === rentalTerms.length - 1)) return;
+    const newTerms = [...rentalTerms];
+    const temp = newTerms[index];
+    newTerms[index] = newTerms[index + direction];
+    newTerms[index + direction] = temp;
+    setRentalTerms(newTerms);
+  };
+
   const addGeneralTerm = () => {
     setGeneralTerms([...generalTerms, "New general instruction or payment milestone."]);
   };
@@ -373,6 +384,15 @@ export default function QuotationBuilder() {
 
   const removeGeneralTerm = (index) => {
     setGeneralTerms(generalTerms.filter((_, i) => i !== index));
+  };
+
+  const moveGeneralTerm = (index, direction) => {
+    if ((direction === -1 && index === 0) || (direction === 1 && index === generalTerms.length - 1)) return;
+    const newTerms = [...generalTerms];
+    const temp = newTerms[index];
+    newTerms[index] = newTerms[index + direction];
+    newTerms[index + direction] = temp;
+    setGeneralTerms(newTerms);
   };
 
   // Save/Load Config as JSON file
@@ -1189,12 +1209,31 @@ export default function QuotationBuilder() {
                         onChange={(e) => updateRentalTerm(index, e.target.value)}
                         className="flex-1 bg-transparent border-none text-xs text-slate-200 focus:ring-0 focus:outline-none"
                       />
-                      <button
-                        onClick={() => removeRentalTerm(index)}
-                        className="text-slate-500 hover:text-red-400 p-1"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => moveRentalTerm(index, -1)}
+                          disabled={index === 0}
+                          className="text-slate-500 hover:text-amber-400 p-1 disabled:opacity-30 disabled:cursor-not-allowed"
+                          title="Move up"
+                        >
+                          <ChevronUp className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => moveRentalTerm(index, 1)}
+                          disabled={index === rentalTerms.length - 1}
+                          className="text-slate-500 hover:text-amber-400 p-1 disabled:opacity-30 disabled:cursor-not-allowed"
+                          title="Move down"
+                        >
+                          <ChevronDown className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => removeRentalTerm(index)}
+                          className="text-slate-500 hover:text-red-400 p-1 ml-1"
+                          title="Delete term"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1243,12 +1282,31 @@ export default function QuotationBuilder() {
                         onChange={(e) => updateGeneralTerm(index, e.target.value)}
                         className="flex-1 bg-transparent border-none text-xs text-slate-200 focus:ring-0 focus:outline-none"
                       />
-                      <button
-                        onClick={() => removeGeneralTerm(index)}
-                        className="text-slate-500 hover:text-red-400 p-1"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => moveGeneralTerm(index, -1)}
+                          disabled={index === 0}
+                          className="text-slate-500 hover:text-amber-400 p-1 disabled:opacity-30 disabled:cursor-not-allowed"
+                          title="Move up"
+                        >
+                          <ChevronUp className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => moveGeneralTerm(index, 1)}
+                          disabled={index === generalTerms.length - 1}
+                          className="text-slate-500 hover:text-amber-400 p-1 disabled:opacity-30 disabled:cursor-not-allowed"
+                          title="Move down"
+                        >
+                          <ChevronDown className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => removeGeneralTerm(index)}
+                          className="text-slate-500 hover:text-red-400 p-1 ml-1"
+                          title="Delete term"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

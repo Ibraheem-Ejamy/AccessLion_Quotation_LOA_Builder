@@ -1441,8 +1441,8 @@ export default function QuotationBuilder() {
                       )}
                     </div>
                     <div>
-                      <h2 className="font-extrabold text-2xl tracking-wider text-slate-950 font-serif leading-none">ACCESS</h2>
-                      <h3 className="font-extrabold text-2xl tracking-wider text-amber-600 font-serif leading-none mt-1">LION</h3>
+                      <h2 className="font-extrabold text-[28px] tracking-widest text-slate-950 font-serif leading-none">ACCESS</h2>
+                      <h3 className="font-extrabold text-[44px] tracking-wide text-amber-600 font-serif leading-none mt-1">LION</h3>
                       <p className="text-[9px] text-slate-500 uppercase tracking-widest mt-2">Elite Machinery Solutions</p>
                     </div>
                   </div>

@@ -1433,7 +1433,7 @@ export default function QuotationBuilder() {
                 <div className="flex flex-col sm:flex-row print:flex-row items-center justify-between gap-6 border-b pb-5 premium-gold-border">
                   {/* Logo Section */}
                   <div className="flex items-center gap-4">
-                    <div className="w-20 h-20 bg-slate-950 text-white rounded-xl flex items-center justify-center p-1 border-2 border-amber-500/50">
+                    <div className="w-[81px] h-[81px] bg-slate-950 text-white rounded-xl flex items-center justify-center p-1 border-2 border-amber-500/50">
                       {customLogo ? (
                         <img src={customLogo} alt="Corporate Logo" className="object-contain w-full h-full" />
                       ) : (

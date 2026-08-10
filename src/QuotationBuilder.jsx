@@ -1533,7 +1533,7 @@ export default function QuotationBuilder() {
                 )}
 
                 {/* TABLE OF ITEMS */}
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto border border-slate-300 rounded-lg">
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-900 text-white premium-header-bg border-b-2 border-amber-500">

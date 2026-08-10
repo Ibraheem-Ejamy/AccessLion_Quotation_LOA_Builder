@@ -16,7 +16,8 @@ import {
   FileCheck,
   CheckCircle2,
   Info,
-  Layout
+  Layout,
+  Edit2
 } from 'lucide-react';
 
 const getTodayDateString = () => {
@@ -164,6 +165,10 @@ export default function QuotationBuilder() {
   const [sectionTitles, setSectionTitles] = useState({
     rentalTerms: "Machinery Rental Terms",
     generalTerms: "General Terms & Conditions"
+  });
+  const [editingTitles, setEditingTitles] = useState({
+    rentalTerms: false,
+    generalTerms: false
   });
   const [customLogo, setCustomLogo] = useState(defaultLogo);
   const [signatureImage, setSignatureImage] = useState(null);
@@ -1144,12 +1149,28 @@ export default function QuotationBuilder() {
               {/* Rental Liability Terms */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <input
-                    type="text"
-                    value={sectionTitles.rentalTerms}
-                    onChange={(e) => setSectionTitles({ ...sectionTitles, rentalTerms: e.target.value })}
-                    className="text-sm font-bold text-slate-300 uppercase tracking-wider bg-transparent border-b border-dashed border-slate-700 focus:border-amber-500 focus:outline-none w-[200px]"
-                  />
+                  <div className="flex items-center gap-2 group">
+                    {editingTitles.rentalTerms ? (
+                      <input
+                        type="text"
+                        value={sectionTitles.rentalTerms}
+                        onChange={(e) => setSectionTitles({ ...sectionTitles, rentalTerms: e.target.value })}
+                        onBlur={() => setEditingTitles({ ...editingTitles, rentalTerms: false })}
+                        autoFocus
+                        className="text-sm font-bold text-slate-300 uppercase tracking-wider bg-transparent border-b border-amber-500 focus:outline-none w-[200px]"
+                        onKeyDown={(e) => e.key === 'Enter' && setEditingTitles({ ...editingTitles, rentalTerms: false })}
+                      />
+                    ) : (
+                      <>
+                        <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider cursor-pointer" onClick={() => setEditingTitles({ ...editingTitles, rentalTerms: true })}>
+                          {sectionTitles.rentalTerms}
+                        </h3>
+                        <button onClick={() => setEditingTitles({ ...editingTitles, rentalTerms: true })} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-amber-500 transition-opacity">
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                      </>
+                    )}
+                  </div>
                   <button
                     onClick={addRentalTerm}
                     className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-md transition-all font-semibold"
@@ -1182,12 +1203,28 @@ export default function QuotationBuilder() {
               {/* General terms */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <input
-                    type="text"
-                    value={sectionTitles.generalTerms}
-                    onChange={(e) => setSectionTitles({ ...sectionTitles, generalTerms: e.target.value })}
-                    className="text-sm font-bold text-slate-300 uppercase tracking-wider bg-transparent border-b border-dashed border-slate-700 focus:border-amber-500 focus:outline-none w-[220px]"
-                  />
+                  <div className="flex items-center gap-2 group">
+                    {editingTitles.generalTerms ? (
+                      <input
+                        type="text"
+                        value={sectionTitles.generalTerms}
+                        onChange={(e) => setSectionTitles({ ...sectionTitles, generalTerms: e.target.value })}
+                        onBlur={() => setEditingTitles({ ...editingTitles, generalTerms: false })}
+                        autoFocus
+                        className="text-sm font-bold text-slate-300 uppercase tracking-wider bg-transparent border-b border-amber-500 focus:outline-none w-[220px]"
+                        onKeyDown={(e) => e.key === 'Enter' && setEditingTitles({ ...editingTitles, generalTerms: false })}
+                      />
+                    ) : (
+                      <>
+                        <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider cursor-pointer" onClick={() => setEditingTitles({ ...editingTitles, generalTerms: true })}>
+                          {sectionTitles.generalTerms}
+                        </h3>
+                        <button onClick={() => setEditingTitles({ ...editingTitles, generalTerms: true })} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-amber-500 transition-opacity">
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                      </>
+                    )}
+                  </div>
                   <button
                     onClick={addGeneralTerm}
                     className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-md transition-all font-semibold"

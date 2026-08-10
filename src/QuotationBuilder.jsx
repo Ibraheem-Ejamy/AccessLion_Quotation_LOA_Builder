@@ -161,6 +161,10 @@ export default function QuotationBuilder() {
   const [vatRate, setVatRate] = useState(5);
   const [currency, setCurrency] = useState("AED");
   const [activeTab, setActiveTab] = useState("general");
+  const [sectionTitles, setSectionTitles] = useState({
+    rentalTerms: "Machinery Rental Terms",
+    generalTerms: "General Terms & Conditions"
+  });
   const [customLogo, setCustomLogo] = useState(defaultLogo);
   const [signatureImage, setSignatureImage] = useState(null);
   const [stampImage, setStampImage] = useState(null);
@@ -380,7 +384,10 @@ export default function QuotationBuilder() {
       designStyle,
       columns,
       sectionsVisibility,
-      projectScope
+      projectScope,
+      sectionTitles,
+      activeTab,
+      customLogo: customLogo === defaultLogo ? null : customLogo
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -431,6 +438,9 @@ export default function QuotationBuilder() {
         if (parsed.generalTerms) setGeneralTerms(parsed.generalTerms);
         if (parsed.vatRate !== undefined) setVatRate(parsed.vatRate);
         if (parsed.currency) setCurrency(parsed.currency);
+        if (parsed.activeTab) setActiveTab(parsed.activeTab);
+        if (parsed.sectionTitles) setSectionTitles(prev => ({ ...prev, ...parsed.sectionTitles }));
+        if (parsed.customLogo) setCustomLogo(parsed.customLogo);
         if (parsed.designStyle) setDesignStyle(parsed.designStyle);
         if (parsed.columns) {
           if (Array.isArray(parsed.columns)) {
@@ -1134,7 +1144,12 @@ export default function QuotationBuilder() {
               {/* Rental Liability Terms */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Machinery Rental Terms</h3>
+                  <input
+                    type="text"
+                    value={sectionTitles.rentalTerms}
+                    onChange={(e) => setSectionTitles({ ...sectionTitles, rentalTerms: e.target.value })}
+                    className="text-sm font-bold text-slate-300 uppercase tracking-wider bg-transparent border-b border-dashed border-slate-700 focus:border-amber-500 focus:outline-none w-[200px]"
+                  />
                   <button
                     onClick={addRentalTerm}
                     className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-md transition-all font-semibold"
@@ -1167,7 +1182,12 @@ export default function QuotationBuilder() {
               {/* General terms */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Terms & Conditions</h3>
+                  <input
+                    type="text"
+                    value={sectionTitles.generalTerms}
+                    onChange={(e) => setSectionTitles({ ...sectionTitles, generalTerms: e.target.value })}
+                    className="text-sm font-bold text-slate-300 uppercase tracking-wider bg-transparent border-b border-dashed border-slate-700 focus:border-amber-500 focus:outline-none w-[220px]"
+                  />
                   <button
                     onClick={addGeneralTerm}
                     className="flex items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-md transition-all font-semibold"
@@ -1538,7 +1558,7 @@ export default function QuotationBuilder() {
                         <div className="space-y-3">
                           <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-amber-500/30">
                             <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                            Special Machinery Rental Terms
+                            {sectionTitles.rentalTerms}
                           </h4>
                           <ul className="space-y-2 text-[10px] text-slate-600 leading-relaxed pl-3 list-disc">
                             {rentalTerms.map((term, index) => (
@@ -1555,7 +1575,7 @@ export default function QuotationBuilder() {
                         <div className="space-y-3">
                           <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-amber-500/30">
                             <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                            General Terms & Conditions
+                            {sectionTitles.generalTerms}
                           </h4>
                           <ul className="space-y-2 text-[10px] text-slate-600 leading-relaxed pl-3 list-disc">
                             {generalTerms.map((term, index) => (

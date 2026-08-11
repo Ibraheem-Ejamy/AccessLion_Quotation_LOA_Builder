@@ -166,11 +166,13 @@ export default function QuotationBuilder() {
   const [activeTab, setActiveTab] = useState("general");
   const [sectionTitles, setSectionTitles] = useState({
     rentalTerms: "Machinery Rental Terms",
-    generalTerms: "General Terms & Conditions"
+    generalTerms: "General Terms & Conditions",
+    projectScope: "Project Scope & Details"
   });
   const [editingTitles, setEditingTitles] = useState({
     rentalTerms: false,
-    generalTerms: false
+    generalTerms: false,
+    projectScope: false
   });
   const [customLogo, setCustomLogo] = useState(defaultLogo);
   const [signatureImage, setSignatureImage] = useState(null);
@@ -1315,7 +1317,26 @@ export default function QuotationBuilder() {
               {/* Project Scope */}
               <div className="space-y-4 pt-4 border-t border-slate-800">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider">Project Scope / Body Text</h3>
+                  {editingTitles.projectScope ? (
+                    <input
+                      type="text"
+                      autoFocus
+                      value={sectionTitles.projectScope}
+                      onChange={(e) => setSectionTitles({ ...sectionTitles, projectScope: e.target.value })}
+                      onBlur={() => setEditingTitles({ ...editingTitles, projectScope: false })}
+                      onKeyDown={(e) => e.key === 'Enter' && setEditingTitles({ ...editingTitles, projectScope: false })}
+                      className="bg-slate-900 border border-amber-500 rounded px-2 py-1 text-sm font-bold text-slate-200 outline-none w-1/2"
+                    />
+                  ) : (
+                    <div className="flex items-center gap-2 group">
+                      <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider cursor-pointer" onClick={() => setEditingTitles({ ...editingTitles, projectScope: true })}>
+                        {sectionTitles.projectScope}
+                      </h3>
+                      <button onClick={() => setEditingTitles({ ...editingTitles, projectScope: true })} className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-amber-500 transition-opacity" title="Edit Section Title">
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-1">
                   <textarea
@@ -1688,7 +1709,7 @@ export default function QuotationBuilder() {
                   <div className="pt-3 border-t border-slate-300">
                     <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 pb-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      Project Scope & Details
+                      {sectionTitles.projectScope}
                     </h4>
                     <div className="text-[10px] text-slate-700 leading-relaxed whitespace-pre-wrap pl-3">
                       {projectScope}

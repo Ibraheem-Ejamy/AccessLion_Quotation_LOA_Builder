@@ -349,6 +349,15 @@ export default function LOABuilder() {
       }
 
       const doc = new Document({
+        styles: {
+          default: {
+            document: {
+              run: {
+                font: "Arial",
+              },
+            },
+          },
+        },
         sections: [{
           properties: {
             page: {
@@ -396,16 +405,16 @@ export default function LOABuilder() {
           children: [
             new Paragraph({
               alignment: AlignmentType.LEFT,
-              children: [new TextRun({ text: `Company Name:${companyInfo?.nameEn || ""}`, bold: true, underline: {} })]
+              children: [new TextRun({ text: `Company Name:${companyInfo?.nameEn || ""}`, bold: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.RIGHT,
-              children: [new TextRun({ text: `اسم الشركة:${companyInfo?.nameAr || ""}`, bold: true, underline: {} })]
+              children: [new TextRun({ text: `اسم الشركة:${companyInfo?.nameAr || ""}`, bold: true })]
             }),
             new Paragraph({ text: "", spacing: { after: 200 } }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
-              children: [new TextRun({ text: formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات', bold: true, underline: {}, size: 28 })]
+              children: [new TextRun({ text: formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات', bold: true, size: 28 })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
@@ -421,7 +430,7 @@ export default function LOABuilder() {
             new Paragraph({ text: "", spacing: { after: 200 } }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
-              children: [new TextRun({ text: "تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.", bold: true, italics: true, underline: {} })]
+              children: [new TextRun({ text: "تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.", bold: true, italics: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,

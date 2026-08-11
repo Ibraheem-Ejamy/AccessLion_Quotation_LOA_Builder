@@ -1337,6 +1337,10 @@ export default function QuotationBuilder() {
                       </button>
                     </div>
                   )}
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" checked={sectionsVisibility.projectScope} onChange={(e) => setSectionsVisibility({...sectionsVisibility, projectScope: e.target.checked})} className="w-4 h-4 accent-amber-500 rounded" />
+                    <span className="text-xs text-slate-300 font-semibold uppercase">Include Section</span>
+                  </label>
                 </div>
                 <div className="space-y-1">
                   <textarea

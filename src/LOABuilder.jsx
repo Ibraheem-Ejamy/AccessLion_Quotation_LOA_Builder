@@ -247,7 +247,7 @@ export default function LOABuilder() {
         const node = document.getElementById(id);
         if (node && node.naturalHeight) {
           return {
-            w: Math.round(node.naturalWidth * (targetHeight / node.naturalHeight)),
+            w: Math.max(10, Math.round(node.naturalWidth * (targetHeight / node.naturalHeight))),
             h: targetHeight
           };
         }
@@ -280,11 +280,11 @@ export default function LOABuilder() {
           tableRowsData.push(
             new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph({ text: item.visaIssueArea, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.occupation, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.companyName, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.nationality, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.name, alignment: AlignmentType.RIGHT })] }),
+                new TableCell({ children: [new Paragraph({ text: item.visaIssueArea || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.occupation || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.companyName || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.nationality || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.name || "", alignment: AlignmentType.RIGHT })] }),
                 new TableCell({ children: [new Paragraph({ text: (index + 1).toString(), alignment: AlignmentType.CENTER })] }),
               ]
             })
@@ -308,12 +308,12 @@ export default function LOABuilder() {
           tableRowsData.push(
             new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph({ text: item.licenseExpiryDate, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.typeOfCar, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.placeOfIssue, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.plateType, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.plateNo, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.companyName, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.licenseExpiryDate || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.typeOfCar || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.placeOfIssue || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.plateType || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.plateNo || "", alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.companyName || "", alignment: AlignmentType.CENTER })] }),
                 new TableCell({ children: [new Paragraph({ text: (index + 1).toString(), alignment: AlignmentType.CENTER })] }),
               ]
             })
@@ -396,11 +396,11 @@ export default function LOABuilder() {
           children: [
             new Paragraph({
               alignment: AlignmentType.LEFT,
-              children: [new TextRun({ text: `Company Name:${companyInfo.nameEn}`, bold: true, underline: {} })]
+              children: [new TextRun({ text: `Company Name:${companyInfo?.nameEn || ""}`, bold: true, underline: {} })]
             }),
             new Paragraph({
               alignment: AlignmentType.RIGHT,
-              children: [new TextRun({ text: `اسم الشركة:${companyInfo.nameAr}`, bold: true, underline: {} })]
+              children: [new TextRun({ text: `اسم الشركة:${companyInfo?.nameAr || ""}`, bold: true, underline: {} })]
             }),
             new Paragraph({ text: "", spacing: { after: 200 } }),
             new Paragraph({
@@ -441,7 +441,8 @@ export default function LOABuilder() {
       saveAs(blob, `LOA_${formType}.docx`);
       showToast("Downloaded perfectly as Word document!");
     } catch (err) {
-      console.error(err);
+      console.error("Docx generation error:", err);
+      alert(`Error generating DOCX: ${err.message}`);
       showToast("Failed to generate Word document.", "error");
     }
   };

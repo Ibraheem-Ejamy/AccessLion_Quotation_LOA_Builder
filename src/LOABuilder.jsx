@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import * as docx from "docx";
+import { saveAs } from "file-saver";
 import defaultLogo from './assets/logo1.png';
 import adnocHeader from './assets/adnoc_header.png';
 import adnocFooter from './assets/adnoc_footer.png';
@@ -218,85 +220,230 @@ export default function LOABuilder() {
     window.print();
   };
 
-  const exportToWord = () => {
-    const originalElement = document.getElementById('print-container');
-    if (!originalElement) return;
+  const exportToWord = async () => {
+    try {
+      showToast("Generating Document...", "info");
+      
+      const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, ImageRun, AlignmentType, WidthType, BorderStyle, Header, Footer } = docx;
 
-    // Clone the element so we don't modify the live DOM
-    const element = originalElement.cloneNode(true);
-    const liveImages = originalElement.getElementsByTagName('img');
-    const cloneImages = element.getElementsByTagName('img');
-    
-    // Explicitly set ONLY width HTML attribute based on live rendered size to preserve perfect aspect ratio
-    for (let i = 0; i < liveImages.length; i++) {
-      if (liveImages[i].clientWidth) {
-        cloneImages[i].setAttribute('width', liveImages[i].clientWidth);
+      const getAbsoluteUrl = (imgSrc) => {
+        if (!imgSrc) return "";
+        if (imgSrc.startsWith('http') || imgSrc.startsWith('data:')) return imgSrc;
+        const a = document.createElement('a');
+        a.href = imgSrc;
+        return a.href;
+      };
+
+      const urlToArrayBuffer = async (url) => {
+        const response = await fetch(getAbsoluteUrl(url));
+        const blob = await response.blob();
+        return await blob.arrayBuffer();
+      };
+
+      const headerBuffer = await urlToArrayBuffer(adnocHeader);
+      const footerBuffer = await urlToArrayBuffer(adnocFooter);
+      
+      const getImgDimensions = (id, targetHeight) => {
+        const node = document.getElementById(id);
+        if (node && node.naturalHeight) {
+          return {
+            w: Math.round(node.naturalWidth * (targetHeight / node.naturalHeight)),
+            h: targetHeight
+          };
+        }
+        return { w: targetHeight * 2, h: targetHeight };
+      };
+
+      const hDim = getImgDimensions('header-img', 112);
+      const fDim = getImgDimensions('footer-img', 96);
+      const sigDim = getImgDimensions('sig-img', 70);
+      const stampDim = getImgDimensions('stamp-img', 85);
+
+      const tableRowsData = [];
+      const headerColor = "D4C38E";
+
+      // Create Table Header
+      if (formType === 'names') {
+        tableRowsData.push(
+          new TableRow({
+            children: [
+              new TableCell({ children: [new Paragraph({ text: "مكان صدور الاقامة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of visa issue area", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "المهنة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Occupation", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "الجنسية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Nationality", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "الاسم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "رقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+            ]
+          })
+        );
+        nameItems.forEach((item, index) => {
+          tableRowsData.push(
+            new TableRow({
+              children: [
+                new TableCell({ children: [new Paragraph({ text: item.visaIssueArea, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.occupation, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.companyName, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.nationality, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.name, alignment: AlignmentType.RIGHT })] }),
+                new TableCell({ children: [new Paragraph({ text: (index + 1).toString(), alignment: AlignmentType.CENTER })] }),
+              ]
+            })
+          );
+        });
+      } else {
+        tableRowsData.push(
+          new TableRow({
+            children: [
+              new TableCell({ children: [new Paragraph({ text: "تاريخ انتهاء الملكية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "License Expiry Date", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "نوع المركبة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Type of Car", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "مصدر اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of Issue", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "نوع اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate Type", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "رقم اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "الرقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+            ]
+          })
+        );
+        vehicleItems.forEach((item, index) => {
+          tableRowsData.push(
+            new TableRow({
+              children: [
+                new TableCell({ children: [new Paragraph({ text: item.licenseExpiryDate, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.typeOfCar, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.placeOfIssue, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.plateType, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.plateNo, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: item.companyName, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: (index + 1).toString(), alignment: AlignmentType.CENTER })] }),
+              ]
+            })
+          );
+        });
       }
-      // Force absolute URL so MS Word can fetch the image
-      if (liveImages[i].src) {
-        cloneImages[i].src = liveImages[i].src;
+
+      let sigTable = null;
+      if (customSignature || customStamp) {
+        const sigChildren = [];
+        if (customSignature) {
+          const sigBuf = await urlToArrayBuffer(customSignature);
+          sigChildren.push(new ImageRun({ data: sigBuf, transformation: { width: sigDim.w, height: sigDim.h } }));
+        }
+        if (customStamp) {
+          const stampBuf = await urlToArrayBuffer(customStamp);
+          sigChildren.push(new ImageRun({ data: stampBuf, transformation: { width: stampDim.w, height: stampDim.h } }));
+        }
+
+        sigTable = new Table({
+          width: { size: 100, type: WidthType.PERCENTAGE },
+          borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE } },
+          rows: [
+            new TableRow({
+              children: [
+                new TableCell({ children: [new Paragraph({ text: "Authorized signatory with company seal:", bold: true })] }),
+                new TableCell({ children: [new Paragraph({ children: sigChildren, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true, alignment: AlignmentType.RIGHT })] })
+              ]
+            })
+          ]
+        });
       }
+
+      const doc = new Document({
+        sections: [{
+          properties: {
+            page: {
+              margin: {
+                top: 720,
+                right: 720,
+                bottom: 720,
+                left: 720,
+                header: 720,
+                footer: 100,
+              },
+            },
+          },
+          headers: {
+            default: new Header({
+              children: [
+                new Paragraph({
+                  alignment: AlignmentType.RIGHT,
+                  children: [
+                    new ImageRun({
+                      data: headerBuffer,
+                      transformation: { width: hDim.w, height: hDim.h }
+                    })
+                  ]
+                })
+              ]
+            })
+          },
+          footers: {
+            default: new Footer({
+              children: [
+                new Paragraph({
+                  borders: { top: { color: "1D448E", space: 1, style: BorderStyle.SINGLE, size: 12 } },
+                  alignment: AlignmentType.RIGHT,
+                  children: [
+                    new ImageRun({
+                      data: footerBuffer,
+                      transformation: { width: fDim.w, height: fDim.h }
+                    })
+                  ]
+                })
+              ]
+            })
+          },
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.LEFT,
+              children: [new TextRun({ text: `Company Name:${companyInfo.nameEn}`, bold: true, underline: {} })]
+            }),
+            new Paragraph({
+              alignment: AlignmentType.RIGHT,
+              children: [new TextRun({ text: `اسم الشركة:${companyInfo.nameAr}`, bold: true, underline: {} })]
+            }),
+            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات', bold: true, underline: {}, size: 28 })]
+            }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: formType === 'names' ? 'Names Disclosure Form' : 'Vehicles & Equipment Disclosure Form', size: 24 })]
+            }),
+            new Paragraph({ text: "", spacing: { after: 200 } }),
+            
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              rows: tableRowsData
+            }),
+            
+            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: "تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.", bold: true, italics: true, underline: {} })]
+            }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: "The company undertakes of accuracy of the information that mentioned in the disclosure above.", italics: true })]
+            }),
+            new Paragraph({ text: "", spacing: { after: 400 } }),
+            
+            ...(sigTable ? [
+              new Paragraph({ borders: { top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 } } }),
+              sigTable
+            ] : [])
+          ]
+        }]
+      });
+
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, `LOA_${formType}.docx`);
+      showToast("Downloaded perfectly as Word document!");
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to generate Word document.", "error");
     }
-
-    // Force footer to bottom in Word using a layout table
-    const footerDiv = element.querySelector('.mt-auto');
-    if (footerDiv) {
-      footerDiv.parentNode.removeChild(footerDiv);
-      const layoutTable = document.createElement('table');
-      layoutTable.style.width = '100%';
-      // A4 approximate height in Word
-      layoutTable.style.height = '1100px';
-      layoutTable.innerHTML = `
-        <tr><td style="vertical-align: top; border: none; padding: 0; height: 950px;">${element.innerHTML}</td></tr>
-        <tr><td style="vertical-align: bottom; border: none; padding: 0; height: 150px;">${footerDiv.outerHTML}</td></tr>
-      `;
-      element.innerHTML = '';
-      element.appendChild(layoutTable);
-    }
-
-    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
-      "xmlns:w='urn:schemas-microsoft-com:office:word' " +
-      "xmlns='http://www.w3.org/TR/REC-html40'>" +
-      "<head><meta charset='utf-8'><title>LOA Document</title>" +
-      "<style>" +
-      "table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 11pt; } " +
-      "th, td { border: 1px solid black; padding: 4px; text-align: center; } " +
-      "th { background-color: #D4C38E; } " +
-      "body { font-family: Arial, sans-serif; font-size: 11pt; } " +
-      ".text-center { text-align: center; } " +
-      ".text-right { text-align: right; } " +
-      ".font-bold { font-weight: bold; } " +
-      ".text-sm { font-size: 10pt; } " +
-      ".text-xs { font-size: 9pt; } " +
-      ".text-lg { font-size: 14pt; } " +
-      ".text-base { font-size: 12pt; } " +
-      ".italic { font-style: italic; } " +
-      ".mb-4 { margin-bottom: 1rem; } " +
-      ".mt-4 { margin-top: 1rem; } " +
-      ".mt-6 { margin-top: 1.5rem; } " +
-      ".flex { display: flex; } " +
-      ".justify-between { justify-content: space-between; } " +
-      ".border-t { border-top: 1px dashed black; } " +
-      "@page WordSection1 { size: 595.3pt 841.9pt; margin: 0.5in 0.5in 0.5in 0.5in; mso-header-margin: 0.5in; mso-footer-margin: 0.5in; mso-paper-source: 0; }" +
-      "div.WordSection1 { page: WordSection1; }" +
-      "</style></head><body>";
-
-    const footer = "</body></html>";
-    const html = header + "<div class='WordSection1'>" + element.innerHTML + "</div>" + footer;
-
-    const blob = new Blob(['\ufeff', html], {
-      type: 'application/msword'
-    });
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `LOA_${formType}.doc`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    showToast("Downloaded as Word document!");
   };
 
   return (
@@ -317,17 +464,9 @@ export default function LOABuilder() {
           .no-print {
             display: none !important;
           }
-          .print-full-width {
-            width: 100% !important;
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-          }
           @page {
-            size: A4 portrait;
-            margin: 1cm;
+            size: 210mm 297mm;
+            margin: 0 !important;
           }
           .table-header-bg {
             background-color: #D4C38E !important;
@@ -683,23 +822,21 @@ export default function LOABuilder() {
           </div>
 
           {/* THE DOCUMENT CONTAINER */}
-          <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-[27cm] relative font-[Arial,sans-serif]">
-
-            {/* DOCUMENT WRAPPER FOR PADDING */}
-            <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-10 print:min-h-[27cm]">
+          <div className="w-full overflow-x-auto flex justify-center bg-transparent print-full-width pb-10">
+            <div id="print-container" className="shadow-2xl print:shadow-none bg-white relative text-black font-[Arial,sans-serif]" style={{ width: '210mm', minHeight: '297mm', padding: '40px 40px 140px 40px', boxSizing: 'border-box', margin: '0 auto' }}>
 
               {/* ADNOC HEADER */}
-              <div className="w-full mb-4 flex justify-end">
-                <img src={adnocHeader} alt="ADNOC Header" className="h-28 w-auto object-contain" />
+              <div id="adnoc-header" className="w-full mb-4 flex justify-end" style={{ textAlign: 'right' }}>
+                <img id="header-img" src={adnocHeader} alt="ADNOC Header" height="112" style={{ height: '112px', width: 'auto', display: 'inline-block' }} className="h-28 w-auto object-contain" />
               </div>
 
               {/* BRAND HEADER */}
-              <div className="text-center space-y-2 mb-4">
-                <div className="text-sm font-bold border-b-2 border-black inline-block pb-0.5">
-                  <u>Company Name:</u>{companyInfo.nameEn}
+              <div className="w-full mb-6 font-bold" style={{ fontSize: '11pt' }}>
+                <div className="text-left mb-2">
+                  <u>Company Name:{companyInfo.nameEn}</u>
                 </div>
-                <div className="text-base font-bold">
-                  <u>اسم الشركة:</u>{companyInfo.nameAr}
+                <div className="text-right" dir="rtl">
+                  <u>اسم الشركة:{companyInfo.nameAr}</u>
                 </div>
               </div>
 
@@ -715,7 +852,7 @@ export default function LOABuilder() {
 
               {/* TABLE */}
               <div className="mb-4 overflow-hidden border border-black">
-                <table className="w-full text-center border-collapse">
+                <table className="data-table w-full text-center border-collapse">
                   <thead>
                     {formType === 'names' ? (
                       <tr className="bg-[#D4C38E] table-header-bg text-black">
@@ -840,8 +977,8 @@ export default function LOABuilder() {
                       </td>
                       <td style={{ border: 'none', textAlign: 'center', verticalAlign: 'middle', width: '34%', padding: 0 }}>
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-                          {customSignature && <img src={customSignature} height="70" style={{ height: '70px', maxHeight: '70px', maxWidth: '140px', objectFit: 'contain' }} alt="Signature" />}
-                          {customStamp && <img src={customStamp} height="85" style={{ height: '85px', maxHeight: '85px', maxWidth: '110px', objectFit: 'contain' }} alt="Company Seal" />}
+                          {customSignature && <img id="sig-img" src={customSignature} height="70" style={{ height: '70px', maxHeight: '70px', maxWidth: '140px', objectFit: 'contain' }} alt="Signature" />}
+                          {customStamp && <img id="stamp-img" src={customStamp} height="85" style={{ height: '85px', maxHeight: '85px', maxWidth: '110px', objectFit: 'contain' }} alt="Company Seal" />}
                         </div>
                       </td>
                       <td style={{ border: 'none', textAlign: 'right', fontWeight: 'bold', fontSize: '14px', padding: 0, verticalAlign: 'middle', width: '33%' }} dir="rtl">
@@ -853,10 +990,10 @@ export default function LOABuilder() {
               </div>
 
               {/* ADNOC FOOTER */}
-              <div className="w-full mt-auto pt-4">
-                <div className="w-full h-[2px] mb-2" style={{ backgroundColor: '#1D448E' }}></div>
-                <div className="w-full flex justify-end">
-                  <img src={adnocFooter} alt="ADNOC Footer" className="h-24 w-auto object-contain" />
+              <div id="adnoc-footer" style={{ position: 'absolute', bottom: '0px', left: '40px', right: '40px' }}>
+                <div style={{ width: '100%', height: '2px', backgroundColor: '#1D448E', marginBottom: '8px', fontSize: 0, lineHeight: 0 }}>&nbsp;</div>
+                <div className="w-full flex justify-end" style={{ width: '100%', textAlign: 'right' }} align="right">
+                  <img id="footer-img" src={adnocFooter} alt="ADNOC Footer" height="96" style={{ height: '96px', width: 'auto', display: 'inline-block', verticalAlign: 'bottom' }} className="h-24 w-auto object-contain" />
                 </div>
               </div>
 

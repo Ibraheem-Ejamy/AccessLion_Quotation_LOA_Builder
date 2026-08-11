@@ -235,9 +235,21 @@ export default function LOABuilder() {
       };
 
       const urlToArrayBuffer = async (url) => {
-        const response = await fetch(getAbsoluteUrl(url));
-        const blob = await response.blob();
-        return await blob.arrayBuffer();
+        try {
+          const response = await fetch(getAbsoluteUrl(url));
+          const contentType = response.headers.get("content-type");
+          if (contentType && !contentType.startsWith("image/")) {
+             throw new Error("Invalid content type");
+          }
+          const blob = await response.blob();
+          return await blob.arrayBuffer();
+        } catch (e) {
+          const fallback = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+          const binary = atob(fallback);
+          const array = new Uint8Array(binary.length);
+          for(let i=0; i<binary.length; i++) array[i] = binary.charCodeAt(i);
+          return array.buffer;
+        }
       };
 
       const headerBuffer = await urlToArrayBuffer(adnocHeader);
@@ -341,7 +353,7 @@ export default function LOABuilder() {
       const sigTable = new Table({
         width: { size: 100, type: WidthType.PERCENTAGE },
         borders: {
-          top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 },
+          top: { color: "000000", style: BorderStyle.DASHED, size: 6 },
           bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
         },
         rows: [
@@ -349,7 +361,7 @@ export default function LOABuilder() {
             children: [
               new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ spacing: { before: 200 }, children: [new TextRun({ text: "Authorized signatory with company seal:", bold: true })] })] }),
               new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ spacing: { before: 200 }, children: sigChildren.length > 0 ? sigChildren : [new TextRun({ text: " " })], alignment: AlignmentType.CENTER })] }),
-              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ spacing: { before: 200 }, children: [new TextRun({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true })], alignment: AlignmentType.RIGHT })] })
+              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ spacing: { before: 200 }, bidi: true, children: [new TextRun({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true, rightToLeft: true })], alignment: AlignmentType.RIGHT })] })
             ]
           })
         ]
@@ -396,28 +408,11 @@ export default function LOABuilder() {
           footers: {
             default: new Footer({
               children: [
-                new Table({
-                  width: { size: 100, type: WidthType.PERCENTAGE },
-                  borders: {
-                    top: { color: "1D448E", space: 1, style: BorderStyle.SINGLE, size: 12 },
-                    bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
-                  },
-                  rows: [
-                    new TableRow({
-                      children: [
-                        new TableCell({
-                          borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } },
-                          children: [
-                            new Paragraph({
-                              alignment: AlignmentType.RIGHT,
-                              children: [
-                                new ImageRun({ data: footerBuffer, transformation: { width: fDim.w, height: fDim.h } })
-                              ]
-                            })
-                          ]
-                        })
-                      ]
-                    })
+                new Paragraph({
+                  alignment: AlignmentType.RIGHT,
+                  borders: { top: { color: "1D448E", style: BorderStyle.SINGLE, size: 12 } },
+                  children: [
+                    new ImageRun({ data: footerBuffer, transformation: { width: fDim.w, height: fDim.h } })
                   ]
                 })
               ]
@@ -430,12 +425,14 @@ export default function LOABuilder() {
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
+              bidi: true,
               spacing: { after: 200 },
-              children: [new TextRun({ text: `اسم الشركة: ${companyInfo?.nameAr || ""}`, bold: true, size: 28 })]
+              children: [new TextRun({ text: `اسم الشركة: ${companyInfo?.nameAr || ""}`, bold: true, size: 28, rightToLeft: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
-              children: [new TextRun({ text: formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات', bold: true, size: 28 })]
+              bidi: true,
+              children: [new TextRun({ text: formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات', bold: true, size: 28, rightToLeft: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
@@ -450,8 +447,9 @@ export default function LOABuilder() {
             
             new Paragraph({
               alignment: AlignmentType.CENTER,
+              bidi: true,
               spacing: { before: 200 },
-              children: [new TextRun({ text: "تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.", bold: true, italics: true })]
+              children: [new TextRun({ text: "تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.", bold: true, italics: true, rightToLeft: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,

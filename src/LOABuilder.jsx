@@ -664,10 +664,10 @@ export default function LOABuilder() {
           </div>
 
           {/* THE DOCUMENT CONTAINER */}
-          <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-0 relative font-[Arial,sans-serif]">
+          <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-[27cm] relative font-[Arial,sans-serif]">
 
             {/* DOCUMENT WRAPPER FOR PADDING */}
-            <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-0">
+            <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-10">
 
               {/* ADNOC HEADER */}
               <div className="w-full mb-4">

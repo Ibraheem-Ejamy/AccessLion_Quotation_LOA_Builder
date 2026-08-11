@@ -1033,7 +1033,7 @@ export default function LOABuilder() {
               </div>
 
               {/* ADNOC FOOTER */}
-              <div id="adnoc-footer" style={{ position: 'absolute', bottom: '0px', left: '40px', right: '40px' }}>
+              <div id="adnoc-footer" style={{ position: 'absolute', bottom: '30px', left: '40px', right: '40px' }}>
                 <div style={{ width: '100%', height: '2px', backgroundColor: '#1D448E', marginBottom: '2px', fontSize: 0, lineHeight: 0 }}>&nbsp;</div>
                 <div className="w-full flex justify-end" style={{ width: '100%', textAlign: 'right' }} align="right">
                   <img id="footer-img" src={adnocFooter} alt="ADNOC Footer" style={{ maxHeight: '96px', width: 'auto', maxWidth: '100%', display: 'inline-block', verticalAlign: 'bottom', objectFit: 'contain' }} />

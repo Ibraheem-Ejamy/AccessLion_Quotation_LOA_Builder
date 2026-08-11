@@ -835,6 +835,7 @@ export default function LOABuilder() {
 
               {/* ADNOC FOOTER */}
               <div className="w-full mt-auto pt-4">
+                <div className="w-full h-[2px] mb-2" style={{ backgroundColor: '#1D448E' }}></div>
                 <img src={adnocFooter} alt="ADNOC Footer" className="w-full object-contain max-h-24 object-right" />
               </div>
 

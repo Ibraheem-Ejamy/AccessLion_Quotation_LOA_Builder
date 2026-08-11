@@ -690,8 +690,8 @@ export default function LOABuilder() {
             <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-10">
 
               {/* ADNOC HEADER */}
-              <div className="w-full mb-4">
-                <img src={adnocHeader} alt="ADNOC Header" className="w-full object-contain max-h-32 object-right" />
+              <div className="w-full mb-4 flex justify-end">
+                <img src={adnocHeader} alt="ADNOC Header" className="h-28 w-auto object-contain" />
               </div>
 
               {/* BRAND HEADER */}
@@ -856,7 +856,9 @@ export default function LOABuilder() {
               {/* ADNOC FOOTER */}
               <div className="w-full mt-auto pt-4">
                 <div className="w-full h-[2px] mb-2" style={{ backgroundColor: '#1D448E' }}></div>
-                <img src={adnocFooter} alt="ADNOC Footer" className="w-full object-contain max-h-24 object-right" />
+                <div className="w-full flex justify-end">
+                  <img src={adnocFooter} alt="ADNOC Footer" className="h-24 w-auto object-contain" />
+                </div>
               </div>
 
             </div>

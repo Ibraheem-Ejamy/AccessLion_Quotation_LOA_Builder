@@ -299,12 +299,12 @@ export default function LOABuilder() {
           tableRowsData.push(
             new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.visaIssueArea || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.occupation || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.companyName || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.nationality || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.name || " ")], alignment: AlignmentType.RIGHT })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun((index + 1).toString())], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.visaIssueArea || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.occupation || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.companyName || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.nationality || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.name || " "))], alignment: AlignmentType.RIGHT })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(index + 1))], alignment: AlignmentType.CENTER })] }),
               ]
             })
           );
@@ -327,13 +327,13 @@ export default function LOABuilder() {
           tableRowsData.push(
             new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.licenseExpiryDate || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.typeOfCar || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.placeOfIssue || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.plateType || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.plateNo || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.companyName || " ")], alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ children: [new TextRun((index + 1).toString())], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.licenseExpiryDate || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.typeOfCar || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.placeOfIssue || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.plateType || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.plateNo || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(item.companyName || " "))], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(String(index + 1))], alignment: AlignmentType.CENTER })] }),
               ]
             })
           );
@@ -386,7 +386,7 @@ export default function LOABuilder() {
                 bottom: 720,
                 left: 720,
                 header: 720,
-                footer: 250,
+                footer: 720,
               },
             },
           },
@@ -438,13 +438,13 @@ export default function LOABuilder() {
           children: [
             new Paragraph({
               alignment: AlignmentType.CENTER,
-              children: [new TextRun({ text: `Company Name: ${companyInfo?.nameEn || ""}`, bold: true })]
+              children: [new TextRun({ text: `Company Name: ${String(companyInfo?.nameEn || " ")}`, bold: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
               bidi: true,
               spacing: { after: 200 },
-              children: [new TextRun({ text: `اسم الشركة: ${companyInfo?.nameAr || ""}`, bold: true, size: 28, rightToLeft: true })]
+              children: [new TextRun({ text: `اسم الشركة: ${String(companyInfo?.nameAr || " ")}`, bold: true, size: 28, rightToLeft: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
@@ -870,7 +870,7 @@ export default function LOABuilder() {
 
               {/* ADNOC HEADER */}
               <div id="adnoc-header" className="w-full mb-4 flex justify-end" style={{ textAlign: 'right' }}>
-                <img id="header-img" src={adnocHeader} alt="ADNOC Header" height="112" style={{ height: '112px', width: 'auto', maxWidth: '100%', display: 'inline-block', objectFit: 'contain' }} className="h-28" />
+                <img id="header-img" src={adnocHeader} alt="ADNOC Header" style={{ maxHeight: '112px', width: 'auto', maxWidth: '100%', display: 'inline-block', objectFit: 'contain' }} />
               </div>
 
               {/* BRAND HEADER */}
@@ -1036,7 +1036,7 @@ export default function LOABuilder() {
               <div id="adnoc-footer" style={{ position: 'absolute', bottom: '0px', left: '40px', right: '40px' }}>
                 <div style={{ width: '100%', height: '2px', backgroundColor: '#1D448E', marginBottom: '2px', fontSize: 0, lineHeight: 0 }}>&nbsp;</div>
                 <div className="w-full flex justify-end" style={{ width: '100%', textAlign: 'right' }} align="right">
-                  <img id="footer-img" src={adnocFooter} alt="ADNOC Footer" height="96" style={{ height: '96px', width: 'auto', maxWidth: '100%', display: 'inline-block', verticalAlign: 'bottom', objectFit: 'contain' }} className="h-24" />
+                  <img id="footer-img" src={adnocFooter} alt="ADNOC Footer" style={{ maxHeight: '96px', width: 'auto', maxWidth: '100%', display: 'inline-block', verticalAlign: 'bottom', objectFit: 'contain' }} />
                 </div>
               </div>
 

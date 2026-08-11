@@ -233,6 +233,26 @@ export default function LOABuilder() {
         cloneImages[i].setAttribute('width', liveImages[i].clientWidth);
         cloneImages[i].setAttribute('height', liveImages[i].clientHeight);
       }
+      // Force absolute URL so MS Word can fetch the image
+      if (liveImages[i].src) {
+        cloneImages[i].src = liveImages[i].src;
+      }
+    }
+
+    // Force footer to bottom in Word using a layout table
+    const footerDiv = element.querySelector('.mt-auto');
+    if (footerDiv) {
+      footerDiv.parentNode.removeChild(footerDiv);
+      const layoutTable = document.createElement('table');
+      layoutTable.style.width = '100%';
+      // A4 approximate height in Word
+      layoutTable.style.height = '1000px';
+      layoutTable.innerHTML = `
+        <tr><td style="vertical-align: top; border: none; padding: 0;">${element.innerHTML}</td></tr>
+        <tr><td style="vertical-align: bottom; border: none; padding: 0;">${footerDiv.outerHTML}</td></tr>
+      `;
+      element.innerHTML = '';
+      element.appendChild(layoutTable);
     }
 
     const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +

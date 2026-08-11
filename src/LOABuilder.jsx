@@ -227,11 +227,10 @@ export default function LOABuilder() {
     const liveImages = originalElement.getElementsByTagName('img');
     const cloneImages = element.getElementsByTagName('img');
     
-    // Explicitly set width/height HTML attributes based on live rendered size
+    // Explicitly set ONLY width HTML attribute based on live rendered size to preserve perfect aspect ratio
     for (let i = 0; i < liveImages.length; i++) {
-      if (liveImages[i].clientWidth && liveImages[i].clientHeight) {
+      if (liveImages[i].clientWidth) {
         cloneImages[i].setAttribute('width', liveImages[i].clientWidth);
-        cloneImages[i].setAttribute('height', liveImages[i].clientHeight);
       }
       // Force absolute URL so MS Word can fetch the image
       if (liveImages[i].src) {
@@ -246,10 +245,10 @@ export default function LOABuilder() {
       const layoutTable = document.createElement('table');
       layoutTable.style.width = '100%';
       // A4 approximate height in Word
-      layoutTable.style.height = '1000px';
+      layoutTable.style.height = '1100px';
       layoutTable.innerHTML = `
-        <tr><td style="vertical-align: top; border: none; padding: 0;">${element.innerHTML}</td></tr>
-        <tr><td style="vertical-align: bottom; border: none; padding: 0;">${footerDiv.outerHTML}</td></tr>
+        <tr><td style="vertical-align: top; border: none; padding: 0; height: 950px;">${element.innerHTML}</td></tr>
+        <tr><td style="vertical-align: bottom; border: none; padding: 0; height: 150px;">${footerDiv.outerHTML}</td></tr>
       `;
       element.innerHTML = '';
       element.appendChild(layoutTable);
@@ -687,7 +686,7 @@ export default function LOABuilder() {
           <div className="w-full max-w-[800px] bg-white text-black shadow-2xl overflow-hidden flex flex-col print-full-width print:border-none print:shadow-none min-h-[1000px] print:min-h-[27cm] relative font-[Arial,sans-serif]">
 
             {/* DOCUMENT WRAPPER FOR PADDING */}
-            <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-10">
+            <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-10 print:min-h-[27cm]">
 
               {/* ADNOC HEADER */}
               <div className="w-full mb-4 flex justify-end">

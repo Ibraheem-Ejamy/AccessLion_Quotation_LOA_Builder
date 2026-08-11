@@ -167,7 +167,7 @@ export default function QuotationBuilder() {
   const [sectionTitles, setSectionTitles] = useState({
     rentalTerms: "Machinery Rental Terms",
     generalTerms: "General Terms & Conditions",
-    projectScope: "Project Scope & Details"
+    projectScope: "Project Scope / Body Text"
   });
   const [editingTitles, setEditingTitles] = useState({
     rentalTerms: false,

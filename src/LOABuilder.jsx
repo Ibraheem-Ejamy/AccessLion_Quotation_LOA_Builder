@@ -374,7 +374,7 @@ export default function LOABuilder() {
                 bottom: 720,
                 left: 720,
                 header: 720,
-                footer: 100,
+                footer: 160,
               },
             },
           },
@@ -430,7 +430,7 @@ export default function LOABuilder() {
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
-              children: [new TextRun({ text: `اسم الشركة: ${companyInfo?.nameAr || ""}`, bold: true })]
+              children: [new TextRun({ text: `اسم الشركة: ${companyInfo?.nameAr || ""}`, bold: true, size: 28 })]
             }),
             new Paragraph({ children: [], spacing: { after: 200 } }),
             new Paragraph({
@@ -862,11 +862,11 @@ export default function LOABuilder() {
               </div>
 
               {/* BRAND HEADER */}
-              <div className="w-full mb-6 font-bold flex flex-col items-center justify-center text-center" style={{ fontSize: '11pt', textAlign: 'center' }}>
-                <div className="mb-2">
+              <div className="w-full mb-6 font-bold flex flex-col items-center justify-center text-center" style={{ textAlign: 'center' }}>
+                <div className="mb-2" style={{ fontSize: '11pt' }}>
                   <u>Company Name: {companyInfo.nameEn}</u>
                 </div>
-                <div dir="rtl">
+                <div dir="rtl" style={{ fontSize: '14pt' }}>
                   <u>اسم الشركة: {companyInfo.nameAr}</u>
                 </div>
               </div>

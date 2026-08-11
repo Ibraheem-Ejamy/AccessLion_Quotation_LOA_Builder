@@ -260,7 +260,7 @@ export default function LOABuilder() {
         if (node && node.naturalHeight) {
           let calcW = Math.round(node.naturalWidth * (targetHeight / node.naturalHeight));
           let calcH = targetHeight;
-          const MAX_W = 680; // Max A4 width in pixels
+          const MAX_W = 600; // STRICT A4 margin limit (595pt - 72pt = 523pt ~ 600px)
           if (calcW > MAX_W) {
             calcH = Math.max(10, Math.round(calcH * (MAX_W / calcW)));
             calcW = MAX_W;
@@ -286,12 +286,12 @@ export default function LOABuilder() {
         tableRowsData.push(
           new TableRow({
             children: [
-              new TableCell({ children: [new Paragraph({ text: "مكان صدور الاقامة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of visa issue area", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "المهنة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Occupation", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "الجنسية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Nationality", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "الاسم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "رقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "مكان صدور الاقامة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of visa issue area", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "المهنة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Occupation", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "الجنسية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Nationality", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "الاسم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "رقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
             ]
           })
         );
@@ -313,13 +313,13 @@ export default function LOABuilder() {
         tableRowsData.push(
           new TableRow({
             children: [
-              new TableCell({ children: [new Paragraph({ text: "تاريخ انتهاء الملكية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "License Expiry Date", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "نوع المركبة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Type of Car", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "مصدر اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of Issue", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "نوع اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate Type", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "رقم اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
-              new TableCell({ children: [new Paragraph({ text: "الرقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "تاريخ انتهاء الملكية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "License Expiry Date", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "نوع المركبة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Type of Car", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "مصدر اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of Issue", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "نوع اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate Type", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "رقم اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "الرقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
             ]
           })
         );
@@ -408,11 +408,28 @@ export default function LOABuilder() {
           footers: {
             default: new Footer({
               children: [
-                new Paragraph({
-                  alignment: AlignmentType.RIGHT,
-                  borders: { top: { color: "1D448E", style: BorderStyle.SINGLE, size: 12 } },
-                  children: [
-                    new ImageRun({ data: footerBuffer, transformation: { width: fDim.w, height: fDim.h } })
+                new Table({
+                  width: { size: 100, type: WidthType.PERCENTAGE },
+                  borders: {
+                    top: { color: "1D448E", style: BorderStyle.SINGLE, size: 12 },
+                    bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
+                  },
+                  rows: [
+                    new TableRow({
+                      children: [
+                        new TableCell({
+                          borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } },
+                          children: [
+                            new Paragraph({
+                              alignment: AlignmentType.RIGHT,
+                              children: [
+                                new ImageRun({ data: footerBuffer, transformation: { width: fDim.w, height: fDim.h } })
+                              ]
+                            })
+                          ]
+                        })
+                      ]
+                    })
                   ]
                 })
               ]
@@ -1017,7 +1034,7 @@ export default function LOABuilder() {
 
               {/* ADNOC FOOTER */}
               <div id="adnoc-footer" style={{ position: 'absolute', bottom: '0px', left: '40px', right: '40px' }}>
-                <div style={{ width: '100%', height: '2px', backgroundColor: '#1D448E', marginBottom: '8px', fontSize: 0, lineHeight: 0 }}>&nbsp;</div>
+                <div style={{ width: '100%', height: '2px', backgroundColor: '#1D448E', marginBottom: '2px', fontSize: 0, lineHeight: 0 }}>&nbsp;</div>
                 <div className="w-full flex justify-end" style={{ width: '100%', textAlign: 'right' }} align="right">
                   <img id="footer-img" src={adnocFooter} alt="ADNOC Footer" height="96" style={{ height: '96px', width: 'auto', maxWidth: '100%', display: 'inline-block', verticalAlign: 'bottom', objectFit: 'contain' }} className="h-24" />
                 </div>

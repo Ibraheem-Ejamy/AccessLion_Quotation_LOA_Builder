@@ -287,12 +287,12 @@ export default function LOABuilder() {
           tableRowsData.push(
             new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph({ text: item.visaIssueArea || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.occupation || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.companyName || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.nationality || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.name || "", alignment: AlignmentType.RIGHT })] }),
-                new TableCell({ children: [new Paragraph({ text: (index + 1).toString(), alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.visaIssueArea || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.occupation || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.companyName || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.nationality || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.name || " ")], alignment: AlignmentType.RIGHT })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun((index + 1).toString())], alignment: AlignmentType.CENTER })] }),
               ]
             })
           );
@@ -315,13 +315,13 @@ export default function LOABuilder() {
           tableRowsData.push(
             new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph({ text: item.licenseExpiryDate || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.typeOfCar || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.placeOfIssue || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.plateType || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.plateNo || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: item.companyName || "", alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: (index + 1).toString(), alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.licenseExpiryDate || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.typeOfCar || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.placeOfIssue || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.plateType || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.plateNo || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun(item.companyName || " ")], alignment: AlignmentType.CENTER })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun((index + 1).toString())], alignment: AlignmentType.CENTER })] }),
               ]
             })
           );
@@ -347,9 +347,9 @@ export default function LOABuilder() {
         rows: [
           new TableRow({
             children: [
-              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "Authorized signatory with company seal:", bold: true })] })] }),
-              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: sigChildren.length > 0 ? sigChildren : [new TextRun({ text: "" })], alignment: AlignmentType.CENTER })] }),
-              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true })], alignment: AlignmentType.RIGHT })] })
+              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ spacing: { before: 200 }, children: [new TextRun({ text: "Authorized signatory with company seal:", bold: true })] })] }),
+              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ spacing: { before: 200 }, children: sigChildren.length > 0 ? sigChildren : [new TextRun({ text: " " })], alignment: AlignmentType.CENTER })] }),
+              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ spacing: { before: 200 }, children: [new TextRun({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true })], alignment: AlignmentType.RIGHT })] })
             ]
           })
         ]
@@ -374,7 +374,7 @@ export default function LOABuilder() {
                 bottom: 720,
                 left: 720,
                 header: 720,
-                footer: 205,
+                footer: 250,
               },
             },
           },

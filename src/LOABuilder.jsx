@@ -342,13 +342,16 @@ export default function LOABuilder() {
 
         sigTable = new Table({
           width: { size: 100, type: WidthType.PERCENTAGE },
-          borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE } },
+          borders: {
+            top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 },
+            bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
+          },
           rows: [
             new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph({ text: "Authorized signatory with company seal:", bold: true })] }),
-                new TableCell({ children: [new Paragraph({ children: sigChildren, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ children: [new Paragraph({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true, alignment: AlignmentType.RIGHT })] })
+                new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "Authorized signatory with company seal:", bold: true })] })] }),
+                new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: sigChildren, alignment: AlignmentType.CENTER })] }),
+                new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true })], alignment: AlignmentType.RIGHT })] })
               ]
             })
           ]
@@ -374,7 +377,7 @@ export default function LOABuilder() {
                 bottom: 720,
                 left: 720,
                 header: 720,
-                footer: 160,
+                footer: 205,
               },
             },
           },
@@ -460,7 +463,6 @@ export default function LOABuilder() {
             new Paragraph({ children: [], spacing: { after: 400 } }),
             
             ...(sigTable ? [
-              new Paragraph({ children: [], borders: { top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 } } }),
               sigTable
             ] : [])
           ]

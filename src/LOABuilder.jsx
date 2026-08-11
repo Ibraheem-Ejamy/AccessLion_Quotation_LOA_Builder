@@ -224,7 +224,7 @@ export default function LOABuilder() {
     try {
       showToast("Generating Document...", "info");
       
-      const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, ImageRun, AlignmentType, WidthType, BorderStyle, Header, Footer } = docx;
+      const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, ImageRun, AlignmentType, WidthType, BorderStyle, Header, Footer, ShadingType } = docx;
 
       const getAbsoluteUrl = (imgSrc) => {
         if (!imgSrc) return "";
@@ -274,12 +274,12 @@ export default function LOABuilder() {
         tableRowsData.push(
           new TableRow({
             children: [
-              new TableCell({ children: [new Paragraph({ text: "مكان صدور الاقامة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of visa issue area", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "المهنة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Occupation", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "الجنسية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Nationality", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "الاسم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "رقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "مكان صدور الاقامة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of visa issue area", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "المهنة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Occupation", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "الجنسية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Nationality", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "الاسم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "رقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
             ]
           })
         );
@@ -301,13 +301,13 @@ export default function LOABuilder() {
         tableRowsData.push(
           new TableRow({
             children: [
-              new TableCell({ children: [new Paragraph({ text: "تاريخ انتهاء الملكية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "License Expiry Date", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "نوع المركبة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Type of Car", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "مصدر اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of Issue", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "نوع اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate Type", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "رقم اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
-              new TableCell({ children: [new Paragraph({ text: "الرقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor } }),
+              new TableCell({ children: [new Paragraph({ text: "تاريخ انتهاء الملكية", alignment: AlignmentType.CENTER }), new Paragraph({ text: "License Expiry Date", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "نوع المركبة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Type of Car", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "مصدر اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Place of Issue", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "نوع اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate Type", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "رقم اللوحة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Plate No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "اسم الشركة", alignment: AlignmentType.CENTER }), new Paragraph({ text: "Company Name", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
+              new TableCell({ children: [new Paragraph({ text: "الرقم", alignment: AlignmentType.CENTER }), new Paragraph({ text: "No.", alignment: AlignmentType.CENTER })], shading: { fill: headerColor, type: ShadingType.CLEAR, color: "auto" } }),
             ]
           })
         );
@@ -396,13 +396,27 @@ export default function LOABuilder() {
           footers: {
             default: new Footer({
               children: [
-                new Paragraph({
-                  borders: { top: { color: "1D448E", space: 1, style: BorderStyle.SINGLE, size: 12 } },
-                  alignment: AlignmentType.RIGHT,
-                  children: [
-                    new ImageRun({
-                      data: footerBuffer,
-                      transformation: { width: fDim.w, height: fDim.h }
+                new Table({
+                  width: { size: 100, type: WidthType.PERCENTAGE },
+                  borders: {
+                    top: { color: "1D448E", space: 1, style: BorderStyle.SINGLE, size: 12 },
+                    bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
+                  },
+                  rows: [
+                    new TableRow({
+                      children: [
+                        new TableCell({
+                          borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } },
+                          children: [
+                            new Paragraph({
+                              alignment: AlignmentType.RIGHT,
+                              children: [
+                                new ImageRun({ data: footerBuffer, transformation: { width: fDim.w, height: fDim.h } })
+                              ]
+                            })
+                          ]
+                        })
+                      ]
                     })
                   ]
                 })
@@ -411,14 +425,14 @@ export default function LOABuilder() {
           },
           children: [
             new Paragraph({
-              alignment: AlignmentType.LEFT,
-              children: [new TextRun({ text: `Company Name:${companyInfo?.nameEn || ""}`, bold: true })]
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: `Company Name: ${companyInfo?.nameEn || ""}`, bold: true })]
             }),
             new Paragraph({
-              alignment: AlignmentType.RIGHT,
-              children: [new TextRun({ text: `اسم الشركة:${companyInfo?.nameAr || ""}`, bold: true })]
+              alignment: AlignmentType.CENTER,
+              children: [new TextRun({ text: `اسم الشركة: ${companyInfo?.nameAr || ""}`, bold: true })]
             }),
-            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({ children: [], spacing: { after: 200 } }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
               children: [new TextRun({ text: formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات', bold: true, size: 28 })]
@@ -427,14 +441,14 @@ export default function LOABuilder() {
               alignment: AlignmentType.CENTER,
               children: [new TextRun({ text: formType === 'names' ? 'Names Disclosure Form' : 'Vehicles & Equipment Disclosure Form', size: 24 })]
             }),
-            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({ children: [], spacing: { after: 200 } }),
             
             new Table({
               width: { size: 100, type: WidthType.PERCENTAGE },
               rows: tableRowsData
             }),
             
-            new Paragraph({ text: "", spacing: { after: 200 } }),
+            new Paragraph({ children: [], spacing: { after: 200 } }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
               children: [new TextRun({ text: "تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.", bold: true, italics: true })]
@@ -443,10 +457,10 @@ export default function LOABuilder() {
               alignment: AlignmentType.CENTER,
               children: [new TextRun({ text: "The company undertakes of accuracy of the information that mentioned in the disclosure above.", italics: true })]
             }),
-            new Paragraph({ text: "", spacing: { after: 400 } }),
+            new Paragraph({ children: [], spacing: { after: 400 } }),
             
             ...(sigTable ? [
-              new Paragraph({ borders: { top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 } } }),
+              new Paragraph({ children: [], borders: { top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 } } }),
               sigTable
             ] : [])
           ]
@@ -848,12 +862,12 @@ export default function LOABuilder() {
               </div>
 
               {/* BRAND HEADER */}
-              <div className="w-full mb-6 font-bold" style={{ fontSize: '11pt' }}>
-                <div className="text-left mb-2">
-                  <u>Company Name:{companyInfo.nameEn}</u>
+              <div className="w-full mb-6 font-bold flex flex-col items-center justify-center text-center" style={{ fontSize: '11pt', textAlign: 'center' }}>
+                <div className="mb-2">
+                  <u>Company Name: {companyInfo.nameEn}</u>
                 </div>
-                <div className="text-right" dir="rtl">
-                  <u>اسم الشركة:{companyInfo.nameAr}</u>
+                <div dir="rtl">
+                  <u>اسم الشركة: {companyInfo.nameAr}</u>
                 </div>
               </div>
 

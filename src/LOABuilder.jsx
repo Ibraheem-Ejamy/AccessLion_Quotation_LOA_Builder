@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import defaultLogo from './assets/logo1.png';
+import adnocHeader from './assets/adnoc_header.png';
+import adnocFooter from './assets/adnoc_footer.png';
 import {
   FileText,
   Plus,
@@ -667,6 +669,11 @@ export default function LOABuilder() {
             {/* DOCUMENT WRAPPER FOR PADDING */}
             <div id="print-container" className="flex flex-col flex-1 p-8 md:p-12 print:p-0">
 
+              {/* ADNOC HEADER */}
+              <div className="w-full mb-4">
+                <img src={adnocHeader} alt="ADNOC Header" className="w-full object-contain max-h-32 object-right" />
+              </div>
+
               {/* BRAND HEADER */}
               <div className="text-center space-y-2 mb-4">
                 <div className="text-sm font-bold border-b-2 border-black inline-block pb-0.5">
@@ -824,6 +831,11 @@ export default function LOABuilder() {
                     </tr>
                   </tbody>
                 </table>
+              </div>
+
+              {/* ADNOC FOOTER */}
+              <div className="w-full mt-auto pt-4">
+                <img src={adnocFooter} alt="ADNOC Footer" className="w-full object-contain max-h-24 object-right" />
               </div>
 
             </div>

@@ -328,35 +328,32 @@ export default function LOABuilder() {
         });
       }
 
-      let sigTable = null;
-      if (customSignature || customStamp) {
-        const sigChildren = [];
-        if (customSignature) {
-          const sigBuf = await urlToArrayBuffer(customSignature);
-          sigChildren.push(new ImageRun({ data: sigBuf, transformation: { width: sigDim.w, height: sigDim.h } }));
-        }
-        if (customStamp) {
-          const stampBuf = await urlToArrayBuffer(customStamp);
-          sigChildren.push(new ImageRun({ data: stampBuf, transformation: { width: stampDim.w, height: stampDim.h } }));
-        }
-
-        sigTable = new Table({
-          width: { size: 100, type: WidthType.PERCENTAGE },
-          borders: {
-            top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 },
-            bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
-          },
-          rows: [
-            new TableRow({
-              children: [
-                new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "Authorized signatory with company seal:", bold: true })] })] }),
-                new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: sigChildren, alignment: AlignmentType.CENTER })] }),
-                new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true })], alignment: AlignmentType.RIGHT })] })
-              ]
-            })
-          ]
-        });
+      const sigChildren = [];
+      if (customSignature) {
+        const sigBuf = await urlToArrayBuffer(customSignature);
+        sigChildren.push(new ImageRun({ data: sigBuf, transformation: { width: sigDim.w, height: sigDim.h } }));
       }
+      if (customStamp) {
+        const stampBuf = await urlToArrayBuffer(customStamp);
+        sigChildren.push(new ImageRun({ data: stampBuf, transformation: { width: stampDim.w, height: stampDim.h } }));
+      }
+
+      const sigTable = new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        borders: {
+          top: { color: "000000", space: 1, style: BorderStyle.DASHED, size: 6 },
+          bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
+        },
+        rows: [
+          new TableRow({
+            children: [
+              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "Authorized signatory with company seal:", bold: true })] })] }),
+              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: sigChildren.length > 0 ? sigChildren : [new TextRun({ text: "" })], alignment: AlignmentType.CENTER })] }),
+              new TableCell({ borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } }, children: [new Paragraph({ children: [new TextRun({ text: "المخول بالتوقيع مع ختم الشركة:", bold: true })], alignment: AlignmentType.RIGHT })] })
+            ]
+          })
+        ]
+      });
 
       const doc = new Document({
         styles: {
@@ -433,38 +430,36 @@ export default function LOABuilder() {
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
+              spacing: { after: 200 },
               children: [new TextRun({ text: `اسم الشركة: ${companyInfo?.nameAr || ""}`, bold: true, size: 28 })]
             }),
-            new Paragraph({ children: [], spacing: { after: 200 } }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
               children: [new TextRun({ text: formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات', bold: true, size: 28 })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
+              spacing: { after: 200 },
               children: [new TextRun({ text: formType === 'names' ? 'Names Disclosure Form' : 'Vehicles & Equipment Disclosure Form', size: 24 })]
             }),
-            new Paragraph({ children: [], spacing: { after: 200 } }),
             
             new Table({
               width: { size: 100, type: WidthType.PERCENTAGE },
               rows: tableRowsData
             }),
             
-            new Paragraph({ children: [], spacing: { after: 200 } }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
+              spacing: { before: 200 },
               children: [new TextRun({ text: "تتعهد الشركة المذكورة بأن تلتزم بصحة البيانات الموضحة في الكشف اعلاه.", bold: true, italics: true })]
             }),
             new Paragraph({
               alignment: AlignmentType.CENTER,
+              spacing: { after: 400 },
               children: [new TextRun({ text: "The company undertakes of accuracy of the information that mentioned in the disclosure above.", italics: true })]
             }),
-            new Paragraph({ children: [], spacing: { after: 400 } }),
             
-            ...(sigTable ? [
-              sigTable
-            ] : [])
+            sigTable
           ]
         }]
       });

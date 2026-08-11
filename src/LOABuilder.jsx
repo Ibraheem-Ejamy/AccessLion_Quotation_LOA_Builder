@@ -246,9 +246,16 @@ export default function LOABuilder() {
       const getImgDimensions = (id, targetHeight) => {
         const node = document.getElementById(id);
         if (node && node.naturalHeight) {
+          let calcW = Math.round(node.naturalWidth * (targetHeight / node.naturalHeight));
+          let calcH = targetHeight;
+          const MAX_W = 680; // Max A4 width in pixels
+          if (calcW > MAX_W) {
+            calcH = Math.max(10, Math.round(calcH * (MAX_W / calcW)));
+            calcW = MAX_W;
+          }
           return {
-            w: Math.max(10, Math.round(node.naturalWidth * (targetHeight / node.naturalHeight))),
-            h: targetHeight
+            w: Math.max(10, calcW),
+            h: Math.max(10, calcH)
           };
         }
         return { w: targetHeight * 2, h: targetHeight };
@@ -837,7 +844,7 @@ export default function LOABuilder() {
 
               {/* ADNOC HEADER */}
               <div id="adnoc-header" className="w-full mb-4 flex justify-end" style={{ textAlign: 'right' }}>
-                <img id="header-img" src={adnocHeader} alt="ADNOC Header" height="112" style={{ height: '112px', width: 'auto', display: 'inline-block' }} className="h-28 w-auto object-contain" />
+                <img id="header-img" src={adnocHeader} alt="ADNOC Header" height="112" style={{ height: '112px', width: 'auto', maxWidth: '100%', display: 'inline-block', objectFit: 'contain' }} className="h-28" />
               </div>
 
               {/* BRAND HEADER */}
@@ -851,11 +858,11 @@ export default function LOABuilder() {
               </div>
 
               {/* FORM TITLE */}
-              <div className="text-center space-y-1 mb-4">
-                <div className="text-lg font-bold">
+              <div className="w-full text-center flex flex-col items-center justify-center mb-6" style={{ textAlign: 'center' }}>
+                <div className="text-xl font-bold mb-1 w-full text-center" style={{ fontSize: '18pt' }}>
                   <u>{formType === 'names' ? 'نموذج كشف الاسماء' : 'نموذج كشف المركبات والمعدات'}</u>
                 </div>
-                <div className="text-base">
+                <div className="text-lg w-full text-center" style={{ fontSize: '14pt' }}>
                   {formType === 'names' ? 'Names Disclosure Form' : 'Vehicles & Equipment Disclosure Form'}
                 </div>
               </div>
@@ -1003,7 +1010,7 @@ export default function LOABuilder() {
               <div id="adnoc-footer" style={{ position: 'absolute', bottom: '0px', left: '40px', right: '40px' }}>
                 <div style={{ width: '100%', height: '2px', backgroundColor: '#1D448E', marginBottom: '8px', fontSize: 0, lineHeight: 0 }}>&nbsp;</div>
                 <div className="w-full flex justify-end" style={{ width: '100%', textAlign: 'right' }} align="right">
-                  <img id="footer-img" src={adnocFooter} alt="ADNOC Footer" height="96" style={{ height: '96px', width: 'auto', display: 'inline-block', verticalAlign: 'bottom' }} className="h-24 w-auto object-contain" />
+                  <img id="footer-img" src={adnocFooter} alt="ADNOC Footer" height="96" style={{ height: '96px', width: 'auto', maxWidth: '100%', display: 'inline-block', verticalAlign: 'bottom', objectFit: 'contain' }} className="h-24" />
                 </div>
               </div>
 

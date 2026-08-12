@@ -194,7 +194,8 @@ export default function QuotationBuilder() {
     generalTerms: true,
     projectScope: false,
     signatures: true,
-    bankDetails: true
+    bankDetails: true,
+    validity: true
   });
   
   const fileInputRef = useRef(null);
@@ -1473,6 +1474,10 @@ export default function QuotationBuilder() {
                     <input type="checkbox" checked={sectionsVisibility.bankDetails} onChange={(e) => setSectionsVisibility({...sectionsVisibility, bankDetails: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
                     <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Bank Details</span>
                   </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={sectionsVisibility.validity !== false} onChange={(e) => setSectionsVisibility({...sectionsVisibility, validity: e.target.checked})} className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900" />
+                    <span className="text-xs text-slate-300 group-hover:text-amber-400 transition-colors">Valid Until (Expiry)</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -1607,7 +1612,9 @@ export default function QuotationBuilder() {
                       <p className="text-[11px] text-slate-600 flex items-center gap-1">
                         <span>Direct Contact:</span> <strong className="text-slate-900 font-bold">{quoteInfo.contactNo}</strong>
                       </p>
-                      <p className="text-[11px] text-slate-500">Validity: Offer valid until {formatDisplayDate(quoteInfo.expiryDate)}</p>
+                      {sectionsVisibility.validity !== false && (
+                        <p className="text-[11px] text-slate-500">Validity: Offer valid until {formatDisplayDate(quoteInfo.expiryDate)}</p>
+                      )}
                     </div>
                   </div>
                 </div>

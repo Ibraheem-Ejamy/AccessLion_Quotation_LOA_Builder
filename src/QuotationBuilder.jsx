@@ -111,7 +111,12 @@ export default function QuotationBuilder() {
     contactPerson: "Mr./Mrs",
     contactNo: "+971 54 281 1111",
     preparedByDesignation: "Operations & Rental Dept.",
-    subject: ""
+    subject: "",
+    docSubTitle: "Official Proposal",
+    docTitle: "QUOTATION",
+    docNoLabel: "Quotation Number",
+    dateLabel: "Date Issued",
+    headerLayout: "banner"
   };
 
   const initialColumns = [
@@ -863,10 +868,54 @@ export default function QuotationBuilder() {
               </div>
 
               <div className="space-y-4 pt-4 border-t border-slate-800">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Document Title & Layout</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Header Layout Style</label>
+                    <select
+                      value={quoteInfo.headerLayout || 'banner'}
+                      onChange={(e) => setQuoteInfo({ ...quoteInfo, headerLayout: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    >
+                      <option value="banner">Boxed Banner (Left/Right)</option>
+                      <option value="centered">Centered Title (Clean)</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Main Title</label>
+                    <input
+                      type="text"
+                      value={quoteInfo.docTitle !== undefined ? quoteInfo.docTitle : "QUOTATION"}
+                      onChange={(e) => setQuoteInfo({ ...quoteInfo, docTitle: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Subtitle (Optional)</label>
+                    <input
+                      type="text"
+                      value={quoteInfo.docSubTitle !== undefined ? quoteInfo.docSubTitle : "Official Proposal"}
+                      onChange={(e) => setQuoteInfo({ ...quoteInfo, docSubTitle: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Number Label</label>
+                    <input
+                      type="text"
+                      value={quoteInfo.docNoLabel !== undefined ? quoteInfo.docNoLabel : "Quotation Number"}
+                      onChange={(e) => setQuoteInfo({ ...quoteInfo, docNoLabel: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-slate-800">
                 <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Quotation Header Metadata</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-400">Quotation No.</label>
+                    <label className="text-xs font-semibold text-slate-400">Document No.</label>
                     <input
                       type="text"
                       value={quoteInfo.quoteNo}
@@ -1484,25 +1533,40 @@ export default function QuotationBuilder() {
                 </div>
 
                 {/* QUOTATION SUB-HEADER BANNER */}
-                <div className={`rounded-xl p-4 flex flex-col sm:flex-row print:flex-row items-center justify-between gap-4 border ${designStyle === 'luxury-dark' ? 'bg-slate-900 text-white border-slate-800 premium-header-bg' :
-                  designStyle === 'royal-gold' ? 'bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-slate-950 font-bold border-amber-500' :
-                    'bg-slate-50 text-slate-900 border-amber-600/30'
-                  }`}>
-                  <div>
-                    <h4 className={`text-xs font-extrabold uppercase tracking-widest ${designStyle === 'royal-gold' ? 'text-slate-950' : 'text-amber-500'}`}>Official Proposal</h4>
-                    <h3 className="text-xl font-black font-serif tracking-wider uppercase mt-0.5">QUOTATION</h3>
-                  </div>
-                  <div className="flex flex-wrap justify-end gap-x-6 gap-y-1 text-xs text-right sm:text-right">
-                    <div>
-                      <span className={`block text-[9px] uppercase tracking-wider ${designStyle === 'luxury-dark' ? 'text-slate-400' : 'text-slate-900/70'}`}>Quotation Number</span>
-                      <strong className="text-sm font-bold">{quoteInfo.quoteNo}</strong>
-                    </div>
-                    <div>
-                      <span className={`block text-[9px] uppercase tracking-wider ${designStyle === 'luxury-dark' ? 'text-slate-400' : 'text-slate-900/70'}`}>Date Issued</span>
-                      <strong className="text-sm font-bold">{formatDisplayDate(quoteInfo.date)}</strong>
+                {quoteInfo.headerLayout === 'centered' ? (
+                  <div className="flex flex-col items-center justify-center mt-6 mb-8 text-center">
+                    {quoteInfo.docSubTitle && <h4 className={`text-sm font-extrabold uppercase tracking-widest ${designStyle === 'royal-gold' ? 'text-amber-600' : 'text-slate-500'}`}>{quoteInfo.docSubTitle}</h4>}
+                    {quoteInfo.docTitle && <h3 className="text-3xl font-black font-serif tracking-widest uppercase mt-1 text-slate-900 border-b-[3px] border-amber-500 pb-2 mb-4 inline-block">{quoteInfo.docTitle}</h3>}
+                    <div className="flex gap-8 justify-center text-sm font-bold text-slate-800 mt-2">
+                       {quoteInfo.docNoLabel && <span>{quoteInfo.docNoLabel}: <span className="font-extrabold text-amber-700">{quoteInfo.quoteNo}</span></span>}
+                       {(quoteInfo.dateLabel || quoteInfo.dateLabel === undefined) && <span>{quoteInfo.dateLabel !== undefined ? quoteInfo.dateLabel : "Date Issued"}: <span className="font-extrabold text-amber-700">{formatDisplayDate(quoteInfo.date)}</span></span>}
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className={`rounded-xl p-4 flex flex-col sm:flex-row print:flex-row items-center justify-between gap-4 border ${designStyle === 'luxury-dark' ? 'bg-slate-900 text-white border-slate-800 premium-header-bg' :
+                    designStyle === 'royal-gold' ? 'bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-slate-950 font-bold border-amber-500' :
+                      'bg-slate-50 text-slate-900 border-amber-600/30'
+                    }`}>
+                    <div>
+                      {quoteInfo.docSubTitle !== "" && <h4 className={`text-xs font-extrabold uppercase tracking-widest ${designStyle === 'royal-gold' ? 'text-slate-950' : 'text-amber-500'}`}>{quoteInfo.docSubTitle !== undefined ? quoteInfo.docSubTitle : "Official Proposal"}</h4>}
+                      {quoteInfo.docTitle !== "" && <h3 className="text-xl font-black font-serif tracking-wider uppercase mt-0.5">{quoteInfo.docTitle !== undefined ? quoteInfo.docTitle : "QUOTATION"}</h3>}
+                    </div>
+                    <div className="flex flex-wrap justify-end gap-x-6 gap-y-1 text-xs text-right sm:text-right">
+                      {quoteInfo.docNoLabel !== "" && (
+                        <div>
+                          <span className={`block text-[9px] uppercase tracking-wider ${designStyle === 'luxury-dark' ? 'text-slate-400' : 'text-slate-900/70'}`}>{quoteInfo.docNoLabel !== undefined ? quoteInfo.docNoLabel : "Quotation Number"}</span>
+                          <strong className="text-sm font-bold">{quoteInfo.quoteNo}</strong>
+                        </div>
+                      )}
+                      {(quoteInfo.dateLabel !== "" || quoteInfo.dateLabel === undefined) && (
+                        <div>
+                          <span className={`block text-[9px] uppercase tracking-wider ${designStyle === 'luxury-dark' ? 'text-slate-400' : 'text-slate-900/70'}`}>{quoteInfo.dateLabel !== undefined ? quoteInfo.dateLabel : "Date Issued"}</span>
+                          <strong className="text-sm font-bold">{formatDisplayDate(quoteInfo.date)}</strong>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 {/* CLIENT & SENDER DETAILS METADATA */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-6 bg-slate-50/50 p-5 rounded-xl border border-slate-300">

@@ -608,13 +608,13 @@ export default function ReceiptVoucher() {
             
             {/* Watermark Background */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-              <img src={watermark} alt="Watermark" className="w-[85%] max-w-[650px] object-contain opacity-[0.08]" onError={(e) => { e.target.style.display = 'none'; }} />
+              <img src={watermark} alt="Watermark" className="w-[85%] max-w-[650px] object-contain opacity-[0.15] print:opacity-[0.25]" onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
 
             {/* Corner Vectors (Top Left) */}
             <img src={topLeftCorner} alt="Top Left Corner" className="absolute top-0 left-0 w-80 max-w-[40%] object-contain pointer-events-none z-0" onError={(e) => { e.target.style.display = 'none'; }} />
 
-            <div className="flex flex-col flex-1 px-12 pt-16 pb-[160px] print:px-12 print:pt-16 print:pb-[160px] z-10 h-full relative">
+            <div className="flex flex-col flex-1 px-12 pt-16 pb-[180px] print:px-12 print:pt-16 print:pb-[180px] z-10 h-full relative">
               
               {/* Header */}
               <div className="flex items-center justify-between mb-8 pl-[70px] pr-4 relative z-10">
@@ -645,7 +645,7 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Dynamic Fields */}
-              <div className="flex-1 space-y-5 mt-4 px-1">
+              <div className="flex-1 space-y-3 mt-4 px-1">
                 {fields.map((field) => (
                   <div key={field.id} className="relative flex items-baseline">
                     <span className="font-bold text-[12px] text-[#111] mr-3 shrink-0 uppercase tracking-wide pb-1">
@@ -770,7 +770,7 @@ export default function ReceiptVoucher() {
               </div>
 
               {/* Signatures */}
-              <div className="mt-8 mb-0 flex items-start justify-between gap-12 px-4 relative z-20">
+              <div className="mt-4 mb-0 flex items-start justify-between gap-12 px-4 relative z-20">
                 
                 {/* Prepared By */}
                 <div className="flex flex-col flex-[2] relative">

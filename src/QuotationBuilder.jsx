@@ -520,7 +520,9 @@ export default function QuotationBuilder() {
         scale: 2, // Higher resolution
         useCORS: true,
         logging: false,
-        windowWidth: targetWidth + 100, // Force sufficient layout width
+        width: 794,
+        height: 1123,
+        windowWidth: 794 + 100, // Force sufficient layout width
         onclone: (clonedDoc) => {
           const el = clonedDoc.getElementById('pdf-content');
           if (el) {
@@ -542,7 +544,7 @@ export default function QuotationBuilder() {
               inner.style.height = 'auto';
               
               const naturalHeight = inner.scrollHeight;
-              const availableHeight = 1123 - 32; // 32px for p-4 (16px top + 16px bottom)
+              const availableHeight = 1123 - 40; // 40px for p-5 (20px top + 20px bottom)
               
               if (naturalHeight > availableHeight) {
                 const scale = availableHeight / naturalHeight;
@@ -1519,7 +1521,7 @@ export default function QuotationBuilder() {
           </div>
 
           {/* THE DOCUMENT CONTAINER (Standard A4 Proportions in pixels roughly 794px wide for clean scaling) */}
-          <div id="pdf-content" className="w-full max-w-[800px] bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900 shadow-2xl rounded-2xl overflow-hidden p-4 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
+          <div id="pdf-content" className="w-full max-w-[800px] bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900 shadow-2xl rounded-2xl overflow-hidden p-5 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
 
             {/* DOCUMENT WRAPPER FOR PADDING */}
             <div className="flex flex-col justify-between flex-1 bg-white rounded-xl p-5 md:p-7 print:p-5">

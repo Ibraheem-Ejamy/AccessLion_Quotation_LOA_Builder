@@ -551,6 +551,8 @@ export default function QuotationBuilder() {
                 inner.style.transform = `scale(${scale})`;
                 inner.style.transformOrigin = 'top left';
                 inner.style.width = `${100 / scale}%`;
+                // Explicitly lock the height so the white background stretches all the way down!
+                inner.style.height = `${naturalHeight}px`;
               } else {
                 inner.style.height = `${availableHeight}px`;
               }

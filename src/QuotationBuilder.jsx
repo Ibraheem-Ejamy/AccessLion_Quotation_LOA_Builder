@@ -528,10 +528,32 @@ export default function QuotationBuilder() {
             el.style.borderRadius = '0';
             el.style.border = 'none';
             el.style.margin = '0';
-            el.style.width = `${targetWidth}px`;
-            el.style.maxWidth = `${targetWidth}px`;
+            el.style.width = `794px`;
+            el.style.maxWidth = `794px`;
+            el.style.height = '1123px';
             el.style.minHeight = '1123px';
+            el.style.maxHeight = '1123px';
+            el.style.overflow = 'hidden';
             el.classList.remove('shadow-2xl', 'rounded-2xl', 'border', 'border-slate-300');
+
+            const inner = el.querySelector('.bg-white.flex-1');
+            if (inner) {
+              inner.style.borderRadius = '0';
+              // Allow it to grow to measure natural height
+              inner.style.height = 'auto';
+              
+              const naturalHeight = inner.scrollHeight;
+              const availableHeight = 1123 - 32; // 32px for p-4 (16px top + 16px bottom)
+              
+              if (naturalHeight > availableHeight) {
+                const scale = availableHeight / naturalHeight;
+                inner.style.transform = `scale(${scale})`;
+                inner.style.transformOrigin = 'top left';
+                inner.style.width = `${100 / scale}%`;
+              } else {
+                inner.style.height = `${availableHeight}px`;
+              }
+            }
           }
         }
       });
@@ -550,9 +572,12 @@ export default function QuotationBuilder() {
       const imgProps = pdf.getImageProperties(imgData);
       const canvasRatio = imgProps.height / imgProps.width;
 
-      // Force exact A4 dimensions to completely eliminate side and bottom margins
+      // Keep proportional scaling to prevent any stretching of the image itself
       let finalWidth = maxPdfWidth;
-      let finalHeight = maxPdfHeight;
+      let finalHeight = maxPdfWidth * canvasRatio;
+
+      // Because the canvas is exactly 794x1123, canvasRatio is 1.414.
+      // This will perfectly match maxPdfHeight naturally!
 
       // Center horizontally within margins (margin is 0, so x = 0)
       const x = 0;
@@ -1495,7 +1520,7 @@ export default function QuotationBuilder() {
           </div>
 
           {/* THE DOCUMENT CONTAINER (Standard A4 Proportions in pixels roughly 794px wide for clean scaling) */}
-          <div id="pdf-content" className="w-full max-w-[800px] bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900 shadow-2xl rounded-2xl overflow-hidden p-3 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
+          <div id="pdf-content" className="w-full max-w-[800px] bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900 shadow-2xl rounded-2xl overflow-hidden p-4 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
 
             {/* DOCUMENT WRAPPER FOR PADDING */}
             <div className="flex flex-col justify-between flex-1 bg-white rounded-xl p-5 md:p-7 print:p-5">

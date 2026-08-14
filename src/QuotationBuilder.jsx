@@ -514,11 +514,20 @@ export default function QuotationBuilder() {
 
     showToast("Generating PDF, please wait...", "success");
     try {
+      // Calculate if we need a wider canvas to maintain A4 ratio without side margins
+      let targetWidth = 794;
+      const targetRatio = 1123 / 794; // A4 aspect ratio
+      // Create a temporary clone to check real scrollHeight without styles
+      const tempHeight = input.scrollHeight;
+      if (tempHeight / targetWidth > targetRatio) {
+        targetWidth = Math.ceil(tempHeight / targetRatio);
+      }
+
       const canvas = await html2canvas(input, {
         scale: 2, // Higher resolution
         useCORS: true,
         logging: false,
-        windowWidth: 1024, // Force desktop layout
+        windowWidth: targetWidth + 100, // Force sufficient layout width
         onclone: (clonedDoc) => {
           const el = clonedDoc.getElementById('pdf-content');
           if (el) {
@@ -526,8 +535,8 @@ export default function QuotationBuilder() {
             el.style.borderRadius = '0';
             el.style.border = 'none';
             el.style.margin = '0';
-            el.style.width = '794px';
-            el.style.maxWidth = '794px';
+            el.style.width = `${targetWidth}px`;
+            el.style.maxWidth = `${targetWidth}px`;
             el.style.minHeight = '1123px';
             el.classList.remove('shadow-2xl', 'rounded-2xl', 'border', 'border-slate-300');
           }
@@ -548,18 +557,18 @@ export default function QuotationBuilder() {
       const imgProps = pdf.getImageProperties(imgData);
       const canvasRatio = imgProps.height / imgProps.width;
 
+      // Always span full width to eliminate side margins
       let finalWidth = maxPdfWidth;
       let finalHeight = maxPdfWidth * canvasRatio;
 
-      // Scale down to fit exactly 1 page if it's too tall
+      // Force fit into exactly 1 page vertically as well
       if (finalHeight > maxPdfHeight) {
         finalHeight = maxPdfHeight;
-        finalWidth = maxPdfHeight / canvasRatio;
       }
 
-      // Center horizontally within margins
-      const x = margin + (maxPdfWidth - finalWidth) / 2;
-      const y = margin; // Top align with margin
+      // Center horizontally within margins (margin is 0, so x = 0)
+      const x = 0;
+      const y = 0; // Top align with margin
 
       pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
 

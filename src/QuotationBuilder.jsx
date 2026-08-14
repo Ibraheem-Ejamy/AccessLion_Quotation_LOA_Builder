@@ -514,15 +514,8 @@ export default function QuotationBuilder() {
 
     showToast("Generating PDF, please wait...", "success");
     try {
-      // Calculate if we need a wider canvas to maintain A4 ratio without side margins
+      // Use strict A4 width to ensure perfect aspect ratio baseline
       let targetWidth = 794;
-      const targetRatio = 1123 / 794; // A4 aspect ratio
-      // Create a temporary clone to check real scrollHeight without styles
-      const tempHeight = input.scrollHeight;
-      if (tempHeight / targetWidth > targetRatio) {
-        targetWidth = Math.ceil(tempHeight / targetRatio);
-      }
-
       const canvas = await html2canvas(input, {
         scale: 2, // Higher resolution
         useCORS: true,
@@ -557,14 +550,9 @@ export default function QuotationBuilder() {
       const imgProps = pdf.getImageProperties(imgData);
       const canvasRatio = imgProps.height / imgProps.width;
 
-      // Always span full width to eliminate side margins
+      // Force exact A4 dimensions to completely eliminate side and bottom margins
       let finalWidth = maxPdfWidth;
-      let finalHeight = maxPdfWidth * canvasRatio;
-
-      // Force fit into exactly 1 page vertically as well
-      if (finalHeight > maxPdfHeight) {
-        finalHeight = maxPdfHeight;
-      }
+      let finalHeight = maxPdfHeight;
 
       // Center horizontally within margins (margin is 0, so x = 0)
       const x = 0;

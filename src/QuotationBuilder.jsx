@@ -551,8 +551,11 @@ export default function QuotationBuilder() {
                 inner.style.transform = `scale(${scale})`;
                 inner.style.transformOrigin = 'top left';
                 inner.style.width = `${100 / scale}%`;
+                // Disable flex-shrink so the flex parent doesn't squish the layout height before the transform is applied
+                inner.style.flexShrink = '0';
                 // Explicitly lock the height so the white background stretches all the way down!
                 inner.style.height = `${naturalHeight}px`;
+                inner.style.minHeight = `${naturalHeight}px`;
               } else {
                 inner.style.height = `${availableHeight}px`;
               }

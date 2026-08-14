@@ -1507,13 +1507,10 @@ export default function QuotationBuilder() {
           </div>
 
           {/* THE DOCUMENT CONTAINER (Standard A4 Proportions in pixels roughly 794px wide for clean scaling) */}
-          <div id="pdf-content" className="w-full max-w-[800px] bg-white text-slate-900 shadow-2xl rounded-2xl overflow-hidden border border-slate-300 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
-
-            {/* Elegant luxury top border strip */}
-            <div className="h-3 w-full bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900" />
+          <div id="pdf-content" className="w-full max-w-[800px] bg-gradient-to-r from-slate-900 via-amber-500 to-slate-900 shadow-2xl rounded-2xl overflow-hidden p-3 flex flex-col print-full-width print:border-none print:shadow-none print:rounded-none min-h-[1000px] print:min-h-[26cm] relative">
 
             {/* DOCUMENT WRAPPER FOR PADDING */}
-            <div className="flex flex-col justify-between flex-1 p-8 md:p-10 print:p-8">
+            <div className="flex flex-col justify-between flex-1 bg-white rounded-xl p-5 md:p-7 print:p-5">
               {/* DOCUMENT BODY FOR PRINT CONTENT */}
               <div className="space-y-5">
 

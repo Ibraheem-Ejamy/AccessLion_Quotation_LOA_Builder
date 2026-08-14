@@ -354,7 +354,10 @@ export default function LOABuilder() {
         width: { size: 100, type: WidthType.PERCENTAGE },
         borders: {
           top: { color: "000000", style: BorderStyle.DASHED, size: 6 },
-          bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
+          bottom: { color: "000000", style: BorderStyle.DASHED, size: 6 }, 
+          left: { color: "000000", style: BorderStyle.DASHED, size: 6 }, 
+          right: { color: "000000", style: BorderStyle.DASHED, size: 6 }, 
+          insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
         },
         rows: [
           new TableRow({
@@ -412,7 +415,10 @@ export default function LOABuilder() {
                   width: { size: 100, type: WidthType.PERCENTAGE },
                   borders: {
                     top: { color: "1D448E", style: BorderStyle.SINGLE, size: 12 },
-                    bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE }, insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
+                    bottom: { color: "1D448E", style: BorderStyle.SINGLE, size: 12 }, 
+                    left: { color: "1D448E", style: BorderStyle.SINGLE, size: 12 }, 
+                    right: { color: "1D448E", style: BorderStyle.SINGLE, size: 12 }, 
+                    insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE }
                   },
                   rows: [
                     new TableRow({

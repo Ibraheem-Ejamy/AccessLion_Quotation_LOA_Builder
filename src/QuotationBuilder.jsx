@@ -538,7 +538,6 @@ export default function QuotationBuilder() {
 
             const inner = el.querySelector('.bg-white.flex-1');
             if (inner) {
-              inner.style.borderRadius = '0';
               // Allow it to grow to measure natural height
               inner.style.height = 'auto';
               

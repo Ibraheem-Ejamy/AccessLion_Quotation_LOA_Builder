@@ -540,8 +540,17 @@ export default function QuotationBuilder() {
 
             const inner = el.querySelector('.bg-white.flex-1');
             if (inner) {
+              // Bypass html2canvas flexbox layout bugs by using absolute positioning!
+              inner.style.position = 'absolute';
+              inner.style.top = '20px';
+              inner.style.left = '20px';
+              inner.style.margin = '0';
+              // 794 total width - 40 padding = 754 exact width
+              inner.style.width = '754px';
+
               // Allow it to grow to measure natural height
               inner.style.height = 'auto';
+              inner.style.maxHeight = 'none';
               
               const naturalHeight = inner.scrollHeight;
               const availableHeight = 1123 - 40; // 40px for p-5 (20px top + 20px bottom)
@@ -550,14 +559,17 @@ export default function QuotationBuilder() {
                 const scale = availableHeight / naturalHeight;
                 inner.style.transform = `scale(${scale})`;
                 inner.style.transformOrigin = 'top left';
-                inner.style.width = `${100 / scale}%`;
-                // Disable flex-shrink so the flex parent doesn't squish the layout height before the transform is applied
-                inner.style.flexShrink = '0';
+                inner.style.width = `${754 / scale}px`;
                 // Explicitly lock the height so the white background stretches all the way down!
                 inner.style.height = `${naturalHeight}px`;
                 inner.style.minHeight = `${naturalHeight}px`;
+                inner.style.maxHeight = `${naturalHeight}px`;
               } else {
+                inner.style.transform = 'none';
+                inner.style.width = '754px';
                 inner.style.height = `${availableHeight}px`;
+                inner.style.minHeight = `${availableHeight}px`;
+                inner.style.maxHeight = `${availableHeight}px`;
               }
             }
           }

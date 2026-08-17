@@ -883,17 +883,19 @@ export default function App() {
                 <div className="space-y-2 border-r border-slate-100 pr-4 print:border-r">
                   <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block">Quotation To</span>
                   <div className="space-y-1">
-                    <h4 className="font-extrabold text-slate-900 text-sm leading-snug">{clientInfo.company}</h4>
-                    <p className="text-xs text-slate-700 font-semibold">{clientInfo.contactPerson}</p>
-                    <p className="text-xs text-slate-600 flex items-center gap-1">
-                      <span>Phone:</span> <strong className="text-slate-900 font-bold">{clientInfo.phone}</strong>
-                    </p>
+                    {clientInfo.company && <h4 className="font-extrabold text-slate-900 text-sm leading-snug">{clientInfo.company}</h4>}
+                    {clientInfo.contactPerson && <p className="text-xs text-slate-700 font-semibold">{clientInfo.contactPerson}</p>}
+                    {clientInfo.phone && (
+                      <p className="text-xs text-slate-600 flex items-center gap-1">
+                        <span>Phone:</span> <strong className="text-slate-900 font-bold">{clientInfo.phone}</strong>
+                      </p>
+                    )}
                     {clientInfo.email && (
                       <p className="text-xs text-slate-600 flex items-center gap-1">
                         <span>Email:</span> <strong className="text-slate-900 font-bold">{clientInfo.email}</strong>
                       </p>
                     )}
-                    <p className="text-xs text-slate-500">{clientInfo.address}</p>
+                    {clientInfo.address && <p className="text-xs text-slate-500">{clientInfo.address}</p>}
                   </div>
                 </div>
 
@@ -901,12 +903,16 @@ export default function App() {
                 <div className="space-y-2 pl-2">
                   <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block">Access Lion Contact Person</span>
                   <div className="space-y-1">
-                    <h4 className="font-extrabold text-slate-900 text-sm">{quoteInfo.contactPerson}</h4>
+                    {quoteInfo.contactPerson && <h4 className="font-extrabold text-slate-900 text-sm">{quoteInfo.contactPerson}</h4>}
                     <p className="text-xs text-slate-700 font-medium">Operations & Rental Dept.</p>
-                    <p className="text-xs text-slate-600 flex items-center gap-1">
-                      <span>Direct Contact:</span> <strong className="text-slate-900 font-bold">{quoteInfo.contactNo}</strong>
-                    </p>
-                    <p className="text-xs text-slate-500">Validity: Offer valid until {quoteInfo.expiryDate}</p>
+                    {quoteInfo.contactNo && (
+                      <p className="text-xs text-slate-600 flex items-center gap-1">
+                        <span>Direct Contact:</span> <strong className="text-slate-900 font-bold">{quoteInfo.contactNo}</strong>
+                      </p>
+                    )}
+                    {quoteInfo.expiryDate && (
+                      <p className="text-xs text-slate-500">Validity: Offer valid until {quoteInfo.expiryDate}</p>
+                    )}
                   </div>
                 </div>
               </div>

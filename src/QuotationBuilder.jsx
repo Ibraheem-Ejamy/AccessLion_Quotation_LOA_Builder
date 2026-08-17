@@ -1616,17 +1616,19 @@ export default function QuotationBuilder() {
                   <div className="space-y-1.5 border-r border-slate-300 pr-4 print:border-r">
                     <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest block">Quotation To</span>
                     <div className="space-y-0.5">
-                      <h4 className="font-extrabold text-slate-900 text-xs leading-snug">{clientInfo.company}</h4>
-                      <p className="text-[11px] text-slate-700 font-semibold">{clientInfo.contactPerson}</p>
-                      <p className="text-[11px] text-slate-600 flex items-center gap-1">
-                        <span>Phone:</span> <strong className="text-slate-900 font-bold">{clientInfo.phone}</strong>
-                      </p>
+                      {clientInfo.company && <h4 className="font-extrabold text-slate-900 text-xs leading-snug">{clientInfo.company}</h4>}
+                      {clientInfo.contactPerson && <p className="text-[11px] text-slate-700 font-semibold">{clientInfo.contactPerson}</p>}
+                      {clientInfo.phone && (
+                        <p className="text-[11px] text-slate-600 flex items-center gap-1">
+                          <span>Phone:</span> <strong className="text-slate-900 font-bold">{clientInfo.phone}</strong>
+                        </p>
+                      )}
                       {clientInfo.email && (
                         <p className="text-[11px] text-slate-600 flex items-center gap-1">
                           <span>Email:</span> <strong className="text-slate-900 font-bold">{clientInfo.email}</strong>
                         </p>
                       )}
-                      <p className="text-[11px] text-slate-500 leading-tight">{clientInfo.address}</p>
+                      {clientInfo.address && <p className="text-[11px] text-slate-500 leading-tight">{clientInfo.address}</p>}
                       
                       {clientInfo.customFields && clientInfo.customFields.length > 0 && (
                         <div className="pt-1 mt-1 border-t border-slate-300/60">
@@ -1644,11 +1646,13 @@ export default function QuotationBuilder() {
                   <div className="space-y-1.5 pl-2">
                     <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest block">Access Lion Contact Person</span>
                     <div className="space-y-0.5">
-                      <h4 className="font-extrabold text-slate-900 text-xs">{quoteInfo.contactPerson}</h4>
-                      <p className="text-[11px] text-slate-700 font-medium">{quoteInfo.preparedByDesignation}</p>
-                      <p className="text-[11px] text-slate-600 flex items-center gap-1">
-                        <span>Direct Contact:</span> <strong className="text-slate-900 font-bold">{quoteInfo.contactNo}</strong>
-                      </p>
+                      {quoteInfo.contactPerson && <h4 className="font-extrabold text-slate-900 text-xs">{quoteInfo.contactPerson}</h4>}
+                      {quoteInfo.preparedByDesignation && <p className="text-[11px] text-slate-700 font-medium">{quoteInfo.preparedByDesignation}</p>}
+                      {quoteInfo.contactNo && (
+                        <p className="text-[11px] text-slate-600 flex items-center gap-1">
+                          <span>Direct Contact:</span> <strong className="text-slate-900 font-bold">{quoteInfo.contactNo}</strong>
+                        </p>
+                      )}
                       {sectionsVisibility.validity !== false && (
                         <p className="text-[11px] text-slate-500">Validity: Offer valid until {formatDisplayDate(quoteInfo.expiryDate)}</p>
                       )}

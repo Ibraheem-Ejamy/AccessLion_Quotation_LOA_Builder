@@ -57,8 +57,16 @@ export default function App() {
     nameAr: "اكسس ليون للمقاولات والنقليات العامة",
     shortName1: "ACCESS",
     shortName2: "LION",
+    headerSubtitle: "Elite Machinery Solutions",
     contactPersonLabel: "Access Lion Contact Person",
     managementLabel: "Access Lion Management",
+    bankAccountNumber: "117-132-1559506-02-6",
+    bankName: "First Abu Dhabi Bank (FAB)",
+    bankIban: "AE-53-035-117-132-1559506-02-6",
+    bankBranch: "Madinat Zayed",
+    bankCurrency: "AED",
+    bankAddress: "P.O. BOX: 58914, Abu Dhabi",
+    bankSwiftCode: "NBADAEAA",
     footerText: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING • ABU DHABI UAE",
     tel: "0542811111",
     poBox: "58914",
@@ -625,6 +633,15 @@ export default function App() {
                     />
                   </div>
                   <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Header Subtitle</label>
+                    <input
+                      type="text"
+                      value={companyInfo.headerSubtitle}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, headerSubtitle: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-400">Office Telephone</label>
                     <input 
                       type="text" 
@@ -634,11 +651,107 @@ export default function App() {
                     />
                   </div>
                   <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Email Address</label>
+                    <input
+                      type="text"
+                      value={companyInfo.email}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Website</label>
+                    <input
+                      type="text"
+                      value={companyInfo.web}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, web: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-400">P.O. Box</label>
                     <input 
                       type="text" 
                       value={companyInfo.poBox}
                       onChange={(e) => setCompanyInfo({ ...companyInfo, poBox: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1 col-span-2">
+                    <label className="text-xs font-semibold text-slate-400">Address Location</label>
+                    <input
+                      type="text"
+                      value={companyInfo.address}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 pt-4 mt-4 border-t border-slate-800">
+                <h3 className="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-2">Sender Bank Details (Optional)</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Account Number</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankAccountNumber}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankAccountNumber: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Name Of Bank</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankName}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankName: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1 col-span-2">
+                    <label className="text-xs font-semibold text-slate-400">IBAN</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankIban}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankIban: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Branch</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankBranch}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankBranch: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Currency</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankCurrency}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankCurrency: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Bank Address</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankAddress}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankAddress: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Swift Code</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankSwiftCode}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankSwiftCode: e.target.value })}
                       className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
                     />
                   </div>
@@ -890,7 +1003,7 @@ export default function App() {
                   <div>
                     <h2 className="font-extrabold text-2xl tracking-wider text-slate-950 font-serif leading-none">{companyInfo.shortName1}</h2>
                     <h3 className="font-bold text-lg tracking-widest text-amber-600 font-serif leading-none mt-1">{companyInfo.shortName2}</h3>
-                    <p className="text-[9px] text-slate-500 uppercase tracking-widest mt-2">Elite Machinery Solutions</p>
+                    <p className="text-[9px] text-slate-500 uppercase tracking-widest mt-2">{companyInfo.headerSubtitle}</p>
                   </div>
                 </div>
 

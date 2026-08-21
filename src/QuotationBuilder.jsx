@@ -86,6 +86,11 @@ export default function QuotationBuilder() {
   const initialCompanyInfo = {
     nameEn: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING L.L.C S.P.C",
     nameAr: "اكسس ليون للمقاولات والنقليات العامة ذ.م.م ش.و.و",
+    shortName1: "ACCESS",
+    shortName2: "LION",
+    contactPersonLabel: "Access Lion Contact Person",
+    bankAccountName: "Access Lion Gen Cont & Transporting",
+    footerText: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING • ABU DHABI UAE",
     tel: "+971542811111",
     poBox: "58914",
     email: "info@accesslion.ae",
@@ -1065,7 +1070,7 @@ export default function QuotationBuilder() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Arabic Corporate Name (اكسس ليون)</label>
+                  <label className="text-xs font-semibold text-slate-400">Arabic Corporate Name</label>
                   <input
                     type="text"
                     value={companyInfo.nameAr}
@@ -1074,6 +1079,51 @@ export default function QuotationBuilder() {
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Header Short Name 1</label>
+                    <input
+                      type="text"
+                      value={companyInfo.shortName1}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, shortName1: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Header Short Name 2</label>
+                    <input
+                      type="text"
+                      value={companyInfo.shortName2}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, shortName2: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Contact Person Label</label>
+                    <input
+                      type="text"
+                      value={companyInfo.contactPersonLabel}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, contactPersonLabel: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Bank Account Name</label>
+                    <input
+                      type="text"
+                      value={companyInfo.bankAccountName}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, bankAccountName: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1 col-span-2">
+                    <label className="text-xs font-semibold text-slate-400">Footer Text</label>
+                    <input
+                      type="text"
+                      value={companyInfo.footerText}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, footerText: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-400">Office Telephone</label>
                     <input
@@ -1557,8 +1607,8 @@ export default function QuotationBuilder() {
                       )}
                     </div>
                     <div>
-                      <h2 className="font-extrabold text-[16px] tracking-widest text-slate-950 font-serif leading-none">ACCESS</h2>
-                      <h3 className="font-extrabold text-[26px] tracking-wide text-amber-600 font-serif leading-none mt-1">LION</h3>
+                      <h2 className="font-extrabold text-[16px] tracking-widest text-slate-950 font-serif leading-none">{companyInfo.shortName1}</h2>
+                      <h3 className="font-extrabold text-[26px] tracking-wide text-amber-600 font-serif leading-none mt-1">{companyInfo.shortName2}</h3>
                       <p className="text-[9px] text-slate-500 uppercase tracking-widest mt-2">Elite Machinery Solutions</p>
                     </div>
                   </div>
@@ -1644,7 +1694,7 @@ export default function QuotationBuilder() {
 
                   {/* Sender Representative details */}
                   <div className="space-y-1.5 pl-2">
-                    <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest block">Access Lion Contact Person</span>
+                    <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest block">{companyInfo.contactPersonLabel}</span>
                     <div className="space-y-0.5">
                       {quoteInfo.contactPerson && <h4 className="font-extrabold text-slate-900 text-xs">{quoteInfo.contactPerson}</h4>}
                       {quoteInfo.preparedByDesignation && <p className="text-[11px] text-slate-700 font-medium">{quoteInfo.preparedByDesignation}</p>}
@@ -1730,7 +1780,7 @@ export default function QuotationBuilder() {
                             <tbody>
                             <tr className="border-b border-slate-300">
                               <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300 w-[18%]">Account Name:</th>
-                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-300 w-[32%]">Access Lion Gen Cont & Transporting</td>
+                              <td className="py-1 px-2 text-slate-800 font-medium border-r border-slate-300 w-[32%]">{companyInfo.bankAccountName}</td>
                               <th className="py-1 px-2 font-bold text-slate-500 bg-slate-50 border-r border-slate-300 w-[18%]">Account Number:</th>
                               <td className="py-1 px-2 text-slate-800 font-medium w-[32%]">117-132-1559506-02-6</td>
                             </tr>
@@ -1868,7 +1918,7 @@ export default function QuotationBuilder() {
                 {/* Symmetrical footer info strip */}
                 <div className="pt-4 border-t border-slate-300 text-center space-y-1">
                   <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                    ACCESS LION GENERAL CONTRACTING AND TRANSPORTING • ABU DHABI UAE
+                    {companyInfo.footerText}
                   </p>
                   <p className="text-[8px] text-slate-400">
                     This quotation is a confidential commercial offer and remains subject to our standard hire agreement.

@@ -55,6 +55,11 @@ export default function App() {
   const initialCompanyInfo = {
     nameEn: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING",
     nameAr: "اكسس ليون للمقاولات والنقليات العامة",
+    shortName1: "ACCESS",
+    shortName2: "LION",
+    contactPersonLabel: "Access Lion Contact Person",
+    managementLabel: "Access Lion Management",
+    footerText: "ACCESS LION GENERAL CONTRACTING AND TRANSPORTING • ABU DHABI UAE",
     tel: "0542811111",
     poBox: "58914",
     email: "info@access.com",
@@ -334,7 +339,7 @@ export default function App() {
               <FileText className="w-6 h-6 text-amber-500" />
             </div>
             <div>
-              <h1 className="font-bold text-lg tracking-wider text-amber-400">ACCESS LION</h1>
+              <h1 className="font-bold text-lg tracking-wider text-amber-400">{companyInfo.shortName1} {companyInfo.shortName2}</h1>
               <p className="text-xs text-slate-400">Interactive Premium Quotation Suite</p>
             </div>
           </div>
@@ -565,7 +570,7 @@ export default function App() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-400">Arabic Corporate Name (اكسس ليون)</label>
+                  <label className="text-xs font-semibold text-slate-400">Arabic Corporate Name</label>
                   <input 
                     type="text" 
                     value={companyInfo.nameAr}
@@ -574,6 +579,51 @@ export default function App() {
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Header Short Name 1</label>
+                    <input
+                      type="text"
+                      value={companyInfo.shortName1}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, shortName1: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Header Short Name 2</label>
+                    <input
+                      type="text"
+                      value={companyInfo.shortName2}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, shortName2: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Contact Person Label</label>
+                    <input
+                      type="text"
+                      value={companyInfo.contactPersonLabel}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, contactPersonLabel: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-400">Management Label</label>
+                    <input
+                      type="text"
+                      value={companyInfo.managementLabel}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, managementLabel: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1 col-span-2">
+                    <label className="text-xs font-semibold text-slate-400">Footer Text</label>
+                    <input
+                      type="text"
+                      value={companyInfo.footerText}
+                      onChange={(e) => setCompanyInfo({ ...companyInfo, footerText: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-slate-400">Office Telephone</label>
                     <input 
@@ -838,8 +888,8 @@ export default function App() {
                     )}
                   </div>
                   <div>
-                    <h2 className="font-extrabold text-2xl tracking-wider text-slate-950 font-serif leading-none">ACCESS</h2>
-                    <h3 className="font-bold text-lg tracking-widest text-amber-600 font-serif leading-none mt-1">LION</h3>
+                    <h2 className="font-extrabold text-2xl tracking-wider text-slate-950 font-serif leading-none">{companyInfo.shortName1}</h2>
+                    <h3 className="font-bold text-lg tracking-widest text-amber-600 font-serif leading-none mt-1">{companyInfo.shortName2}</h3>
                     <p className="text-[9px] text-slate-500 uppercase tracking-widest mt-2">Elite Machinery Solutions</p>
                   </div>
                 </div>
@@ -901,7 +951,7 @@ export default function App() {
 
                 {/* Sender Representative details */}
                 <div className="space-y-2 pl-2">
-                  <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block">Access Lion Contact Person</span>
+                  <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block">{companyInfo.contactPersonLabel}</span>
                   <div className="space-y-1">
                     {quoteInfo.contactPerson && <h4 className="font-extrabold text-slate-900 text-sm">{quoteInfo.contactPerson}</h4>}
                     <p className="text-xs text-slate-700 font-medium">Operations & Rental Dept.</p>
@@ -1023,7 +1073,7 @@ export default function App() {
                 <div className="space-y-12">
                   <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500">Prepared & Approved By</p>
                   <div className="inline-block border-t border-slate-300 w-44 pt-2">
-                    <p className="text-xs font-bold text-slate-900">Access Lion Management</p>
+                    <p className="text-xs font-bold text-slate-900">{companyInfo.managementLabel}</p>
                     <p className="text-[9px] text-slate-400">Authorized Signatory & Stamp</p>
                   </div>
                 </div>
@@ -1040,7 +1090,7 @@ export default function App() {
               {/* Symmetrical footer info strip */}
               <div className="pt-4 border-t border-slate-100 text-center space-y-1">
                 <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                  ACCESS LION GENERAL CONTRACTING AND TRANSPORTING • ABU DHABI UAE
+                  {companyInfo.footerText}
                 </p>
                 <p className="text-[8px] text-slate-400">
                   This quotation is a confidential commercial offer and remains subject to our standard hire agreement.

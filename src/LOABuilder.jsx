@@ -203,7 +203,7 @@ export default function LOABuilder() {
       try {
         const parsed = JSON.parse(event.target.result);
         if (parsed.formType) setFormType(parsed.formType);
-        if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
+        if (parsed.companyInfo) setCompanyInfo(prev => ({ ...prev, ...parsed.companyInfo }));
         if (parsed.nameItems) setNameItems(parsed.nameItems);
         if (parsed.vehicleItems) setVehicleItems(parsed.vehicleItems);
         if (parsed.customStamp) setCustomStamp(parsed.customStamp);

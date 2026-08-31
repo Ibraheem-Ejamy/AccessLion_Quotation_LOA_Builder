@@ -259,9 +259,9 @@ export default function App() {
     reader.onload = (event) => {
       try {
         const parsed = JSON.parse(event.target?.result as string);
-        if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-        if (parsed.clientInfo) setClientInfo(parsed.clientInfo);
-        if (parsed.quoteInfo) setQuoteInfo(parsed.quoteInfo);
+        if (parsed.companyInfo) setCompanyInfo(prev => ({ ...prev, ...parsed.companyInfo }));
+        if (parsed.clientInfo) setClientInfo(prev => ({ ...prev, ...parsed.clientInfo }));
+        if (parsed.quoteInfo) setQuoteInfo(prev => ({ ...prev, ...parsed.quoteInfo }));
         if (parsed.items) setItems(parsed.items);
         if (parsed.rentalTerms) setRentalTerms(parsed.rentalTerms);
         if (parsed.generalTerms) setGeneralTerms(parsed.generalTerms);

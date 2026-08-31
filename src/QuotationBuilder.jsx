@@ -452,18 +452,20 @@ export default function QuotationBuilder() {
     reader.onload = (event) => {
       try {
         const parsed = JSON.parse(event.target.result);
-        if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
+        if (parsed.companyInfo) setCompanyInfo(prev => ({ ...prev, ...parsed.companyInfo }));
         if (parsed.clientInfo) {
-          setClientInfo({
+          setClientInfo(prev => ({
+            ...prev,
             ...parsed.clientInfo,
-            customFields: parsed.clientInfo.customFields || initialClientInfo.customFields
-          });
+            customFields: parsed.clientInfo.customFields || prev.customFields
+          }));
         }
         if (parsed.quoteInfo) {
-          setQuoteInfo({
+          setQuoteInfo(prev => ({
+            ...prev,
             ...parsed.quoteInfo,
-            subject: parsed.quoteInfo.subject || ''
-          });
+            subject: parsed.quoteInfo.subject || prev.subject || ''
+          }));
         }
         if (parsed.items) {
           const migratedItems = parsed.items.map(item => {

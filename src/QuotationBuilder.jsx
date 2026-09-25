@@ -192,10 +192,8 @@ export default function QuotationBuilder() {
       generalTerms: [
         "Need LPO/Agreement.",
         "VAT 5% will be added as shown in table.",
-        "In case more than one trip is carried out during the day, a charge of AED 950 will apply for each trip.",
-        "In case only one trip is carried out during the day, a charge of AED 1,500 will apply for that day, as the vehicle will be reserved and dedicated to your work for the entire day.",
         "Payment shall be made within thirty (30) days from the date of submission of the invoice.",
-        "Cancellation after truck head dispatch may be subject to the applicable trip/mobilization charge."
+        "Cancellation after the vehicle dispatch may be subject to the applicable trip/mobilization charge."
       ]
     }
   };
@@ -1479,8 +1477,8 @@ export default function QuotationBuilder() {
                   defaultValue="manual"
                 >
                   <option value="manual">Manual / Custom Fill</option>
-                  <option value="rental">Load Rental Terms Preset</option>
-                  <option value="tripBasis">Load Trip Basis Terms Preset</option>
+                  <option value="rental">Rental Terms</option>
+                  <option value="tripBasis">Trip Basis Terms</option>
                 </select>
               </div>
 

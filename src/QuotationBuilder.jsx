@@ -165,6 +165,41 @@ export default function QuotationBuilder() {
     "VAT 5% will be added as shown in table."
   ];
 
+  const termsPresets = {
+    rental: {
+      rentalTerms: [
+        "The vehicle shall be operated only by the Company's authorized driver.",
+        "The renter shall not request or instruct the driver to operate the vehicle in violation of UAE traffic laws, exceed the vehicle's capacity, or use the vehicle for any unauthorized purpose.",
+        "The renter shall ensure a safe working environment and provide clear instructions regarding the agreed scope of work.",
+        "Monthly 260 Hrs/ Daily 10 Hrs. Extra hours will be calculated as overtime.",
+        "In the event of any breakdown, accident, or vehicle malfunction, the renter must notify the Company immediately."
+      ],
+      generalTerms: [
+        "Need LPO/Agreement.",
+        "Need LOA.",
+        "VAT 5% will be added as shown in table.",
+        "Payment Terms: 30 Days from the Date of Invoice. Payment made through cheque or bank transfer.",
+        "Timely payment is appreciated, as any delay affect our operational continuity."
+      ]
+    },
+    tripBasis: {
+      rentalTerms: [
+        "The Customer shall ensure safe and suitable access to all pickup and delivery locations.",
+        "Any additional trips, route changes, waiting time, or services outside the agreed scope will be charged separately.",
+        "Any other work or services, including loading, unloading, lifting, positioning, site work manpower, or additional equipment, are excluded unless specifically agreed and quoted separately.",
+        "The company has the right to stop or refuse transportation if the route, trailer condition, loading arrangement, or site conditions are considered unsafe."
+      ],
+      generalTerms: [
+        "Need LPO/Agreement.",
+        "VAT 5% will be added as shown in table.",
+        "In case more than one trip is carried out during the day, a charge of AED 950 will apply for each trip.",
+        "In case only one trip is carried out during the day, a charge of AED 1,500 will apply for that day, as the vehicle will be reserved and dedicated to your work for the entire day.",
+        "Payment shall be made within thirty (30) days from the date of submission of the invoice.",
+        "Cancellation after truck head dispatch may be subject to the applicable trip/mobilization charge."
+      ]
+    }
+  };
+
   // --- STATE ---
   const [companyInfo, setCompanyInfo] = useState(initialCompanyInfo);
   const [clientInfo, setClientInfo] = useState(initialClientInfo);
@@ -1423,6 +1458,32 @@ export default function QuotationBuilder() {
           {/* TAB CONTENT: TERMS AND CONDITIONS */}
           {activeTab === 'terms' && (
             <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl flex-1">
+              
+              <div className="flex items-center justify-between bg-slate-900 p-4 rounded-xl border border-slate-800">
+                <span className="text-sm font-bold text-slate-300 uppercase tracking-wider">Terms Preset</span>
+                <select
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === 'rental') {
+                      setRentalTerms(termsPresets.rental.rentalTerms);
+                      setGeneralTerms(termsPresets.rental.generalTerms);
+                      showToast("Rental Terms preset loaded.");
+                    } else if (val === 'tripBasis') {
+                      setRentalTerms(termsPresets.tripBasis.rentalTerms);
+                      setGeneralTerms(termsPresets.tripBasis.generalTerms);
+                      showToast("Trip Basis Terms preset loaded.");
+                    }
+                    e.target.value = 'manual'; // Reset to manual so it can be re-selected if needed, or keep it. Actually, better to keep it as selected so they know which one is active.
+                  }}
+                  className="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500 font-medium"
+                  defaultValue="manual"
+                >
+                  <option value="manual">Manual / Custom Fill</option>
+                  <option value="rental">Load Rental Terms Preset</option>
+                  <option value="tripBasis">Load Trip Basis Terms Preset</option>
+                </select>
+              </div>
+
               {/* Rental Liability Terms */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
